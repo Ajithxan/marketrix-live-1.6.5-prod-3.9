@@ -1,4 +1,4 @@
-const meetVersion = "1.4.2";
+const meetVersion = "1.4.3";
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime();
@@ -12,7 +12,7 @@ const videoSDKScript = document.createElement("script");
 const variablesScript = document.createElement("script")
 const mouseScript = document.createElement("script")
 const meetingScript = document.createElement("script")
-const fontAwesomeLink = document.createElement("link"); 
+const fontAwesomeLink = document.createElement("link");
 
 // stylesheet links
 fontAwesomeLink.setAttribute("rel", "stylesheet");

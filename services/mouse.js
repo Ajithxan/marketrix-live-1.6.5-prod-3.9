@@ -104,8 +104,8 @@ const mouse = {
         if (meetingVariables.userRole === "admin") mouse.showCursor = false;
     },
     handleMouse: (event) => {
-        let x = event.pageX;
-        let y = event.pageY;
+        let x = event.clientX;
+        let y = event.clientY;
         let windowWidth = getWindowSize().innerWidth;
         let windowHeight = getWindowSize().innerHeight;
         // console.log(event)
@@ -171,7 +171,7 @@ const listenScrolls = () => {
         let windowWidth = getWindowSize().innerWidth
         let windowHeight = getWindowSize().innerHeight
         const scroll = data.scroll
-        
+
         let windowWidthRatio = windowWidth / scroll.windowWidth
         let heightRatio = windowHeight / scroll.windowHeight
 
