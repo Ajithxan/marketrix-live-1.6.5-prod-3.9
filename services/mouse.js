@@ -148,10 +148,13 @@ const mouse = {
 let scroller = document.getElementsByTagName("body")[0]
 const scrollPosition = (event) => {
     console.log(event)
-    const pageX = event.pageX
-    const pageY = event.pageY
+    let pageX = event.pageX
+    let pageY = event.pageY
     const windowWidth = getWindowSize().innerWidth
     const windowHeight = getWindowSize().innerHeight
+
+    pageX = (pageX / windowWidth) * 100 // x axis percentage
+    pageY = (pageY / windowHeight) * 100 // y axis percentage
 
     const scroll = {
         pageX,
@@ -168,15 +171,15 @@ const listenScrolls = () => {
     console.log("trigger")
     socket?.on("changeScroll", (data) => {
         console.log("scroll on", data)
-        let windowWidth = getWindowSize().innerWidth
-        let windowHeight = getWindowSize().innerHeight
+        const windowWidth = getWindowSize().innerWidth
+        const windowHeight = getWindowSize().innerHeight
         const scroll = data.scroll
 
-        let windowWidthRatio = windowWidth / scroll.windowWidth
-        let heightRatio = windowHeight / scroll.windowHeight
+        let pageX = scroll.pageX
+        let pageY = scroll.pageY
 
-        const pageX = scroll.pageX * windowWidthRatio
-        const pageY = scroll.pageY * heightRatio
+        pageX = (pageX / 100) * windowWidth // get actual pageX from pageX percentage
+        pageY = (pageY / 100) * windowHeight // get actual pageY from pageY percentage
         window.scrollTo(pageX, pageY)
     })
 }

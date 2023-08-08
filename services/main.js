@@ -78,7 +78,7 @@ const checkUrlChanges = () => {
 }
 
 const checkMeetingVariables = () => {
-    // localStorage.clear()
+    localStorage.clear()
     console.log("meeting variables", getFromStore('MEETING_VARIABLES'))
     // if meeting variables are available it means meeting is not over yet. so establishing it again
     if (getFromStore('MEETING_VARIABLES')) {

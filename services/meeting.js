@@ -240,7 +240,7 @@ const meetingObj = {
     },
 
     leaveMeeting: () => {
-        localStorage.clear()
+        sessionStorage.clear()
         meetingObj.meeting?.leave()
         if(meetingVariables.userRole === "visitor") window.location.reload()
         else window.close()

@@ -7,13 +7,13 @@ console.log("store.js is established")
 // CURSOR_ID
 
 const setToStore = (key, value) => {
-    localStorage.setItem(key, value)
+    sessionStorage.setItem(key, value)
 }
 
 const getFromStore = (key) => {
-    return localStorage.getItem(key)
+    return sessionStorage.getItem(key)
 }
 
 const removeFromStore = (key) => {
-    localStorage.removeItem(key)
+    sessionStorage.removeItem(key)
 }
