@@ -78,7 +78,7 @@ const checkUrlChanges = () => {
 }
 
 const checkMeetingVariables = () => {
-    localStorage.clear()
+    // localStorage.clear()
     console.log("meeting variables", getFromStore('MEETING_VARIABLES'))
     // if meeting variables are available it means meeting is not over yet. so establishing it again
     if (getFromStore('MEETING_VARIABLES')) {
@@ -178,6 +178,8 @@ const start = () => {
             marketrixModalContainer = document.getElementById(
                 "marketrix-modal-container"
             );
+            mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
+            mtxFromContent = document.getElementById("mtx-form-content")
             overlay = document.querySelector(".mtx-overlay");
             setCDNLink()
         });
@@ -279,6 +281,19 @@ const connectedUsers = () => {
     });
 };
 
+const showNotification = () => {
+    let notifications = ["We're connecting you!", "Please stay!"]
+    let count = 0
+    notifications.forEach((notification, index) => {
+        count += 1
+        if(index === 0) document.getElementById("mtx-contact-notification").innerText = notifications[index]
+        setTimeout(() => {
+            if(index > 0) document.getElementById("mtx-contact-notification").innerText = notification
+        }, 3000 * count)
+    })
+
+}
+
 const submit = async () => {
     socket = io.connect(socketUrl, { query: { appId } });
 
@@ -328,7 +343,9 @@ const submit = async () => {
                 alert(response.message + " ___ We will contact you soon through email");
                 sentInquiryToDb(visitor);
             } else {
-                closeModal();
+                mtxContactFormNotificationCard.classList.remove("mtx-hidden")
+                mtxFromContent.classList.add("mtx-hidden")
+                showNotification()
                 socket.on("userResponseToVisitor", (data, event) => {
                     console.log("userResponseToVisitor...", data);
                     if (meetingVariables.id) return; // already joined the meeting
@@ -338,6 +355,8 @@ const submit = async () => {
                     meetingVariables.domain = data.liveMeet?.website_domain
                     meetingVariables.visitorSocketId = data.liveMeet?.visitor_socket_id
 
+                    closeModal()
+
                     socket.on("changeUrl", (data) => {
                         const changedUrl = data.url
                         setToStore("CURRENT_URL", changedUrl)
@@ -345,7 +364,7 @@ const submit = async () => {
                     })
 
                     listenScrolls()
-                    
+
                     let visitor = {
                         userName: data.liveMeet.name,
                         domain: data.liveMeet?.website_domain,

@@ -1,9 +1,9 @@
 console.log("variables.js is established")
-const socketUrl = "https://socket-v2.marketrix.io/"; //"https://marketrix-soc.creative-hub.co/"
-const serverBaseUrl = "https://api-v2.marketrix.io/";
-let socket;
-let startInterval;
-let decodedObject = {}; // admin information which are getting from the url would be store in the objec
+const socketUrl = "https://socket-v2.marketrix.io/" //"https://marketrix-soc.creative-hub.co/"
+const serverBaseUrl = "https://api-v2.marketrix.io/"
+let socket
+let startInterval
+let decodedObject = {} // admin information which are getting from the url would be store in the objec
 // all information which are related to meeting would be store in this object
 const meetingVariables = {
     id: "",
@@ -25,11 +25,13 @@ let overlay;
 // contact-button.html
 let marketrixButton;
 // coonfiguration.html
-let videoContainer;
-let configurationCoverDiv;
-let gridScreenDiv;
-let contorlsDiv;
-let cursorId;
+let mtxContactFormNotificationCard
+let mtxFromContent
+let videoContainer
+let configurationCoverDiv
+let gridScreenDiv
+let contorlsDiv
+let cursorId
 let isUrlChanged = false
 
 const browserName = (function (agent) {
@@ -72,4 +74,4 @@ const browserVersion = (function (agent) {
         default:
             return "other";
     }
-})(window.navigator.userAgent.toLowerCase());
+})(window.navigator.userAgent.toLowerCase())

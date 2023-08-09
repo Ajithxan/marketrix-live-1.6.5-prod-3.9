@@ -513,6 +513,22 @@
 .text-purple {
     color: #900d9c;
 }
+#mtx-contact-form-notification-card{
+    width: fit-content;
+    padding: 6px 8px 6px 8px;
+    border-radius: 16px;
+    color: #000000d1;
+    font-size: 13px;
+    -webkit-box-shadow: 0px 0px 16px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 16px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 16px -7px rgba(0,0,0,0.75);
+}
+
+.notification-headphone{
+    color: green;
+    font-size: 17px;
+    margin-right: 6px;
+}
 /*-----------------------end of modalstyles----------------------------------*/
 
 /*-----------------------start of cursorstyles----------------------------------*/

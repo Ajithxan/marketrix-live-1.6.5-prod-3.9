@@ -153,6 +153,10 @@ const scrollPosition = (event) => {
     const windowWidth = getWindowSize().innerWidth
     const windowHeight = getWindowSize().innerHeight
 
+    // const maxHeight = document.body.scrollHeight - window.innerHeight;
+    // console.log("accurate scroll", parseInt((window.pageYOffset * 100) / maxHeight));
+    // pageY = (window.pageYOffset * 100) / maxHeight
+
     pageX = (pageX / windowWidth) * 100 // x axis percentage
     pageY = (pageY / windowHeight) * 100 // y axis percentage
 
@@ -162,8 +166,9 @@ const scrollPosition = (event) => {
         windowWidth,
         windowHeight
     }
-    console.log(socket)
-    socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id })
+    setTimeout(() => {
+        socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id })
+    }, 500)
 }
 scroller.addEventListener('wheel', scrollPosition)
 
