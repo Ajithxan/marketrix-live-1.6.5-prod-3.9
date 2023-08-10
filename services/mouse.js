@@ -24,7 +24,7 @@ const mouse = {
         const showCursorDiv = document.getElementById("show-cursor");
 
         configurationCoverDiv.classList.add("mtx-hidden");
-        contorlsDiv.classList.add("mtx-hidden");
+        // contorlsDiv.classList.add("mtx-hidden");
         showCursorDiv.classList.add("mtx-mode");
         if (meetingVariables.userRole === "admin") mouse.showCursor = true; // admin make the cursor movement on both side
         mouse.startMove();
@@ -65,7 +65,7 @@ const mouse = {
         const showCursorDiv = document.getElementById("show-cursor");
 
         configurationCoverDiv.classList.remove("mtx-hidden");
-        contorlsDiv.classList.remove("mtx-hidden");
+        // contorlsDiv.classList.remove("mtx-hidden");
         showCursorDiv.classList.remove("mtx-mode");
 
         // console.log("local id", localId);

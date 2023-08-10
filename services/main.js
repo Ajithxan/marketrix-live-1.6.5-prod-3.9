@@ -21,7 +21,14 @@ const checkReady = (callback) => {
 };
 
 const adminJoin = () => {
-    console.log("meeting variables in adminJoin method", meetingVariables)
+    showModal()
+
+    // hide notfication and cursor header of form
+    mtxCursorHeader.classList.add("mtx-hidden")
+    mtxContactFormNotificationCard.classList.add("mtx-hidden")
+    mtxFormContent.classList.add("mtx-hidden")
+    mtxFormCloseBtn.classList.add("mtx-hidden")
+
     if (meetingVariables.id && meetingVariables.token) meetingObj.connect(); // video sdk screen is starting
 
     socket?.on("redirectUserToVisitor", (visitorLocation) => {
@@ -99,6 +106,14 @@ const checkMeetingVariables = () => {
             mouse.cursor.showCursor = true
             socket = io.connect(socketUrl, { query: { appId } });
 
+            showModal()
+
+            // hide notfication and cursor header of form
+            mtxCursorHeader.classList.add("mtx-hidden")
+            mtxContactFormNotificationCard.classList.add("mtx-hidden")
+            mtxFormContent.classList.add("mtx-hidden")
+            mtxFormCloseBtn.classList.add("mtx-hidden")
+
             socket.on("changeUrl", (data) => {
                 const changedUrl = data.url
                 setToStore("CURRENT_URL", changedUrl)
@@ -106,6 +121,11 @@ const checkMeetingVariables = () => {
             })
 
             listenScrolls()
+
+            socket.on("meetingEnded", (data) => {
+                console.log("admin end the meeting")
+                meetingObj.leaveMeeting()
+            })
 
             let visitor = {
                 userName: meetingVariables.name,
@@ -179,18 +199,22 @@ const start = () => {
                 "marketrix-modal-container"
             );
             mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
-            mtxFromContent = document.getElementById("mtx-form-content")
+            mtxFormContent = document.getElementById("mtx-form-content")
+            mtxFormCloseBtn = document.getElementById("mtx-form-close-btn")
+            mtxConnectBtn = document.getElementById("mtx-btn-connect")
+            mtxEndCallBtn = document.getElementById("mtx-btn-endcall")
+            mtxCursorHeader = document.getElementById("mtx-cursor-header")
             overlay = document.querySelector(".mtx-overlay");
             setCDNLink()
-        });
 
-    generateCursorId() // generate cursor id
-    checkUrlChanges() // this method would be called when redirecting or reloading
-    checkMeetingVariables() // this method would be called when redirection or reloading
-    getQuery()
-    listenting()
-    console.log("app-id", appId);
-    console.log("api-key", apiKey);
+            generateCursorId() // generate cursor id
+            checkUrlChanges() // this method would be called when redirecting or reloading
+            checkMeetingVariables() // this method would be called when redirection or reloading
+            getQuery()
+            listenting()
+            console.log("app-id", appId);
+            console.log("api-key", apiKey);
+        });
 };
 
 // initializing this snippet in 500 ms
@@ -215,7 +239,7 @@ const closeModal = () => {
 const showModal = () => {
     marketrixButton.classList.add("mtx-hidden");
     marketrixModalContainer.classList.remove("mtx-hidden");
-    overlay.classList.remove("mtx-hidden");
+    // overlay.classList.remove("mtx-hidden");
 };
 
 const connectUserToLive = (meetInfo) => {
@@ -286,9 +310,9 @@ const showNotification = () => {
     let count = 0
     notifications.forEach((notification, index) => {
         count += 1
-        if(index === 0) document.getElementById("mtx-contact-notification").innerText = notifications[index]
+        if (index === 0) document.getElementById("mtx-contact-notification").innerText = notifications[index]
         setTimeout(() => {
-            if(index > 0) document.getElementById("mtx-contact-notification").innerText = notification
+            if (index > 0) document.getElementById("mtx-contact-notification").innerText = notification
         }, 3000 * count)
     })
 
@@ -344,7 +368,8 @@ const submit = async () => {
                 sentInquiryToDb(visitor);
             } else {
                 mtxContactFormNotificationCard.classList.remove("mtx-hidden")
-                mtxFromContent.classList.add("mtx-hidden")
+                mtxFormContent.classList.add("mtx-hidden")
+                mtxFormCloseBtn.classList.add("mtx-hidden")
                 showNotification()
                 socket.on("userResponseToVisitor", (data, event) => {
                     console.log("userResponseToVisitor...", data);
@@ -355,7 +380,9 @@ const submit = async () => {
                     meetingVariables.domain = data.liveMeet?.website_domain
                     meetingVariables.visitorSocketId = data.liveMeet?.visitor_socket_id
 
-                    closeModal()
+                    // hide notfication and cursor header of form
+                    mtxCursorHeader.classList.add("mtx-hidden")
+                    mtxContactFormNotificationCard.classList.add("mtx-hidden")
 
                     socket.on("changeUrl", (data) => {
                         const changedUrl = data.url
@@ -364,6 +391,11 @@ const submit = async () => {
                     })
 
                     listenScrolls()
+
+                    socket.on("meetingEnded", (data) => {
+                        console.log("admin end the meeting")
+                        meetingObj.leaveMeeting()
+                    })
 
                     let visitor = {
                         userName: data.liveMeet.name,

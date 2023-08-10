@@ -27,6 +27,10 @@ let marketrixButton;
 // coonfiguration.html
 let mtxContactFormNotificationCard
 let mtxFromContent
+let mtxFormCloseBtn
+let mtxConnectBtn
+let mtxEndCallBtn
+let mtxCursorHeader
 let videoContainer
 let configurationCoverDiv
 let gridScreenDiv

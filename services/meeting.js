@@ -9,6 +9,11 @@ const meetingObj = {
         videoConfigDiv.setAttribute("id", "video-sdk-config");
         document.body.prepend(videoConfigDiv);
 
+        console.log("mtxConnectBtn", mtxConnectBtn)
+        console.log("mtxEndCallBtn", mtxEndCallBtn)
+        mtxConnectBtn.classList.add("mtx-hidden")
+        mtxEndCallBtn.classList.remove("mtx-hidden")
+
         fetch(`${CDNlink}pages/configuration.html`)
             .then((response) => {
                 return response.text();
@@ -63,7 +68,7 @@ const meetingObj = {
                     meetingVariables.userRole
                 );
                 if (meetingVariables.userRole === "admin") {
-                    console.log("decode object =>",decodedObject)
+                    console.log("decode object =>", decodedObject)
                     connectUserToLive(decodedObject);
                     console.log("coming inside even its visitor");
                     const showCursorDiv = document.getElementById("show-cursor");
@@ -240,20 +245,26 @@ const meetingObj = {
     },
 
     leaveMeeting: () => {
+        if (meetingVariables.userRole === "admin") {
+            socket.emit("endMeeting", { meetingId: meetingVariables.id, isAdmin: "true" })
+            setTimeout(() => {
+                window.close()
+            }, 1000)
+        }
         sessionStorage.clear()
         meetingObj.meeting?.leave()
-        if(meetingVariables.userRole === "visitor") window.location.reload()
-        else window.close()
-        const videoSdkConfigDiv = document.getElementById("video-sdk-config");
-        const waitTextDiv = document.getElementById("wait-text");
-        gridScreenDiv.classList.add("mtx-hidden"); // hide
-        // $("#join-screen").css("display", "block")
-        videoSdkConfigDiv.remove();
-        waitTextDiv.classList.add("mtx-hidden");
-        marketrixButton.classList.remove("mtx-hidden");
-        meetingVariables.participant.localId = "";
-        meetingVariables.participant.remoteId = "";
-        meetingVariables.id = "";
+        if (meetingVariables.userRole === "visitor") window.location.reload()
+
+        // const videoSdkConfigDiv = document.getElementById("video-sdk-config");
+        // const waitTextDiv = document.getElementById("wait-text");
+        // gridScreenDiv.classList.add("mtx-hidden"); // hide
+        // // $("#join-screen").css("display", "block")
+        // videoSdkConfigDiv.remove();
+        // // waitTextDiv.classList.add("mtx-hidden");
+        // marketrixButton.classList.remove("mtx-hidden");
+        // meetingVariables.participant.localId = "";
+        // meetingVariables.participant.remoteId = "";
+        // meetingVariables.id = "";
     },
 
     toggle: {
