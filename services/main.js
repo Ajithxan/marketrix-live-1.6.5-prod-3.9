@@ -154,11 +154,11 @@ const listenting = () => {
 }
 
 // get geo location
-navigator.geolocation.getCurrentPosition((position) => {
-    geoLocation = position.coords
-}, (error) => {
-    console.log(error);
-});
+// navigator.geolocation.getCurrentPosition((position) => {
+//     geoLocation = position.coords
+// }, (error) => {
+//     console.log(error);
+// });
 
 // get ip address
 fetch('https://api.ipify.org/?format=json')

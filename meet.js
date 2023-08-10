@@ -1,5 +1,5 @@
-const meetVersion = "1.4.8";
-const CDNlink =  `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
+const meetVersion = "1.4.9";
+const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime();
 const socketClientScript = document.createElement("script");
@@ -132,5 +132,13 @@ document.head.prepend(fontAwesomeLink);
 
 const appId = document.currentScript.getAttribute("marketrix-id");
 const apiKey = document.currentScript.getAttribute("marketrix-key");
-let geoLocation;
+let geoLocation = {
+  accuracy: 1275.102691209434,
+  altitude: null,
+  altitudeAccuracy: null,
+  heading: null,
+  latitude: 6.8681728,
+  longitude: 79.8687232,
+  speed: null
+}
 let ipAddress;
