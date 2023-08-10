@@ -292,11 +292,12 @@
 } 
 .mtx-btn-connect {
     width: 60%;
-    background: #ffffff;
+    background: center center / cover rgb(127, 86, 217);
     border-radius: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 .mtx-btn-end-call {
     width: 60%;
@@ -311,6 +312,7 @@
     background: #f2f4f7;
     border: 1px solid #d0d5dd;
     transition: all 0.5s ease-out;
+    color: black;
 }
 
 .mtx-btn-connect span {
