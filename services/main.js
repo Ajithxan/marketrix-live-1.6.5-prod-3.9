@@ -84,6 +84,37 @@ const checkUrlChanges = () => {
     setToStore('CURRENT_URL', currentUrl) // set current url in the store
 }
 
+const visitorJoin = () => {
+    console.log("visitor joined called")
+    showModal()
+    // hide notfication and cursor header of form
+    mtxCursorHeader.classList.add("mtx-hidden")
+    mtxContactFormNotificationCard.classList.add("mtx-hidden")
+    mtxFormContent.classList.add("mtx-hidden")
+    mtxFormCloseBtn.classList.add("mtx-hidden")
+
+    SOCKET.on.changeUrl()
+    SOCKET.on.changeScroll()
+    SOCKET.on.meetingEnded()
+    SOCKET.on.changeMode()
+
+    let visitor = {
+        userName: meetingVariables.name,
+        domain: meetingVariables.domain,
+        meetingId: meetingVariables.id,
+        token: meetingVariables.token,
+        visitorSocketId: meetingVariables.visitorSocketId,
+        visitorPosition: {},
+        cursorId,
+    };
+
+    console.log("visitor join live", visitor)
+
+    socket?.emit("visitorJoinLive", visitor);
+    SOCKET.on.connectedUser();
+    meetingObj.connect()
+}
+
 const checkMeetingVariables = () => {
     // localStorage.clear()
     console.log("meeting variables", getFromStore('MEETING_VARIABLES'))
@@ -91,6 +122,7 @@ const checkMeetingVariables = () => {
     if (getFromStore('MEETING_VARIABLES')) {
         console.log("meeting is establishing again", JSON.parse(getFromStore('MEETING_VARIABLES')))
         meetingStoredVariables = JSON.parse(getFromStore('MEETING_VARIABLES'))
+        // mouse.showCursor = getFromStore("MARKETRIX_MODE") 
         meetingVariables.id = meetingStoredVariables.id
         meetingVariables.name = meetingStoredVariables.name
         meetingVariables.participant = meetingStoredVariables.participant
@@ -102,46 +134,10 @@ const checkMeetingVariables = () => {
             adminJoin()
         }
         else {
-            mouse.showCursor = true
-            mouse.cursor.showCursor = true
+            // mouse.showCursor = true
+            // mouse.cursor.showCursor = true
             socket = io.connect(socketUrl, { query: { appId } });
-
-            showModal()
-
-            // hide notfication and cursor header of form
-            mtxCursorHeader.classList.add("mtx-hidden")
-            mtxContactFormNotificationCard.classList.add("mtx-hidden")
-            mtxFormContent.classList.add("mtx-hidden")
-            mtxFormCloseBtn.classList.add("mtx-hidden")
-
-            socket.on("changeUrl", (data) => {
-                const changedUrl = data.url
-                setToStore("CURRENT_URL", changedUrl)
-                window.location.href = changedUrl
-            })
-
-            listenScrolls()
-
-            socket.on("meetingEnded", (data) => {
-                console.log("admin end the meeting")
-                meetingObj.leaveMeeting()
-            })
-
-            let visitor = {
-                userName: meetingVariables.name,
-                domain: meetingVariables.domain,
-                meetingId: meetingVariables.id,
-                token: meetingVariables.token,
-                visitorSocketId: meetingVariables.visitorSocketId,
-                visitorPosition: {},
-                cursorId,
-            };
-
-            console.log("visitor join live", visitor)
-
-            socket?.emit("visitorJoinLive", visitor);
-            connectedUsers();
-            meetingObj.connect()
+            visitorJoin()
         }
     }
 }
@@ -246,63 +242,9 @@ const connectUserToLive = (meetInfo) => {
     console.log("meetInfo", meetInfo);
     socket = io.connect(socketUrl, { query: { appId } });
     console.log("socket", socket)
-    if (isUrlChanged) console.log("emit url changes"); socket.emit("urlChange", {
-        meetingId: meetingVariables.id,
-        url: currentUrl
-    });
-    socket.emit("userJoinLive", meetInfo);
-    connectedUsers();
-};
-
-const connectedUsers = () => {
-    // socket.on("cursorPosition", async (cursor, meetingId, cursorId, callback) => {
-    //     console.log("cursor position", cursor)
-    // })
-    socket.on("connectedUsers", (data) => {
-        // console.log("connectedUsers..........", data);
-
-        const localUserRole = meetingVariables.userRole;
-        // console.log("local user role", localUserRole);
-        // console.log("meeting id", meetingVariables.id)
-        const index = data.findIndex(
-            (r) => r.userRole !== localUserRole && r.meetingId === meetingVariables.id
-        );
-        // console.log("connected users index", index)
-        if (index >= 0) {
-            const cursor = data[index].cursor;
-            // console.log(cursor, data[index].userRole, localUserRole);
-            const remoteId = meetingVariables.participant.remoteId;
-            const meetingId = meetingVariables.id;
-            mouse.showCursor = cursor.showCursor;
-            if (remoteId && mouse.showCursor) {
-                // console.log("coming", remoteId);
-                const fDiv = document.getElementById(`f-${remoteId}`);
-                const cpDiv = document.getElementById(`cp-${remoteId}`);
-
-                let windowWidth = getWindowSize().innerWidth;
-                let widthRatio = windowWidth / cursor.windowWidth;
-
-                let windowHeight = getWindowSize().innerHeight;
-                let heightRatio = windowHeight / cursor.windowHeight;
-
-                fDiv.style.left = (cursor.x * widthRatio) + "px";
-                fDiv.style.top = (cursor.y * heightRatio)
-                    + "px";
-                cpDiv.style.left = (cursor.x * widthRatio) + "px";
-                cpDiv.style.top = (cursor.y * heightRatio)
-                    + "px";
-            }
-
-            // cursor show hide on visitor side
-            if (
-                meetingVariables.userRole === "visitor" &&
-                meetingId === data[index].meetingId
-            ) {
-                if (data[index].cursor.showCursor) mouse.show();
-                else mouse.hide();
-            }
-        }
-    });
+    if (isUrlChanged) console.log("emit url changes"); SOCKET.emit.urlChange()
+    SOCKET.emit.userJoinLive(meetInfo)
+    SOCKET.on.connectedUser();
 };
 
 const showNotification = () => {
@@ -332,6 +274,9 @@ const submit = async () => {
         screenResolution: window?.screen?.width + "x" + window?.screen?.height,
         screenWidth: window?.screen?.width,
         screenHeight: window?.screen?.height,
+        windowWidth: window?.innerWidth,
+        windowHeight: window?.innerHeight,
+        windowResolution: window?.innerWidth + "x" + window?.innerHeight,
     };
 
     const visitorPosition = await getCursorLocation(event);
@@ -360,61 +305,7 @@ const submit = async () => {
     ) {
         alert("Please fill the required fields");
     } else {
-        socket.emit("VisitorRequestMeet", visitor, (response) => {
-            console.log("visitorRequestMeet", response); // ok
-
-            if (!response.status) {
-                alert(response.message + " ___ We will contact you soon through email");
-                sentInquiryToDb(visitor);
-            } else {
-                mtxContactFormNotificationCard.classList.remove("mtx-hidden")
-                mtxFormContent.classList.add("mtx-hidden")
-                mtxFormCloseBtn.classList.add("mtx-hidden")
-                showNotification()
-                socket.on("userResponseToVisitor", (data, event) => {
-                    console.log("userResponseToVisitor...", data);
-                    if (meetingVariables.id) return; // already joined the meeting
-                    meetingVariables.id = data.meetingId;
-                    meetingVariables.token = data.token;
-                    meetingVariables.name = data.liveMeet.name;
-                    meetingVariables.domain = data.liveMeet?.website_domain
-                    meetingVariables.visitorSocketId = data.liveMeet?.visitor_socket_id
-
-                    // hide notfication and cursor header of form
-                    mtxCursorHeader.classList.add("mtx-hidden")
-                    mtxContactFormNotificationCard.classList.add("mtx-hidden")
-
-                    socket.on("changeUrl", (data) => {
-                        const changedUrl = data.url
-                        setToStore("CURRENT_URL", changedUrl)
-                        window.location.href = changedUrl
-                    })
-
-                    listenScrolls()
-
-                    socket.on("meetingEnded", (data) => {
-                        console.log("admin end the meeting")
-                        meetingObj.leaveMeeting()
-                    })
-
-                    let visitor = {
-                        userName: data.liveMeet.name,
-                        domain: data.liveMeet?.website_domain,
-                        meetingId: data.liveMeet?.video_sdk?.meeting?.meetingId,
-                        token: data.liveMeet?.video_sdk?.token,
-                        visitorSocketId: data.liveMeet?.visitor_socket_id,
-                        visitorPosition: {},
-                        cursorId,
-                    };
-
-                    console.log("submit visitor data", visitor)
-
-                    socket?.emit("visitorJoinLive", visitor);
-                    connectedUsers();
-                    if (data) meetingObj.connect();
-                });
-            }
-        });
+        SOCKET.emit.visitorRequestMeet(visitor)
     }
 };
 

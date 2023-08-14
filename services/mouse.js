@@ -5,28 +5,39 @@ const mouse = {
         y: "",
         windowWidth: "",
         windowHeight: "",
-        showCursor: false,
+        // showCursor: false,
     },
-    showCursor: false,
+    showCursor: true,
     startMove: () => {
         document.onmousemove = mouse.handleMouse;
     },
     show: () => {
-        // console.log("mouse show is called", mouse.showCursor)
-        if (mouse.showCursor && meetingVariables.userRole !== "visitor") {
-            mouse.hide();
-            return;
-        } // if its is already in marketrixMode, it would be changed to the focusmode
+        console.log("mouse show is called, show cursor is", mouse.showCursor)
+        // if ((/true/).test(mouse.showCursor) && meetingVariables.userRole !== "visitor") {
+        //     console.log("coming inside the toggle mode")
+        //     mouse.hide();
+        //     return;
+        // } // if its is already in marketrixMode, it would be changed to the focusmode
         // $(".mouse").show()
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
         const showCursorDiv = document.getElementById("show-cursor");
+        const mtxModeBtn = document.getElementById("marketrix-mode-btn")
+        const focusModeBtn = document.getElementById("focus-mode-btn")
+
 
         configurationCoverDiv.classList.add("mtx-hidden");
-        // contorlsDiv.classList.add("mtx-hidden");
-        showCursorDiv.classList.add("mtx-mode");
-        if (meetingVariables.userRole === "admin") mouse.showCursor = true; // admin make the cursor movement on both side
+        mtxModeBtn.classList.remove("mtx-hidden")
+        focusModeBtn.classList.add("mtx-hidden")
+        console.log("mtx-mode", mtxModeBtn)
+        console.log("focus-btn-mode", focusModeBtn)
+
+        if (meetingVariables.userRole === "admin") {
+            mouse.showCursor = true;
+            setToStore("MARKETRIX_MODE", mouse.showCursor)
+            SOCKET.emit.modeChange({ mode: true, meetingId: meetingVariables.id })
+        } // admin make the cursor movement on both side
         mouse.startMove();
         // console.log("local participant id", meetingVariables.participant.localId);
         // console.log("remote participant id", meetingVariables.participant.remoteId);
@@ -63,13 +74,12 @@ const mouse = {
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
         const showCursorDiv = document.getElementById("show-cursor");
+        const mtxModeBtn = document.getElementById("marketrix-mode-btn")
+        const focusModeBtn = document.getElementById("focus-mode-btn")
 
         configurationCoverDiv.classList.remove("mtx-hidden");
-        // contorlsDiv.classList.remove("mtx-hidden");
-        showCursorDiv.classList.remove("mtx-mode");
-
-        // console.log("local id", localId);
-        // console.log("remote id", remoteId);
+        mtxModeBtn.classList.add("mtx-hidden")
+        focusModeBtn.classList.remove("mtx-hidden")
 
         if (localId) {
             const fLocalDiv = document.getElementById(`f-${localId}`);
@@ -101,7 +111,11 @@ const mouse = {
 
             remoteCursorDiv.classList.add("mtx-hidden"); // hide
         }
-        if (meetingVariables.userRole === "admin") mouse.showCursor = false;
+        if (meetingVariables.userRole === "admin") {
+            mouse.showCursor = false;
+            setToStore("MARKETRIX_MODE", mouse.showCursor)
+            SOCKET.emit.modeChange({ mode: false, meetingId: meetingVariables.id })
+        }
     },
     handleMouse: (event) => {
         let x = event.clientX;
@@ -115,28 +129,22 @@ const mouse = {
         mouse.cursor.windowHeight = windowHeight;
         mouse.cursor.windowWidth = windowWidth;
 
-        mouse.cursor.showCursor = mouse.showCursor;
+        // mouse.cursor.showCursor = mouse.showCursor;
 
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
+        console.log("handleMouse, showCursor ", mouse.showCursor)
 
-        if (localId && mouse.showCursor) {
+        if (localId && (/true/).test(mouse.showCursor)) {
+            console.log("local movement is enabled")
             const fLocalDiv = document.getElementById(`f-${localId}`);
             fLocalDiv.style.left = x + "px";
             fLocalDiv.style.top = y + "px";
         }
 
-        // console.log("cursor id", cursorId)
+        console.log("handleMouse mouse prop", mouse)
 
-        socket.emit(
-            "cursorPosition",
-            mouse.cursor,
-            meetingVariables.id,
-            cursorId,
-            (response) => {
-                // console.log("cursorPosition-send", response); // ok
-            }
-        );
+        SOCKET.emit.cursorPosition(mouse, cursorId)
     },
     loading: {
         show: () => { },
@@ -167,24 +175,7 @@ const scrollPosition = (event) => {
         windowHeight
     }
     setTimeout(() => {
-        socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id })
+        SOCKET.emit.scrollChange(scroll)
     }, 500)
 }
 scroller.addEventListener('wheel', scrollPosition)
-
-const listenScrolls = () => {
-    console.log("trigger")
-    socket?.on("changeScroll", (data) => {
-        console.log("scroll on", data)
-        const windowWidth = getWindowSize().innerWidth
-        const windowHeight = getWindowSize().innerHeight
-        const scroll = data.scroll
-
-        let pageX = scroll.pageX
-        let pageY = scroll.pageY
-
-        pageX = (pageX / 100) * windowWidth // get actual pageX from pageX percentage
-        pageY = (pageY / 100) * windowHeight // get actual pageY from pageY percentage
-        window.scrollTo(pageX, pageY)
-    })
-}

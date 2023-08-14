@@ -25,7 +25,7 @@ const meetingObj = {
                     "mtx-configuration-cover"
                 );
                 gridScreenDiv = document.getElementById("mtx-grid-screen");
-                contorlsDiv = document.getElementById("controls");
+                // contorlsDiv = document.getElementById("controls");
                 marketrixButton?.classList.add("mtx-hidden");
                 setCDNLink()
                 setTimeout(() => {
@@ -62,7 +62,7 @@ const meetingObj = {
 
             // meeting joined event
             meetingObj.meeting.on("meeting-joined", () => {
-                gridScreenDiv.classList.remove("mtx-hidden");
+                gridScreenDiv?.classList.remove("mtx-hidden");
                 console.log(
                     "decode user role",
                     meetingVariables.userRole
@@ -142,7 +142,13 @@ const meetingObj = {
                 videoContainer.append(videoElement);
                 videoContainer.append(audioElement);
 
-                mouse.show()
+                console.log("meeting connect", mouse.showCursor)
+                if ((/true/).test(mouse.showCursor) || (/null/).test(mouse.showCursor)) mouse.show()
+                else {
+                    mouse.hide()
+                    videoContainer.classList.remove("mtx-hidden")
+                }
+               
             });
 
             // participants left
@@ -246,7 +252,7 @@ const meetingObj = {
 
     leaveMeeting: () => {
         if (meetingVariables.userRole === "admin") {
-            socket.emit("endMeeting", { meetingId: meetingVariables.id, isAdmin: "true" })
+            SOCKET.emit.endMeeting()
             setTimeout(() => {
                 window.close()
             }, 1000)

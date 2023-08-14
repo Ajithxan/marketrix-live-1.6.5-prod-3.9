@@ -5,6 +5,7 @@ console.log("store.js is established")
 // DECODED_OBJECT
 // SOCKET_IO
 // CURSOR_ID
+// MARKETRIX_MODE
 
 const setToStore = (key, value) => {
     sessionStorage.setItem(key, value)

@@ -37,6 +37,7 @@ let gridScreenDiv
 let contorlsDiv
 let cursorId
 let isUrlChanged = false
+let changedUrl;
 
 const browserName = (function (agent) {
     switch (true) {

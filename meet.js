@@ -1,18 +1,19 @@
-const meetVersion = "1.4.9";
+const meetVersion = "1.5.0"
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
-const startingTime = new Date().getTime();
-const socketClientScript = document.createElement("script");
-const watchScript = document.createElement("script");
-const envScript = document.createElement("script");
-const storeScript = document.createElement("script");
-const mainScript = document.createElement("script");
-const endPointScript = document.createElement("script");
-const videoSDKScript = document.createElement("script");
+const startingTime = new Date().getTime()
+const socketClientScript = document.createElement("script")
+const watchScript = document.createElement("script")
+const envScript = document.createElement("script")
+const storeScript = document.createElement("script")
+const socketScript = document.createElement("script")
+const mainScript = document.createElement("script")
+const endPointScript = document.createElement("script")
+const videoSDKScript = document.createElement("script")
 const variablesScript = document.createElement("script")
 const mouseScript = document.createElement("script")
 const meetingScript = document.createElement("script")
-const fontAwesomeLink = document.createElement("link");
+const fontAwesomeLink = document.createElement("link")
 
 // stylesheet links
 fontAwesomeLink.setAttribute("rel", "stylesheet");
@@ -42,6 +43,17 @@ storeScript.setAttribute(
 );
 storeScript.setAttribute("src", `${CDNlink}store/store.js`);
 document.body.append(storeScript);
+
+socketScript.setAttribute(
+  "async",
+  "false"
+);
+socketScript.setAttribute(
+  "defer",
+  "false"
+);
+socketScript.setAttribute("src", `${CDNlink}services/socket.js`);
+document.body.append(socketScript);
 
 variablesScript.setAttribute(
   "async",
