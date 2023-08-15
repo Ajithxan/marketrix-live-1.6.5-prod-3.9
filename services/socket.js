@@ -131,7 +131,10 @@ const SOCKET = {
                 console.log("visitorRequestMeet", response); // ok
 
                 if (!response.status) {
-                    alert(response.message + " ___ We will contact you soon through email");
+                    mtxContactFormNotificationCard.classList.remove("mtx-hidden")
+                    mtxFormContent.classList.add("mtx-hidden")
+                    mtxFormCloseBtn.classList.add("mtx-hidden")
+                    showNotification(false)
                     sentInquiryToDb(visitor);
                 } else {
                     mtxContactFormNotificationCard.classList.remove("mtx-hidden")

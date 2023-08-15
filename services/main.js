@@ -247,15 +247,16 @@ const connectUserToLive = (meetInfo) => {
     SOCKET.on.connectedUser();
 };
 
-const showNotification = () => {
-    let notifications = ["We're connecting you!", "Please stay!"]
+const showNotification = (isAgentAvailable = true) => {
+    let notifications = ["We're connecting you!", "Please stay!", "Please allow to switch on your Video Camera.", "Please allow to switch on your Microphone"]
+    if(!isAgentAvailable) notifications = ["Our LiveAgents are offline right now.", "Will get in touch with you via email soon!"]
     let count = 0
     notifications.forEach((notification, index) => {
         count += 1
         if (index === 0) document.getElementById("mtx-contact-notification").innerText = notifications[index]
         setTimeout(() => {
             if (index > 0) document.getElementById("mtx-contact-notification").innerText = notification
-        }, 3000 * count)
+        }, 1000 * count)
     })
 
 }
