@@ -133,14 +133,17 @@ const SOCKET = {
                 if (!response.status) {
                     mtxContactFormNotificationCard.classList.remove("mtx-hidden")
                     mtxFormContent.classList.add("mtx-hidden")
-                    mtxFormCloseBtn.classList.add("mtx-hidden")
+                    // mtxFormCloseBtn.classList.add("mtx-hidden")
+                    visitor.inquiry_status = "missed"
                     showNotification(false)
                     sentInquiryToDb(visitor);
                 } else {
                     mtxContactFormNotificationCard.classList.remove("mtx-hidden")
                     mtxFormContent.classList.add("mtx-hidden")
                     mtxFormCloseBtn.classList.add("mtx-hidden")
+                    visitor.inquiry_status = "incoming"
                     showNotification()
+                    sentInquiryToDb(visitor);
                     SOCKET.on.userResopnseToVisitor()
                 }
             });

@@ -208,8 +208,13 @@ const start = () => {
             checkMeetingVariables() // this method would be called when redirection or reloading
             getQuery()
             listenting()
-            console.log("app-id", appId);
-            console.log("api-key", apiKey);
+
+            // test notifications
+            // showModal()
+            // mtxContactFormNotificationCard.classList.remove("mtx-hidden")
+            // mtxFormContent.classList.add("mtx-hidden")
+            // mtxFormCloseBtn.classList.add("mtx-hidden")
+            // showNotification()
         });
 };
 
@@ -227,8 +232,10 @@ document.addEventListener("keydown", function (event) {
 });
 
 const closeModal = () => {
-    marketrixButton.classList.remove("mtx-hidden");
-    marketrixModalContainer.classList.add("mtx-hidden");
+    marketrixButton.classList.remove("mtx-hidden")
+    marketrixModalContainer.classList.add("mtx-hidden")
+    mtxContactFormNotificationCard.classList.add("mtx-hidden")
+    mtxFormContent.classList.remove("mtx-hidden")
     overlay.classList.add("mtx-hidden");
 };
 
@@ -236,6 +243,15 @@ const showModal = () => {
     marketrixButton.classList.add("mtx-hidden");
     marketrixModalContainer.classList.remove("mtx-hidden");
     // overlay.classList.remove("mtx-hidden");
+
+    const elements = document.querySelectorAll(`#mtx-form .mtx-form-control`)
+
+    elements.forEach(element => {
+        const name = element.attributes.name.nodeValue
+        const field = document.querySelector(`[name="${name}"]`)
+
+        field.classList.remove("mtx-form-control-error")
+    })
 };
 
 const connectUserToLive = (meetInfo) => {
@@ -248,17 +264,67 @@ const connectUserToLive = (meetInfo) => {
 };
 
 const showNotification = (isAgentAvailable = true) => {
-    let notifications = ["We're connecting you!", "Please stay!", "Please allow to switch on your Video Camera.", "Please allow to switch on your Microphone"]
-    if(!isAgentAvailable) notifications = ["Our LiveAgents are offline right now.", "Will get in touch with you via email soon!"]
+    const notificationIcon = document.getElementById("mtx-notification-icon")
+    const notificationMsg = document.getElementById("mtx-contact-notification")
+    let notifications = [
+        { icon: "fa-phone", msg: "We're connecting you!" },
+        { icon: "fa-clock", msg: "Please stay!" },
+        { icon: "fa-video", msg: "Please allow to switch on your Video Camera." },
+        { icon: "fa-headphones", msg: "Please allow to switch on your Microphone" },
+        { icon: "dummy", msg: "dummy" }, // keep this always here.
+    ]
+    if (!isAgentAvailable) notifications = [
+        { icon: "fa-phone-slash", msg: "Our LiveAgents are offline right now." },
+        { icon: "fa-envelope", msg: "Will get in touch with you via email soon!" }
+    ]
     let count = 0
+
     notifications.forEach((notification, index) => {
         count += 1
-        if (index === 0) document.getElementById("mtx-contact-notification").innerText = notifications[index]
+        if (index === 0) {
+            notificationIcon.classList.add(notifications[index].icon)
+            notificationMsg.innerText = notifications[index].msg
+        }
         setTimeout(() => {
-            if (index > 0) document.getElementById("mtx-contact-notification").innerText = notification
-        }, 1000 * count)
+            if (index > 0) {
+                notificationIcon.classList.remove(notifications[(index - 1)].icon)
+                notificationIcon.classList.add(notification.icon)
+                notificationMsg.innerText = notification.msg
+            }
+
+            // console.log((index + 1), "===", notifications.length)
+            if (((index + 1) === notifications.length) && isAgentAvailable) showNotification()
+        }, 1500 * count)
+
+        // if(count === notifications.length) console.log("trigger show notification again")
     })
 
+}
+
+const validate = (id) => {
+    const elements = document.querySelectorAll(`#${id} .mtx-form-control`)
+    let error = true;
+
+    for (const element of elements) {
+        const name = element.attributes.name.nodeValue
+        const field = document.querySelector(`[name="${name}"]`)
+        const value = field.value
+
+        if (value && value !== "Select a Inquiry Type") field.classList.remove("mtx-form-control-error")
+        else field.classList.add("mtx-form-control-error")
+
+    }
+
+    for (const element of elements) {
+        const name = element.attributes.name.nodeValue
+        const field = document.querySelector(`[name="${name}"]`)
+        const value = field.value
+
+        if (value && value !== "Select a Inquiry Type") error = false
+        else { error = true; break }
+    }
+
+    return error;
 }
 
 const submit = async () => {
@@ -297,17 +363,7 @@ const submit = async () => {
         country: 'Sri lanka'
     };
 
-    console.log("visitor", visitor); //return
-    if (
-        visitor.name === "" ||
-        visitor.email === "" ||
-        visitor.message === "" ||
-        visitor.inquiry_type === ""
-    ) {
-        alert("Please fill the required fields");
-    } else {
-        SOCKET.emit.visitorRequestMeet(visitor)
-    }
+    if (!validate("mtx-form")) SOCKET.emit.visitorRequestMeet(visitor)
 };
 
 const getCursorLocation = async (event) => {
@@ -335,12 +391,13 @@ const sentInquiryToDb = (data) => {
         email: data.email,
         phone_no: data.phone,
         message: data.message,
-        inquiry_type: data.inquiryType,
-        inquiry_status: "requested",
+        inquiry_type: data.inquiry_type,
+        inquiry_status: data.inquiry_status,
         website_domain: currentUrl,
         app_id: appId,
     };
 
+    console.log("sentInquiryToDb", inquiry);
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
