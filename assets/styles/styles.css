@@ -389,8 +389,8 @@
     filter: invert(100%);
     -webkit-filter: invert(100%);
     position: relative;
-    bottom: 27px;
-    left: 18px;
+    bottom: 3px;
+    left: -4px;
 }
 .user-names {
     color: white;

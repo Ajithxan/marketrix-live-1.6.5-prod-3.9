@@ -21,6 +21,7 @@ const checkReady = (callback) => {
 };
 
 const adminJoin = () => {
+    console.log("admin join trigger", meetingVariables)
     showModal()
 
     // hide notfication and cursor header of form
@@ -385,6 +386,7 @@ const sentInquiryToDb = (data) => {
     let currentUrl = window.location.hostname;
 
     let inquiry = {
+        app_id: appId,
         name: data.name,
         designation: data.designation,
         company: data.company,
@@ -393,8 +395,12 @@ const sentInquiryToDb = (data) => {
         message: data.message,
         inquiry_type: data.inquiry_type,
         inquiry_status: data.inquiry_status,
-        website_domain: currentUrl,
-        app_id: appId,
+        website_domain: data.website_domain, 
+        visitor_info: data.visitorDevice,
+        visitor_socket_id: data.visitor_socket_id,
+        country: data.country,
+        ipAddress: data.ipAddress,
+        geoLocation: data.geoLocation,
     };
 
     console.log("sentInquiryToDb", inquiry);

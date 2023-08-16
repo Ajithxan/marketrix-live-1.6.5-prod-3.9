@@ -10,7 +10,7 @@ const SOCKET = {
         },
         changeScroll: () => {
             socket?.on("changeScroll", (data) => {
-                console.log("scroll on", data)
+                console.log("scroll on, percentage added", data)
                 const windowWidth = getWindowSize().innerWidth
                 const windowHeight = getWindowSize().innerHeight
                 const scroll = data.scroll
@@ -130,6 +130,7 @@ const SOCKET = {
             socket.emit("VisitorRequestMeet", visitor, (response) => {
                 console.log("visitorRequestMeet", response); // ok
 
+                visitor.visitor_socket_id = response.socketId
                 if (!response.status) {
                     mtxContactFormNotificationCard.classList.remove("mtx-hidden")
                     mtxFormContent.classList.add("mtx-hidden")

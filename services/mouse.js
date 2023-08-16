@@ -133,16 +133,12 @@ const mouse = {
 
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
-        console.log("handleMouse, showCursor ", mouse.showCursor)
 
         if (localId && (/true/).test(mouse.showCursor)) {
-            console.log("local movement is enabled")
             const fLocalDiv = document.getElementById(`f-${localId}`);
             fLocalDiv.style.left = x + "px";
             fLocalDiv.style.top = y + "px";
         }
-
-        console.log("handleMouse mouse prop", mouse)
 
         SOCKET.emit.cursorPosition(mouse, cursorId)
     },
@@ -154,16 +150,9 @@ const mouse = {
 
 // scroll event
 let scroller = document.getElementsByTagName("body")[0]
-const scrollPosition = (event) => {
-    console.log(event)
-    let pageX = event.pageX
-    let pageY = event.pageY
+const scrollPosition = (pageX, pageY) => {
     const windowWidth = getWindowSize().innerWidth
     const windowHeight = getWindowSize().innerHeight
-
-    // const maxHeight = document.body.scrollHeight - window.innerHeight;
-    // console.log("accurate scroll", parseInt((window.pageYOffset * 100) / maxHeight));
-    // pageY = (window.pageYOffset * 100) / maxHeight
 
     pageX = (pageX / windowWidth) * 100 // x axis percentage
     pageY = (pageY / windowHeight) * 100 // y axis percentage
@@ -174,8 +163,13 @@ const scrollPosition = (event) => {
         windowWidth,
         windowHeight
     }
+    console.log(scroll)
     setTimeout(() => {
         SOCKET.emit.scrollChange(scroll)
     }, 500)
 }
-scroller.addEventListener('wheel', scrollPosition)
+
+scroller.onscroll = () => {
+    console.log("scrolling y and x", this.scrollY)
+    scrollPosition(this.scrollX, this.scrollY)
+}
