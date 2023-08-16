@@ -1,7 +1,7 @@
 console.log("meeting.js is established")
 const meetingObj = {
     meeting: null,
-    isMicOn: false,
+    isMicOn: true,
     isWebCamOn: false,
     connect() {
         setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
@@ -260,17 +260,6 @@ const meetingObj = {
         sessionStorage.clear()
         meetingObj.meeting?.leave()
         if (meetingVariables.userRole === "visitor") window.location.reload()
-
-        // const videoSdkConfigDiv = document.getElementById("video-sdk-config");
-        // const waitTextDiv = document.getElementById("wait-text");
-        // gridScreenDiv.classList.add("mtx-hidden"); // hide
-        // // $("#join-screen").css("display", "block")
-        // videoSdkConfigDiv.remove();
-        // // waitTextDiv.classList.add("mtx-hidden");
-        // marketrixButton.classList.remove("mtx-hidden");
-        // meetingVariables.participant.localId = "";
-        // meetingVariables.participant.remoteId = "";
-        // meetingVariables.id = "";
     },
 
     toggle: {
@@ -278,6 +267,7 @@ const meetingObj = {
             const localId = meetingVariables.participant.localId;
             const micIconElem = document.getElementById("mic-icon");
             const aiDiv = document.getElementById(`ai-${localId}`);
+            console.log("meetingObj mic", meetingObj.isMicOn)
             if (meetingObj.isMicOn) {
                 // Disable Mic in Meeting
                 meetingObj.meeting?.muteMic();
