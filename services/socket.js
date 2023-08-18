@@ -1,35 +1,36 @@
-console.log("socket.js is established")
+console.log("socket.js is established");
 const SOCKET = {
     on: {
         changeUrl: () => {
             socket.on("changeUrl", (data) => {
-                changedUrl = data.url
-                setToStore("CURRENT_URL", changedUrl)
-                window.location.href = changedUrl
-            })
+                changedUrl = data.url;
+                setToStore("CURRENT_URL", changedUrl);
+                window.location.href = changedUrl;
+            });
         },
         changeScroll: () => {
             socket?.on("changeScroll", (data) => {
-                const windowWidth = getWindowSize().innerWidth
-                const windowHeight = getWindowSize().innerHeight
-                const scroll = data.scroll
+                console.log("scroll on, percentage added", data);
+                const windowWidth = getWindowSize().innerWidth;
+                const windowHeight = getWindowSize().innerHeight;
+                const scroll = data.scroll;
 
-                let pageX = scroll.pageX
-                let pageY = scroll.pageY
+                let pageX = scroll.pageX;
+                let pageY = scroll.pageY;
 
-                pageX = (pageX / 100) * windowWidth // get actual pageX from pageX percentage
-                pageY = (pageY / 100) * windowHeight // get actual pageY from pageY percentage
-                window.scrollTo(pageX, pageY)
-            })
+                pageX = (pageX / 100) * windowWidth; // get actual pageX from pageX percentage
+                pageY = (pageY / 100) * windowHeight; // get actual pageY from pageY percentage
+                window.scrollTo(pageX, pageY);
+            });
         },
         meetingEnded: () => {
             socket.on("meetingEnded", (data) => {
-                console.log("admin end the meeting")
-                meetingObj.leaveMeeting()
-            })
+                console.log("admin end the meeting");
+                meetingObj.leaveMeeting();
+            });
         },
         connectedUser: () => {
-            mouse.showCursor = getFromStore("MARKETRIX_MODE")
+            mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
                 // console.log("connectedUsers..........", data);
 
@@ -37,16 +38,20 @@ const SOCKET = {
                 // console.log("local user role", localUserRole);
                 // console.log("meeting id", meetingVariables.id)
                 const index = data.findIndex(
-                    (r) => r.userRole !== localUserRole && r.meetingId === meetingVariables.id
+                    (r) =>
+                        r.userRole !== localUserRole && r.meetingId === meetingVariables.id
                 );
-                // console.log("connected users index", index)                
+                // console.log("connected users index", index)
                 if (index >= 0) {
                     const cursor = data[index].cursor;
                     // console.log(cursor, data[index].userRole, localUserRole);
                     const remoteId = meetingVariables.participant.remoteId;
                     const meetingId = meetingVariables.id;
-                    mouse.showCursor = getFromStore("MARKETRIX_MODE") //cursor.showCursor
-                    if (remoteId && (/true/).test(mouse.showCursor)) { // use marketrxiMode instead
+                    mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
+                    console.log("mouse.showCursor", mouse.showCursor);
+                    if (remoteId && /true/.test(mouse.showCursor)) {
+                        // use marketrxiMode instead
+                        console.log("coming inside the remote cursor movements");
                         const fDiv = document.getElementById(`f-${remoteId}`);
                         const cpDiv = document.getElementById(`cp-${remoteId}`);
 
@@ -56,12 +61,10 @@ const SOCKET = {
                         let windowHeight = getWindowSize().innerHeight;
                         let heightRatio = windowHeight / cursor.windowHeight;
 
-                        fDiv.style.left = (cursor.x * widthRatio) + "px";
-                        fDiv.style.top = (cursor.y * heightRatio)
-                            + "px";
-                        cpDiv.style.left = (cursor.x * widthRatio) + "px";
-                        cpDiv.style.top = (cursor.y * heightRatio)
-                            + "px";
+                        fDiv.style.left = cursor.x * widthRatio + "px";
+                        fDiv.style.top = cursor.y * heightRatio + "px";
+                        cpDiv.style.left = cursor.x * widthRatio + "px";
+                        cpDiv.style.top = cursor.y * heightRatio + "px";
                     }
                 }
             });
@@ -73,32 +76,46 @@ const SOCKET = {
                 meetingVariables.id = data.meetingId;
                 meetingVariables.token = data.token;
                 meetingVariables.name = data.liveMeet.name;
-                meetingVariables.domain = data.liveMeet?.website_domain
-                meetingVariables.visitorSocketId = data.liveMeet?.visitor_socket_id
-                visitorJoin()
+                meetingVariables.domain = data.liveMeet?.website_domain;
+                meetingVariables.visitorSocketId = data.liveMeet?.visitor_socket_id;
+                visitorJoin();
             });
         },
         changeMode: () => {
             socket.on("changeMode", (data) => {
-                console.log("mode change", data, data.mode)
-                setToStore("MARKETRIX_MODE", data.mode)
-                if ((/true/).test(data.mode)) { mouse.show(); }
-                else mouse.hide();
-            })
-        }
+                console.log("mode change", data, data.mode);
+                setToStore("MARKETRIX_MODE", data.mode);
+                if (/true/.test(data.mode)) {
+                    mouse.show();
+                } else mouse.hide();
+            });
+        },
+        emitActiveAgents: () => {
+            socket.on("emitActiveAgents", (data) => {
+                console.log("emitActiveAgents", data);
+                if (data == true) {
+                    isAgentAvailable = true;
+                } else {
+                    isAgentAvailable = false;
+                }
+            });
+        },
     },
     emit: {
         urlChange: () => {
             socket.emit("urlChange", {
                 meetingId: meetingVariables.id,
-                url: currentUrl
+                url: currentUrl,
             });
         },
         scrollChange: (scroll) => {
-            socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id })
+            socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id });
         },
         endMeeting: () => {
-            socket.emit("endMeeting", { meetingId: meetingVariables.id, isAdmin: "true" })
+            socket.emit("endMeeting", {
+                meetingId: meetingVariables.id,
+                isAdmin: "true",
+            });
         },
         cursorPosition: (mouse, cursorId) => {
             socket.emit(
@@ -112,34 +129,38 @@ const SOCKET = {
             );
         },
         userJoinLive: (meetInfo) => {
-            socket.emit("userJoinLive", meetInfo)
+            socket.emit("userJoinLive", meetInfo);
+        },
+        getActiveAgents: () => {
+            socket.emit("getActiveAgents");
         },
         visitorRequestMeet: (visitor) => {
-            socket.emit("VisitorRequestMeet", visitor, (response) => {
-                console.log("visitorRequestMeet", response); // ok
+            console.log("isAgentAvailable", isAgentAvailable);
 
-                visitor.visitor_socket_id = response.socketId
-                if (!response.status) {
-                    mtxContactFormNotificationCard.classList.remove("mtx-hidden")
-                    mtxFormContent.classList.add("mtx-hidden")
-                    // mtxFormCloseBtn.classList.add("mtx-hidden")
-                    visitor.inquiry_status = "missed"
-                    showNotification(false)
-                    sentInquiryToDb(visitor);
-                } else {
-                    mtxContactFormNotificationCard.classList.remove("mtx-hidden")
-                    mtxFormContent.classList.add("mtx-hidden")
-                    mtxFormCloseBtn.classList.add("mtx-hidden")
-                    visitor.inquiry_status = "incoming"
-                    showNotification()
-                    sentInquiryToDb(visitor);
-                    SOCKET.on.userResopnseToVisitor()
-                }
-            });
+            if (isAgentAvailable == true) {
+                visitor.visitor_socket_id = socket.id;
+                visitor.inquiry_status = "incoming";
+                console.log("visitorRequestMeet", visitor);
+                sentInquiryToDb(visitor);
+                socket.emit("VisitorRequestMeet", visitor);
+                mtxContactFormNotificationCard.classList.remove("mtx-hidden");
+                mtxFormContent.classList.add("mtx-hidden");
+                mtxFormCloseBtn.classList.add("mtx-hidden");
+                showNotification();
+                SOCKET.on.userResopnseToVisitor();
+            } else {
+
+                mtxContactFormNotificationCard.classList.remove("mtx-hidden");
+                mtxFormContent.classList.add("mtx-hidden");
+                // mtxFormCloseBtn.classList.add("mtx-hidden")
+                visitor.inquiry_status = "missed";
+                showNotification(false);
+                sentInquiryToDb(visitor);
+            }
         },
         modeChange: (marketrixMode) => {
-            console.log("mode change", marketrixMode)
-            socket.emit("modeChange", marketrixMode)
-        }
-    }
-}
+            console.log("mode change", marketrixMode);
+            socket.emit("modeChange", marketrixMode);
+        },
+    },
+};

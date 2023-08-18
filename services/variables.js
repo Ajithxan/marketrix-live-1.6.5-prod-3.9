@@ -1,6 +1,6 @@
 console.log("variables.js is established")
-const socketUrl = "https://socket-v2.marketrix.io/" //"https://marketrix-soc.creative-hub.co/"
-const serverBaseUrl = "https://api-v2.marketrix.io/"
+const socketUrl = "https://socket-dev.creative-hub.co/" //"https://socket-v2.marketrix.io/" //"https://marketrix-soc.creative-hub.co/"
+const serverBaseUrl = "https://api-dev.creative-hub.co/" //"https://api-v2.marketrix.io/"
 let socket
 let startInterval
 let decodedObject = {} // admin information which are getting from the url would be store in the objec
@@ -37,7 +37,9 @@ let gridScreenDiv
 let contorlsDiv
 let cursorId
 let isUrlChanged = false
-let changedUrl;
+let changedUrl
+let isAgentAvailable = false
+let socketStarted = false
 
 const browserName = (function (agent) {
     switch (true) {

@@ -20,6 +20,16 @@ const checkReady = (callback) => {
     }, 500);
 };
 
+const initiatSocketConnection = () => {
+    console.log("socket connection called");
+    socketStarted = true
+    if (cursorId) {
+        socket = io.connect(socketUrl, { query: { appId, role: meetingVariables.userRole, cursorId } });
+        SOCKET.emit.getActiveAgents();
+        SOCKET.on.emitActiveAgents();
+    }
+};
+
 const adminJoin = () => {
     console.log("admin join trigger", meetingVariables)
     showModal()
@@ -137,7 +147,7 @@ const checkMeetingVariables = () => {
         else {
             // mouse.showCursor = true
             // mouse.cursor.showCursor = true
-            socket = io.connect(socketUrl, { query: { appId } });
+            initiatSocketConnection()
             visitorJoin()
         }
     }
@@ -209,13 +219,7 @@ const start = () => {
             checkMeetingVariables() // this method would be called when redirection or reloading
             getQuery()
             listenting()
-
-            // test notifications
-            // showModal()
-            // mtxContactFormNotificationCard.classList.remove("mtx-hidden")
-            // mtxFormContent.classList.add("mtx-hidden")
-            // mtxFormCloseBtn.classList.add("mtx-hidden")
-            // showNotification()
+            if (!getFromStore('MEETING_VARIABLES')) initiatSocketConnection()
         });
 };
 
@@ -256,8 +260,8 @@ const showModal = () => {
 };
 
 const connectUserToLive = (meetInfo) => {
-    console.log("meetInfo", meetInfo);
-    socket = io.connect(socketUrl, { query: { appId } });
+    console.log("meetInfo---", meetInfo);
+    initiatSocketConnection() // socket = io.connect(socketUrl, { query: { appId, role: meetingVariables.userRole, cursorId } });
     console.log("socket", socket)
     if (isUrlChanged) console.log("emit url changes"); SOCKET.emit.urlChange()
     SOCKET.emit.userJoinLive(meetInfo)
@@ -329,8 +333,6 @@ const validate = (id) => {
 }
 
 const submit = async () => {
-    socket = io.connect(socketUrl, { query: { appId } });
-
     const visitorDevice = {
         browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
         browserVersion:
@@ -353,7 +355,7 @@ const submit = async () => {
         name: document.querySelector('[name="name"]').value,
         email: document.querySelector('[name="email"]').value,
         // phone_no: document.querySelector('[name="phone_no"]').value,
-        inquiry_type: document.querySelector('[name="inquiry_type"]').value,
+        inquiry_type: "General", //document.querySelector('[name="inquiry_type"]').value,
         message: document.querySelector('[name="message"]').value,
         website_domain: document.location.origin,
         visitorDevice: visitorDevice,
@@ -395,7 +397,7 @@ const sentInquiryToDb = (data) => {
         message: data.message,
         inquiry_type: data.inquiry_type,
         inquiry_status: data.inquiry_status,
-        website_domain: data.website_domain, 
+        website_domain: data.website_domain,
         visitor_info: data.visitorDevice,
         visitor_socket_id: data.visitor_socket_id,
         country: data.country,
