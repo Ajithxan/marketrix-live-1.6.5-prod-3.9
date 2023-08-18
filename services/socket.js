@@ -10,7 +10,6 @@ const SOCKET = {
         },
         changeScroll: () => {
             socket?.on("changeScroll", (data) => {
-                console.log("scroll on, percentage added", data)
                 const windowWidth = getWindowSize().innerWidth
                 const windowHeight = getWindowSize().innerHeight
                 const scroll = data.scroll
@@ -47,9 +46,7 @@ const SOCKET = {
                     const remoteId = meetingVariables.participant.remoteId;
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE") //cursor.showCursor
-                    console.log("mouse.showCursor", mouse.showCursor)
                     if (remoteId && (/true/).test(mouse.showCursor)) { // use marketrxiMode instead
-                        console.log("coming inside the remote cursor movements")
                         const fDiv = document.getElementById(`f-${remoteId}`);
                         const cpDiv = document.getElementById(`cp-${remoteId}`);
 
@@ -66,15 +63,6 @@ const SOCKET = {
                         cpDiv.style.top = (cursor.y * heightRatio)
                             + "px";
                     }
-
-                    // cursor show hide on visitor side
-                    // if (
-                    //     meetingVariables.userRole === "visitor" &&
-                    //     meetingId === data[index].meetingId
-                    // ) {
-                    //     if (data[index].cursor.showCursor) mouse.show();
-                    //     else mouse.hide();
-                    // }
                 }
             });
         },

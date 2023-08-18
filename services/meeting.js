@@ -96,7 +96,6 @@ const meetingObj = {
 
                 // stream-enabled
                 participant.on("stream-enabled", (stream) => {
-                    console.log("enabled", stream);
                     const kind = stream.kind;
                     const aiDiv = document.getElementById(`ai-${remoteId}`);
                     if (kind === "audio") {
@@ -105,7 +104,9 @@ const meetingObj = {
                         aiDiv.classList.add("fa-solid");
                         aiDiv.classList.add("fa-microphone");
                     } else {
-                        console.log("enabled video");
+                        console.log("enabled video with f-remoteid");
+                        document.getElementById(`v-${remoteId}`).classList.remove("mtx-hidden")
+                        document.getElementById(`vd-${remoteId}`).classList.add("mtx-hidden")
                     }
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
@@ -120,7 +121,9 @@ const meetingObj = {
                         aiDiv.classList.remove("fa-solid");
                         aiDiv.classList.remove("fa-microphone");
                     } else {
-                        console.log("disable video");
+                        console.log("disable video with f-remoteid");
+                        document.getElementById(`v-${remoteId}`).classList.add("mtx-hidden")
+                        document.getElementById(`vd-${remoteId}`).classList.remove("mtx-hidden")
                     }
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
@@ -148,7 +151,7 @@ const meetingObj = {
                     mouse.hide()
                     videoContainer.classList.remove("mtx-hidden")
                 }
-               
+
             });
 
             // participants left
@@ -217,7 +220,21 @@ const meetingObj = {
         videoElement.setAttribute("id", `v-${pId}`);
         videoElement.setAttribute("playsinline", true);
 
-        videoFrame.appendChild(videoElement);
+        // video disabled
+        let videoDisabledDiv = document.createElement("div")
+        videoDisabledDiv.classList.add("mtx-hidden")
+        videoDisabledDiv.setAttribute("id", `vd-${pId}`)
+
+        // video disabled image
+        let videoDisabledImg = document.createElement("img")
+        videoDisabledImg.classList.add("mtx-video-disabled-img")
+        videoDisabledImg.setAttribute("id", `vdi-${pId}`)
+        videoDisabledImg.setAttribute("src", `${CDNlink}/assets/images/video-slash.png`)
+
+        videoDisabledDiv.appendChild(videoDisabledImg)
+
+        videoFrame.appendChild(videoElement)
+        videoFrame.appendChild(videoDisabledDiv)
 
         let displayName = document.createElement("div");
         displayName.classList.add("user-names");
@@ -297,23 +314,29 @@ const meetingObj = {
         },
 
         webCam: () => {
-            const localId = meetingVariables.participant.localId;
+            const localId = meetingVariables.participant.localId
             const fDiv = document.getElementById(`f-${localId}`);
             const webCamIconElem = document.getElementById("webcam-icon");
             if (meetingObj.isWebCamOn) {
                 meetingObj.meeting?.disableWebcam();
-                fDiv.style.display = "none";
+                // fDiv.style.display = "none";
                 webCamIconElem.classList.add("fa-solid");
                 webCamIconElem.classList.add("fa-video-slash");
                 webCamIconElem.classList.remove("fas");
                 webCamIconElem.classList.remove("fa-video");
+                console.log("disabled video with f-localuserid")
+                document.getElementById(`v-${localId}`).classList.add("mtx-hidden")
+                document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden")
             } else {
                 meetingObj.meeting?.enableWebcam();
-                fDiv.style.display = "inline";
+                // fDiv.style.display = "inline";
                 webCamIconElem.classList.remove("fa-solid");
                 webCamIconElem.classList.remove("fa-video-slash");
                 webCamIconElem.classList.add("fas");
                 webCamIconElem.classList.add("fa-video");
+                console.log("enabled video with f-localuserid")
+                document.getElementById(`v-${localId}`).classList.remove("mtx-hidden")
+                document.getElementById(`vd-${localId}`).classList.add("mtx-hidden")
             }
             meetingObj.isWebCamOn = !meetingObj.isWebCamOn;
         },
