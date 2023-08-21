@@ -1,4 +1,4 @@
-console.log("mouse.js is established")
+console.log("mouse.js is established #8")
 const mouse = {
     cursor: {
         x: "",

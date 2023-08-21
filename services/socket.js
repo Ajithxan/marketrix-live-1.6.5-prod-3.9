@@ -1,4 +1,4 @@
-console.log("socket.js is established");
+console.log("socket.js is established #3");
 const SOCKET = {
     on: {
         changeUrl: () => {

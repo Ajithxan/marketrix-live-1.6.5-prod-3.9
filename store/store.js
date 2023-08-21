@@ -1,4 +1,4 @@
-console.log("store.js is established")
+console.log("store.js is established #2")
 // ---keys---
 // CURRENT_URL
 // MEETING_VARIABLES

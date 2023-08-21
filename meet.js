@@ -1,4 +1,4 @@
-const meetVersion = "1.6.4-dev-1"
+const meetVersion = "1.6.5-dev-1"
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime()
@@ -21,124 +21,145 @@ fontAwesomeLink.setAttribute(
   "href",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 );
-// scripts
+// env scripts #1
 envScript.setAttribute(
   "async",
   "false"
 );
 envScript.setAttribute(
   "defer",
-  "false"
+  "true"
 );
 envScript.setAttribute("src", `${CDNlink}constants/env.js`);
 document.body.append(envScript);
 
-storeScript.setAttribute(
-  "async",
-  "false"
-);
-storeScript.setAttribute(
-  "defer",
-  "false"
-);
-storeScript.setAttribute("src", `${CDNlink}store/store.js`);
-document.body.append(storeScript);
-
-socketScript.setAttribute(
-  "async",
-  "false"
-);
-socketScript.setAttribute(
-  "defer",
-  "false"
-);
-socketScript.setAttribute("src", `${CDNlink}services/socket.js`);
-document.body.append(socketScript);
-
-variablesScript.setAttribute(
-  "async",
-  "false"
-);
-variablesScript.setAttribute(
-  "defer",
-  "false"
-);
-variablesScript.setAttribute("src", `${CDNlink}services/variables.js`);
-document.body.append(variablesScript);
-
-videoSDKScript.setAttribute(
-  "async",
-  "false"
-);
-videoSDKScript.setAttribute(
-  "defer",
-  "false"
-);
-videoSDKScript.setAttribute(
-  "src",
-  "https://sdk.videosdk.live/js-sdk/0.0.67/videosdk.js"
-);
-document.body.append(videoSDKScript);
-
-socketClientScript.setAttribute("crossorigin", "anonymous");
-socketClientScript.setAttribute(
-  "async",
-  "false"
-);
-socketClientScript.setAttribute(
-  "defer",
-  "false"
-);
-socketClientScript.setAttribute(
-  "src",
-  "https://cdn.socket.io/4.6.0/socket.io.min.js"
-);
-document.body.append(socketClientScript);
-
-meetingScript.setAttribute(
-  "async",
-  "false"
-);
-meetingScript.setAttribute(
-  "defer",
-  "false"
-);
-meetingScript.setAttribute("src", `${CDNlink}services/meeting.js`);
-document.body.append(meetingScript)
-
-mouseScript.setAttribute(
-  "async",
-  "false"
-);
-mouseScript.setAttribute(
-  "defer",
-  "false"
-);
-mouseScript.setAttribute("src", `${CDNlink}services/mouse.js`);
-document.body.append(mouseScript);
-
-watchScript.setAttribute(
-  "async",
-  "false"
-);
-watchScript.setAttribute(
-  "defer",
-  "false"
-);
-watchScript.setAttribute("src", `${CDNlink}services/watch.js`);
-document.body.append(watchScript);
-
-mainScript.setAttribute(
-  "async",
-  "false"
-);
-mainScript.setAttribute(
-  "defer",
-  "false"
-);
-mainScript.setAttribute("src", `${CDNlink}services/main.js`);
-document.body.append(mainScript);
-
+envScript.addEventListener("load", () => {
+  // store script #2
+  storeScript.setAttribute(
+    "async",
+    "false"
+  );
+  storeScript.setAttribute(
+    "defer",
+    "true"
+  );
+  storeScript.setAttribute("src", `${CDNlink}store/store.js`);
+  document.body.append(storeScript);
+  storeScript.addEventListener("load", () => {
+    // socket script #3
+    socketScript.setAttribute(
+      "async",
+      "false"
+    );
+    socketScript.setAttribute(
+      "defer",
+      "true"
+    );
+    socketScript.setAttribute("src", `${CDNlink}services/socket.js`);
+    document.body.append(socketScript);
+    socketScript.addEventListener("load", () => {
+      // variables script #4
+      variablesScript.setAttribute(
+        "async",
+        "false"
+      );
+      variablesScript.setAttribute(
+        "defer",
+        "true"
+      );
+      variablesScript.setAttribute("src", `${CDNlink}services/variables.js`);
+      document.body.append(variablesScript);
+      variablesScript.addEventListener("load", () => {
+        // video script #5
+        videoSDKScript.setAttribute(
+          "async",
+          "false"
+        );
+        videoSDKScript.setAttribute(
+          "defer",
+          "true"
+        );
+        videoSDKScript.setAttribute(
+          "src",
+          "https://sdk.videosdk.live/js-sdk/0.0.67/videosdk.js"
+        );
+        document.body.append(videoSDKScript);
+        videoSDKScript.addEventListener("load", () => {
+          // socket client script #6
+          socketClientScript.setAttribute("crossorigin", "anonymous");
+          socketClientScript.setAttribute(
+            "async",
+            "false"
+          );
+          socketClientScript.setAttribute(
+            "defer",
+            "true"
+          );
+          socketClientScript.setAttribute(
+            "src",
+            "https://cdn.socket.io/4.6.0/socket.io.min.js"
+          );
+          document.body.append(socketClientScript);
+          socketClientScript.addEventListener("load", () => {
+            // meeting script #7
+            meetingScript.setAttribute(
+              "async",
+              "false"
+            );
+            meetingScript.setAttribute(
+              "defer",
+              "true"
+            );
+            meetingScript.setAttribute("src", `${CDNlink}services/meeting.js`);
+            document.body.append(meetingScript)
+            meetingScript.addEventListener("load", () => {
+              // mouse script #8
+              mouseScript.setAttribute(
+                "async",
+                "false"
+              );
+              mouseScript.setAttribute(
+                "defer",
+                "true"
+              );
+              mouseScript.setAttribute("src", `${CDNlink}services/mouse.js`);
+              document.body.append(mouseScript);
+              mouseScript.addEventListener("load", () => {
+                // watch script #9
+                watchScript.setAttribute(
+                  "async",
+                  "false"
+                );
+                watchScript.setAttribute(
+                  "defer",
+                  "true"
+                );
+                watchScript.setAttribute("src", `${CDNlink}services/watch.js`);
+                document.body.append(watchScript);
+                watchScript.addEventListener("load", () => {
+                  // main script #10
+                  mainScript.setAttribute(
+                    "async",
+                    "false"
+                  );
+                  mainScript.setAttribute(
+                    "defer",
+                    "true"
+                  );
+                  mainScript.setAttribute("src", `${CDNlink}services/main.js`);
+                  document.body.append(mainScript);
+                  mainScript.addEventListener("load", () => {
+                    console.log("all scripts loaded...")
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+  })
+})
 // header link
 document.head.prepend(fontAwesomeLink);
 

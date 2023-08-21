@@ -1,4 +1,4 @@
-console.log("main.js is established")
+console.log("main.js is established #10")
 const setCDNLink = () => {
     const links = document.getElementsByTagName('link')
     const imgs = document.getElementsByTagName('img')
@@ -241,12 +241,12 @@ const closeModal = () => {
     marketrixModalContainer.classList.add("mtx-hidden")
     mtxContactFormNotificationCard.classList.add("mtx-hidden")
     mtxFormContent.classList.remove("mtx-hidden")
-    overlay.classList.add("mtx-hidden");
+    // overlay.classList.add("mtx-hidden");
 };
 
 const showModal = () => {
-    marketrixButton.classList.add("mtx-hidden");
-    marketrixModalContainer.classList.remove("mtx-hidden");
+    marketrixButton?.classList.add("mtx-hidden");
+    marketrixModalContainer?.classList.remove("mtx-hidden");
     // overlay.classList.remove("mtx-hidden");
 
     const elements = document.querySelectorAll(`#mtx-form .mtx-form-control`)

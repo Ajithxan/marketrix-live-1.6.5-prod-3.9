@@ -1,4 +1,4 @@
-console.log("watch.js is established")
+console.log("watch.js is established #9")
 const watch = (callBack, variable) => {
     let old;
 

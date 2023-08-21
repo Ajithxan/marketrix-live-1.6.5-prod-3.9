@@ -1,4 +1,4 @@
-console.log("meeting.js is established")
+console.log("meeting.js is established #7")
 const meetingObj = {
     meeting: null,
     isMicOn: true,

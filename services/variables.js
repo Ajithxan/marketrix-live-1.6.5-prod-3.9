@@ -1,4 +1,4 @@
-console.log("variables.js is established")
+console.log("variables.js is established #4")
 const socketUrl = "https://socket-dev.creative-hub.co/" //"https://socket-v2.marketrix.io/" //"https://marketrix-soc.creative-hub.co/"
 const serverBaseUrl = "https://api-dev.creative-hub.co/" //"https://api-v2.marketrix.io/"
 let socket
