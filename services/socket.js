@@ -61,10 +61,13 @@ const SOCKET = {
                         let windowHeight = getWindowSize().innerHeight;
                         let heightRatio = windowHeight / cursor.windowHeight;
 
-                        fDiv.style.left = cursor.x * widthRatio + "px";
-                        fDiv.style.top = cursor.y * heightRatio + "px";
-                        cpDiv.style.left = cursor.x * widthRatio + "px";
-                        cpDiv.style.top = cursor.y * heightRatio + "px";
+                        cursor.x = cursor.x * widthRatio //(cursor.x / 100) * windowWidth
+                        cursor.y = cursor.y * heightRatio //(cursor.y / 100) * windowHeight 
+
+                        fDiv.style.left = cursor.x + "px"
+                        fDiv.style.top = cursor.y + "px"
+                        cpDiv.style.left = cursor.x + "px"
+                        cpDiv.style.top = cursor.y + "px"
                     }
                 }
             });
@@ -118,7 +121,7 @@ const SOCKET = {
             });
         },
         cursorPosition: (mouse, cursorId) => {
-            socket.emit(
+            socket?.emit(
                 "cursorPosition",
                 mouse.cursor,
                 meetingVariables.id,

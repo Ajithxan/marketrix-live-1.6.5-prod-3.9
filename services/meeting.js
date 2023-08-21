@@ -26,7 +26,9 @@ const meetingObj = {
                 );
                 gridScreenDiv = document.getElementById("mtx-grid-screen");
                 // contorlsDiv = document.getElementById("controls");
+                cursorLoading = document.getElementById("cursor-loading")
                 marketrixButton?.classList.add("mtx-hidden");
+                mouse.loading.show()
                 setCDNLink()
                 setTimeout(() => {
                     meetingObj.joinMeeting();
@@ -78,13 +80,20 @@ const meetingObj = {
 
             // meeting left event
             meetingObj.meeting.on("meeting-left", () => {
+                console.log("meeting left event called")
                 videoContainer.innerHTML = "";
             });
+
+            meetingObj.meeting.on("participant-left", (participant) => {
+                mouse.loading.show()
+                console.log("participant left", participant)
+            })
 
             // Remote participants Event
             // participant joined
             meetingObj.meeting.on("participant-joined", (participant) => {
                 console.log("particpant joined")
+                mouse.loading.hide()
                 let videoElement = meetingObj.createVideoElement(
                     participant.id,
                     participant.displayName
@@ -275,7 +284,7 @@ const meetingObj = {
             }, 1000)
         }
         sessionStorage.clear()
-        meetingObj.meeting?.leave()
+        meetingObj.meeting?.end()
         if (meetingVariables.userRole === "visitor") window.location.reload()
     },
 

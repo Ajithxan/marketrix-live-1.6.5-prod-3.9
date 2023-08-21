@@ -89,7 +89,7 @@ const mouse = {
         mtxModeBtn.classList.add("mtx-hidden")
         focusModeBtn.classList.remove("mtx-hidden")
 
-       
+
 
         if (localId) {
             const fLocalDiv = document.getElementById(`f-${localId}`);
@@ -167,11 +167,22 @@ const mouse = {
             fLocalDiv.style.top = y + "px";
         }
 
+        cursorLoading.style.left = x + "px";
+        cursorLoading.style.top = y + "px";
+
         SOCKET.emit.cursorPosition(mouse, cursorId)
     },
     loading: {
-        show: () => { },
-        hide: () => { }
+        show: () => {
+            meetingObj.showCursor = false
+            videoContainer.classList.add("mtx-hidden")
+            mouse.startMove()
+            cursorLoading.classList.remove("mtx-hidden")
+        },
+        hide: () => {
+            videoContainer.classList.remove("mtx-hidden")
+            cursorLoading.classList.add("mtx-hidden")
+        }
     }
 };
 

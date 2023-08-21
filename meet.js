@@ -1,4 +1,4 @@
-const meetVersion = "1.6.3-dev-5"
+const meetVersion = "1.6.3-dev-6"
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime()
@@ -21,6 +21,7 @@ fontAwesomeLink.setAttribute(
   "href",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 );
+
 // env scripts #1
 envScript.setAttribute(
   "async",
@@ -32,7 +33,6 @@ envScript.setAttribute(
 );
 envScript.setAttribute("src", `${CDNlink}constants/env.js`);
 document.body.append(envScript);
-
 envScript.addEventListener("load", () => {
   // store script #2
   storeScript.setAttribute(

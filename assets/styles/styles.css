@@ -359,7 +359,14 @@
 .mtx-video-frame {
     width: 100%;
 }
-
+.mtx-cursor-loading{
+    position: absolute;
+}
+.mtx-cursor-loading > div {
+    position: absolute;
+    top: -4px;
+    left: 13px;
+}
 .mtx-moving-video-frame {
     position: relative;
     height: 200px;

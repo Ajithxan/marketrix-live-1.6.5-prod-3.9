@@ -33,7 +33,6 @@ const initiatSocketConnection = () => {
 const adminJoin = () => {
     console.log("admin join trigger", meetingVariables)
     showModal()
-
     // hide notfication and cursor header of form
     mtxCursorHeader.classList.add("mtx-hidden")
     mtxContactFormNotificationCard.classList.add("mtx-hidden")

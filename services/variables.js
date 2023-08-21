@@ -26,6 +26,7 @@ let overlay;
 let marketrixButton;
 // coonfiguration.html
 let mtxContactFormNotificationCard
+let cursorLoading
 let mtxFromContent
 let mtxFormCloseBtn
 let mtxConnectBtn
