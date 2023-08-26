@@ -10,7 +10,7 @@ const SOCKET = {
         },
         changeScroll: () => {
             socket?.on("changeScroll", (data) => {
-                console.log("scroll on, percentage added", data);
+                console.log("scroll on")
                 const windowWidth = getWindowSize().innerWidth;
                 const windowHeight = getWindowSize().innerHeight;
                 const scroll = data.scroll;
@@ -20,7 +20,13 @@ const SOCKET = {
 
                 pageX = (pageX / 100) * windowWidth; // get actual pageX from pageX percentage
                 pageY = (pageY / 100) * windowHeight; // get actual pageY from pageY percentage
+                scrollEnded = true
+                remoteScroll = true
                 window.scrollTo(pageX, pageY);
+
+                setTimeout(() => {
+                    remoteScroll = false
+                }, 1000)
             });
         },
         meetingEnded: () => {
@@ -48,10 +54,8 @@ const SOCKET = {
                     const remoteId = meetingVariables.participant.remoteId;
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
-                    console.log("mouse.showCursor", mouse.showCursor);
                     if (remoteId && /true/.test(mouse.showCursor)) {
                         // use marketrxiMode instead
-                        console.log("coming inside the remote cursor movements");
                         const fDiv = document.getElementById(`f-${remoteId}`);
                         const cpDiv = document.getElementById(`cp-${remoteId}`);
 
@@ -112,7 +116,8 @@ const SOCKET = {
             });
         },
         scrollChange: (scroll) => {
-            socket.emit("scrollChange", { scroll, meetingId: meetingVariables.id });
+            console.log("scrolling", cursorId)
+            socket.emit("scrollChange", { scroll, cursorId, meetingId: meetingVariables.id });
         },
         endMeeting: () => {
             socket.emit("endMeeting", {
@@ -165,5 +170,8 @@ const SOCKET = {
             console.log("mode change", marketrixMode);
             socket.emit("modeChange", marketrixMode);
         },
+        connectVisitor: (visitor) => {
+            socket.emit("connectVisitor", visitor);
+        }
     },
 };

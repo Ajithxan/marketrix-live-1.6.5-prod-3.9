@@ -1,6 +1,8 @@
 console.log("variables.js is established #4")
-const socketUrl = "https://socket-v2.marketrix.io/";
-const serverBaseUrl = "https://api-v2.marketrix.io/";
+// const socketUrl = "https://socket-v2.marketrix.io/";
+// const serverBaseUrl = "https://api-v2.marketrix.io/";
+const socketUrl = "https://socket-dev.creative-hub.co/";
+const serverBaseUrl = "http://api-dev.creative-hub.co/";
 let socket
 let startInterval
 let decodedObject = {} // admin information which are getting from the url would be store in the objec
@@ -16,7 +18,7 @@ const meetingVariables = {
     },
     domain: "",
     visitorSocketId: "",
-    connected: false,
+    ended: true,
 };
 let video; //video sdk
 // contact-form.html
@@ -33,6 +35,7 @@ let mtxConnectBtn
 let mtxEndCallBtn
 let mtxCursorHeader
 let videoContainer
+let videoDisabledImg
 let configurationCoverDiv
 let gridScreenDiv
 let contorlsDiv
@@ -41,6 +44,10 @@ let isUrlChanged = false
 let changedUrl
 let isAgentAvailable = false
 let socketStarted = false
+let remoteScroll = false
+let scrollCount = 0
+let prevScrollCount = 0
+let scrollEnded = true
 
 const browserName = (function (agent) {
     switch (true) {

@@ -389,13 +389,14 @@
     border: 3px solid black;
 }
 .mtx-moving-video-disabled-div{
-    padding: 71px 0px 0px 58px;
+    /* padding: 71px 0px 0px 58px; */
+    margin-top: 12px;
 }
 .mtx-video-disabled-img{
     width: 100px !important;
 }
 .mtx-moving-video-disabled-img{
-    width: 50px !important;
+    /* width: 50px !important; */
 }
 .mtx-remote-moving-outer-frame {
     border: 3px solid green;

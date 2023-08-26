@@ -188,7 +188,10 @@ const mouse = {
 
 // scroll event
 let scroller = document.getElementsByTagName("body")[0]
-const scrollPosition = (pageX, pageY) => {
+let pageX;
+let pageY;
+
+const scrollPosition = () => {
     const windowWidth = getWindowSize().innerWidth
     const windowHeight = getWindowSize().innerHeight
 
@@ -201,11 +204,26 @@ const scrollPosition = (pageX, pageY) => {
         windowWidth,
         windowHeight
     }
-    setTimeout(() => {
-        SOCKET.emit.scrollChange(scroll)
-    }, 500)
+
+    SOCKET.emit.scrollChange(scroll)
 }
 
+const emitScroll = () => {
+    if (scrollEnded) return
+    scrollEnded = true
+    console.log("scroll ended now, emit scroll")
+    scrollPosition()
+}
+
+setInterval(() => {
+    if (scrollCount > prevScrollCount || prevScrollCount === 0) prevScrollCount = scrollCount
+    else emitScroll()
+}, 1000)
+
 scroller.onscroll = () => {
-    scrollPosition(this.scrollX, this.scrollY)
+    console.log("scrolling")
+    if (!remoteScroll) scrollEnded = false
+    scrollCount += 1
+    pageX = this.scrollX
+    pageY = this.scrollY
 }

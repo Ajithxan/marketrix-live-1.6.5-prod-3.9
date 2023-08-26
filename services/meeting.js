@@ -4,7 +4,6 @@ const meetingObj = {
     isMicOn: true,
     isWebCamOn: false,
     connect() {
-        setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
         const videoConfigDiv = document.createElement("div");
         videoConfigDiv.setAttribute("id", "video-sdk-config");
         document.body.prepend(videoConfigDiv);
@@ -130,7 +129,12 @@ const meetingObj = {
                         aiDiv.classList.remove("fa-solid");
                         aiDiv.classList.remove("fa-microphone");
                     } else {
-                        console.log("disable video with f-remoteid");
+                        console.log("disable video with f-remoteid", "local user role", meetingVariables.userRole);
+                        if (meetingVariables.userRole === "visitor") {
+                            console.log("coming inside the userrole of visitor when disable the video")
+                            const videoDisabledImageOfAdmin = document.getElementById(`vdi-${remoteId}`)
+                            videoDisabledImageOfAdmin.setAttribute("src", `${CDNlink}assets/images/profile.png`) // set admin profile here
+                        }
                         document.getElementById(`v-${remoteId}`).classList.add("mtx-hidden")
                         document.getElementById(`vd-${remoteId}`).classList.remove("mtx-hidden")
                     }
@@ -235,10 +239,10 @@ const meetingObj = {
         videoDisabledDiv.setAttribute("id", `vd-${pId}`)
 
         // video disabled image
-        let videoDisabledImg = document.createElement("img")
+        videoDisabledImg = document.createElement("img")
         videoDisabledImg.classList.add("mtx-video-disabled-img")
         videoDisabledImg.setAttribute("id", `vdi-${pId}`)
-        videoDisabledImg.setAttribute("src", `${CDNlink}/assets/images/video-slash.png`)
+        videoDisabledImg.setAttribute("src", `${CDNlink}assets/images/cam-user.png`)
 
         videoDisabledDiv.appendChild(videoDisabledImg)
 
@@ -271,8 +275,6 @@ const meetingObj = {
     },
 
     joinMeeting: () => {
-        // configurationCoverDiv.classList.remove("mtx-hidden");
-        // mouse.hide();
         meetingObj.initializeMeeting();
     },
 
@@ -334,6 +336,8 @@ const meetingObj = {
                 webCamIconElem.classList.remove("fas");
                 webCamIconElem.classList.remove("fa-video");
                 console.log("disabled video with f-localuserid")
+                const videoDisabledImageOfAdmin = document.getElementById(`vdi-${localId}`)
+                if (meetingVariables.userRole === "admin") videoDisabledImageOfAdmin.setAttribute("src", `${CDNlink}assets/images/profile.png`) // set admin profile image here
                 document.getElementById(`v-${localId}`).classList.add("mtx-hidden")
                 document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden")
             } else {

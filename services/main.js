@@ -24,7 +24,34 @@ const initiatSocketConnection = () => {
     console.log("socket connection called");
     socketStarted = true
     if (cursorId) {
-        socket = io.connect(socketUrl, { query: { appId, role: meetingVariables.userRole, cursorId } });
+        socket = io.connect(socketUrl, {
+            query: { appId, role: meetingVariables.userRole, cursorId },
+        });
+
+        if (meetingVariables.userRole === "visitor") {
+            const visitedTime = new Date().getTime();
+            const currentUrl = window.location.href;
+            const visitorDevice = {
+                browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
+                browserVersion:
+                    navigator?.userAgentData?.brands[2]?.version || browserVersion,
+                platform: navigator?.platform,
+                networkDownlink: navigator?.connection?.downlink,
+                networkEffectiveType: navigator?.connection?.effectiveType,
+                vendor: navigator?.vendor,
+                screenResolution: window?.screen?.width + "x" + window?.screen?.height,
+                screenWidth: window?.screen?.width,
+                screenHeight: window?.screen?.height,
+                windowWidth: window?.innerWidth,
+                windowHeight: window?.innerHeight,
+                windowResolution: window?.innerWidth + "x" + window?.innerHeight,
+                ipAddress: ipAddress,
+                country: "Sri lanka",
+            };
+
+            let visitor = { visitedTime, currentUrl, visitorDevice };
+            SOCKET.emit.connectVisitor(visitor)
+        }
         SOCKET.emit.getActiveAgents();
         SOCKET.on.emitActiveAgents();
     }
@@ -84,6 +111,8 @@ let currentUrl = window.location.href
 
 
 const checkUrlChanges = () => {
+    console.log("url changes", currentUrl, getFromStore('CURRENT_URL'))
+    isUrlChanged = false
     if (getFromStore('CURRENT_URL')) {
         if (currentUrl !== getFromStore('CURRENT_URL')) {
             // emit url changes
@@ -147,6 +176,7 @@ const checkMeetingVariables = () => {
             // mouse.showCursor = true
             // mouse.cursor.showCursor = true
             initiatSocketConnection()
+            if (isUrlChanged) SOCKET.emit.urlChange()
             visitorJoin()
         }
     }
@@ -154,9 +184,7 @@ const checkMeetingVariables = () => {
 
 // all watch
 const listenting = () => {
-    watch(() => {
-        checkUrlChanges()
-    }, 'currentUrl') // this would be called when ridirecting using router dom
+   console.log("listening function is called")
 }
 
 // get geo location
@@ -260,11 +288,14 @@ const showModal = () => {
 
 const connectUserToLive = (meetInfo) => {
     console.log("meetInfo---", meetInfo);
-    initiatSocketConnection() // socket = io.connect(socketUrl, { query: { appId, role: meetingVariables.userRole, cursorId } });
+    initiatSocketConnection()
     console.log("socket", socket)
-    if (isUrlChanged) console.log("emit url changes"); SOCKET.emit.urlChange()
+    console.log("isUrlChanged", isUrlChanged)
+    if (isUrlChanged) SOCKET.emit.urlChange()
     SOCKET.emit.userJoinLive(meetInfo)
-    SOCKET.on.connectedUser();
+    SOCKET.on.connectedUser()
+    SOCKET.on.changeScroll()
+    SOCKET.on.changeUrl()
 };
 
 const showNotification = (isAgentAvailable = true) => {
