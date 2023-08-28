@@ -75,6 +75,7 @@ const mouse = {
         }
 
         videoContainer.classList.remove("mtx-hidden")
+        videoContainer.style.height = "0vh"
     },
     hide: () => {
         // $(".mouse").hide()
@@ -143,6 +144,8 @@ const mouse = {
             setToStore("MARKETRIX_MODE", mouse.showCursor)
             SOCKET.emit.modeChange({ mode: false, meetingId: meetingVariables.id })
         }
+
+        videoContainer.style.height = "80vh"
     },
     handleMouse: (event) => {
         let x = event.clientX;

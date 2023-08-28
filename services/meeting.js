@@ -163,6 +163,7 @@ const meetingObj = {
                 else {
                     mouse.hide()
                     videoContainer.classList.remove("mtx-hidden")
+                    videoContainer.style.height = "0vh"
                 }
 
             });
