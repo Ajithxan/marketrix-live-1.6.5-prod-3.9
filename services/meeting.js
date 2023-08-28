@@ -4,14 +4,15 @@ const meetingObj = {
     isMicOn: true,
     isWebCamOn: false,
     connect() {
+        if ((/true/).test(getFromStore("MEETING_ENDED")) && meetingVariables.userRole === "visitor") return
         const videoConfigDiv = document.createElement("div");
         videoConfigDiv.setAttribute("id", "video-sdk-config");
         document.body.prepend(videoConfigDiv);
-
-        console.log("mtxConnectBtn", mtxConnectBtn)
-        console.log("mtxEndCallBtn", mtxEndCallBtn)
         mtxConnectBtn.classList.add("mtx-hidden")
         mtxEndCallBtn.classList.remove("mtx-hidden")
+
+        meetingEnded = false
+        setToStore("MEETING_ENDED", meetingEnded)
 
         fetch(`${CDNlink}pages/configuration.html`)
             .then((response) => {
@@ -24,7 +25,6 @@ const meetingObj = {
                     "mtx-configuration-cover"
                 );
                 gridScreenDiv = document.getElementById("mtx-grid-screen");
-                // contorlsDiv = document.getElementById("controls");
                 cursorLoading = document.getElementById("cursor-loading")
                 marketrixButton?.classList.add("mtx-hidden");
                 mouse.loading.show()
@@ -285,7 +285,9 @@ const meetingObj = {
                 window.close()
             }, 1000)
         }
-        sessionStorage.clear()
+        // sessionStorage.clear()
+        meetingEnded = true
+        setToStore("MEETING_ENDED", meetingEnded)
         meetingObj.meeting?.end()
         if (meetingVariables.userRole === "visitor") window.location.reload()
     },

@@ -49,6 +49,7 @@ let remoteScroll = false
 let scrollCount = 0
 let prevScrollCount = 0
 let scrollEnded = true
+let meetingEnded = true
 
 const browserName = (function (agent) {
     switch (true) {

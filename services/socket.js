@@ -38,7 +38,12 @@ const SOCKET = {
         connectedUser: () => {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
-                // console.log("connectedUsers..........", data);
+                console.log("connectedUsers..........", data);
+                if(meetingEnded) {
+                    meetingEnded = false
+                    setToStore("MEETING_ENDED", meetingEnded)
+                    visitorJoin()
+                }
 
                 const localUserRole = meetingVariables.userRole;
                 // console.log("local user role", localUserRole);
@@ -79,6 +84,8 @@ const SOCKET = {
         userResopnseToVisitor: () => {
             socket.on("userResponseToVisitor", (data, event) => {
                 console.log("userResponseToVisitor...", data);
+                meetingEnded = false
+                setToStore("MEETING_ENDED", meetingEnded)
                 if (meetingVariables.id) return; // already joined the meeting
                 meetingVariables.id = data.meetingId;
                 meetingVariables.token = data.token;

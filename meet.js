@@ -1,4 +1,4 @@
-const meetVersion = "1.6.4-prod-0.0.4"
+const meetVersion = "1.6.4-prod-0.0.5"
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime()
@@ -165,6 +165,8 @@ document.head.prepend(fontAwesomeLink);
 
 const appId = document.currentScript.getAttribute("marketrix-id");
 const apiKey = document.currentScript.getAttribute("marketrix-key");
+console.log("app ID", appId)
+console.log("api Key", apiKey)
 let geoLocation = {
   accuracy: 1275.102691209434,
   altitude: null,

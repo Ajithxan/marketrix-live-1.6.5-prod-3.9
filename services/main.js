@@ -59,6 +59,9 @@ const initiatSocketConnection = () => {
 
 const adminJoin = () => {
     console.log("admin join trigger", meetingVariables)
+    meetingEnded = false
+    setToStore("MEETING_ENDED", meetingEnded)
+    initiatSocketConnection()
     showModal()
     // hide notfication and cursor header of form
     mtxCursorHeader.classList.add("mtx-hidden")
@@ -125,12 +128,15 @@ const checkUrlChanges = () => {
 
 const visitorJoin = () => {
     console.log("visitor joined called")
-    showModal()
     // hide notfication and cursor header of form
-    mtxCursorHeader.classList.add("mtx-hidden")
-    mtxContactFormNotificationCard.classList.add("mtx-hidden")
-    mtxFormContent.classList.add("mtx-hidden")
-    mtxFormCloseBtn.classList.add("mtx-hidden")
+
+    if((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED")) {
+        showModal()
+        mtxCursorHeader.classList.add("mtx-hidden")
+        mtxContactFormNotificationCard.classList.add("mtx-hidden")
+        mtxFormContent.classList.add("mtx-hidden")
+        mtxFormCloseBtn.classList.add("mtx-hidden")
+    }
 
     SOCKET.on.changeUrl()
     SOCKET.on.changeScroll()
@@ -159,22 +165,17 @@ const checkMeetingVariables = () => {
     console.log("meeting variables", getFromStore('MEETING_VARIABLES'))
     // if meeting variables are available it means meeting is not over yet. so establishing it again
     if (getFromStore('MEETING_VARIABLES')) {
-        console.log("meeting is establishing again", JSON.parse(getFromStore('MEETING_VARIABLES')))
         meetingStoredVariables = JSON.parse(getFromStore('MEETING_VARIABLES'))
-        // mouse.showCursor = getFromStore("MARKETRIX_MODE") 
         meetingVariables.id = meetingStoredVariables.id
         meetingVariables.name = meetingStoredVariables.name
         meetingVariables.participant = meetingStoredVariables.participant
         meetingVariables.token = meetingStoredVariables.token
         meetingVariables.userRole = meetingStoredVariables.userRole
-        console.log(meetingVariables.userRole)
         if (meetingVariables.userRole === "admin") {
             decodedObject = JSON.parse(getFromStore("DECODED_OBJECT"))
             adminJoin()
         }
         else {
-            // mouse.showCursor = true
-            // mouse.cursor.showCursor = true
             initiatSocketConnection()
             if (isUrlChanged) SOCKET.emit.urlChange()
             visitorJoin()
@@ -184,7 +185,7 @@ const checkMeetingVariables = () => {
 
 // all watch
 const listenting = () => {
-   console.log("listening function is called")
+    console.log("listening function is called")
 }
 
 // get geo location
@@ -240,13 +241,12 @@ const start = () => {
             mtxCursorHeader = document.getElementById("mtx-cursor-header")
             overlay = document.querySelector(".mtx-overlay");
             setCDNLink()
-
             generateCursorId() // generate cursor id
             checkUrlChanges() // this method would be called when redirecting or reloading
             checkMeetingVariables() // this method would be called when redirection or reloading
             getQuery()
             listenting()
-            if (!getFromStore('MEETING_VARIABLES')) initiatSocketConnection()
+            if (!getFromStore('MEETING_VARIABLES') && meetingVariables.userRole === "visitor") initiatSocketConnection()
         });
 };
 
@@ -286,9 +286,9 @@ const showModal = () => {
     })
 };
 
+// let visitor connect
 const connectUserToLive = (meetInfo) => {
     console.log("meetInfo---", meetInfo);
-    initiatSocketConnection()
     console.log("socket", socket)
     console.log("isUrlChanged", isUrlChanged)
     if (isUrlChanged) SOCKET.emit.urlChange()
@@ -396,7 +396,12 @@ const submit = async () => {
         country: 'Sri lanka'
     };
 
-    if (!validate("mtx-form")) SOCKET.emit.visitorRequestMeet(visitor)
+    if (!validate("mtx-form")) {
+        removeFromStore("MEETING_VARIABLES") // remove meeting variables when submit new data
+        meetingVariables.id = false
+        
+        SOCKET.emit.visitorRequestMeet(visitor)
+    }
 };
 
 const getCursorLocation = async (event) => {
