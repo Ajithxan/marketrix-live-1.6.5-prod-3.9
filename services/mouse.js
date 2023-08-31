@@ -16,7 +16,6 @@ const mouse = {
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
-        const showCursorDiv = document.getElementById("show-cursor");
         const mtxModeBtn = document.getElementById("marketrix-mode-btn")
         const focusModeBtn = document.getElementById("focus-mode-btn")
 
@@ -34,55 +33,13 @@ const mouse = {
 
         remoteCursorDiv.classList.remove("mtx-hidden"); // show
 
-        if (localId) {
-            const fLocalDiv = document.getElementById(`f-${localId}`);
-            const vLocalDiv = document.getElementById(`v-${localId}`);
-            const videoDisabledImgDiv = document.getElementById(`vdi-${localId}`)
-            const videoDisabledDiv = document.getElementById(`vd-${localId}`)
-
-            fLocalDiv.style.position = "absolute";
-            fLocalDiv.classList.add("mtx-moving-outer-frame");
-            fLocalDiv.classList.add("mtx-local-moving-outer-frame");
-
-            vLocalDiv.classList.add("mtx-moving-video-frame");
-            vLocalDiv.classList.remove("mtx-video-frame");
-
-            videoDisabledImgDiv.classList.remove("mtx-video-disabled-img")
-            videoDisabledImgDiv.classList.add("mtx-moving-video-disabled-img")
-
-            videoDisabledDiv.classList.add("mtx-moving-video-disabled-div")
-            videoDisabledDiv.classList.remove("mtx-video-disabled-div")
-        }
-
-        if (remoteId) {
-            const fRemoteDiv = document.getElementById(`f-${remoteId}`);
-            const vRemoteDiv = document.getElementById(`v-${remoteId}`);
-            const videoDisabledImgDiv = document.getElementById(`vdi-${remoteId}`)
-            const videoDisabledDiv = document.getElementById(`vd-${remoteId}`)
-
-            fRemoteDiv.style.position = "absolute";
-            fRemoteDiv.classList.add("mtx-moving-outer-frame");
-            fRemoteDiv.classList.add("mtx-remote-moving-outer-frame");
-
-            vRemoteDiv.classList.add("mtx-moving-video-frame");
-            vRemoteDiv.classList.remove("mtx-video-frame");
-
-            videoDisabledImgDiv.classList.remove("mtx-video-disabled-img")
-            videoDisabledImgDiv.classList.add("mtx-moving-video-disabled-img")
-
-            videoDisabledDiv.classList.add("mtx-moving-video-disabled-div")
-            videoDisabledDiv.classList.remove("mtx-video-disabled-div")
-        }
-
-        videoContainer.classList.remove("mtx-hidden")
-        videoContainer.style.height = "0vh"
+        if (localId) mouse.cursorFrameElement(localId, true, true)
+        if (remoteId) mouse.cursorFrameElement(remoteId, false, true)
     },
     hide: () => {
-        // $(".mouse").hide()
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
-        const showCursorDiv = document.getElementById("show-cursor");
         const mtxModeBtn = document.getElementById("marketrix-mode-btn")
         const focusModeBtn = document.getElementById("focus-mode-btn")
 
@@ -90,62 +47,35 @@ const mouse = {
         mtxModeBtn.classList.add("mtx-hidden")
         focusModeBtn.classList.remove("mtx-hidden")
 
-
-
-        if (localId) {
-            const fLocalDiv = document.getElementById(`f-${localId}`);
-            const vLocalDiv = document.getElementById(`v-${localId}`);
-            const videoDisabledImgDiv = document.getElementById(`vdi-${localId}`)
-            const videoDisabledDiv = document.getElementById(`vd-${localId}`)
-
-            fLocalDiv.style.position = "";
-            fLocalDiv.style.left = "";
-            fLocalDiv.style.top = "";
-
-            fLocalDiv.classList.remove("mtx-moving-outer-frame");
-            fLocalDiv.classList.remove("mtx-local-moving-outer-frame");
-
-            vLocalDiv.classList.remove("mtx-moving-video-frame");
-            vLocalDiv.classList.add("mtx-video-frame");
-
-            videoDisabledImgDiv.classList.add("mtx-video-disabled-img")
-            videoDisabledImgDiv.classList.remove("mtx-moving-video-disabled-img")
-
-            videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
-            videoDisabledDiv.classList.add("mtx-video-disabled-div")
-        }
-        if (remoteId) {
-            const fRemoteDiv = document.getElementById(`f-${remoteId}`);
-            const vRemoteDiv = document.getElementById(`v-${remoteId}`);
-            const videoDisabledImgDiv = document.getElementById(`vdi-${remoteId}`)
-            const videoDisabledDiv = document.getElementById(`vd-${remoteId}`)
-
-            fRemoteDiv.style.position = "";
-            fRemoteDiv.style.left = "";
-            fRemoteDiv.style.top = "";
-
-            fRemoteDiv.classList.remove("mtx-moving-outer-frame");
-            fRemoteDiv.classList.remove("mtx-remote-moving-outer-frame");
-
-            vRemoteDiv.classList.remove("mtx-moving-video-frame");
-            vRemoteDiv.classList.add("mtx-video-frame");
-
-            videoDisabledImgDiv.classList.add("mtx-video-disabled-img")
-            videoDisabledImgDiv.classList.remove("mtx-moving-video-disabled-img")
-
-            videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
-            videoDisabledDiv.classList.add("mtx-video-disabled-div")
-
-            remoteCursorDiv.classList.add("mtx-hidden"); // hide
-        }
-
         if (meetingVariables.userRole === "admin") {
             mouse.showCursor = false;
             setToStore("MARKETRIX_MODE", mouse.showCursor)
             SOCKET.emit.modeChange({ mode: false, meetingId: meetingVariables.id })
         }
 
-        videoContainer.style.height = "80vh"
+        remoteCursorDiv.classList.add("mtx-hidden"); // hide
+
+        if (localId) mouse.cursorFrameElement(localId, true, false)
+        if (remoteId) mouse.cursorFrameElement(remoteId, false, false)
+    },
+    cursorFrameElement: (userId, isLocalUser, show) => {
+        const frameDiv = document.getElementById(`f-${userId}`);
+        const vLocalDiv = document.getElementById(`v-${userId}`);
+        const videoDisabledImgDiv = document.getElementById(`vdi-${userId}`)
+        const videoDisabledDiv = document.getElementById(`vd-${userId}`)
+
+        show ? frameDiv.style.position = "absolute" : frameDiv.style.position = ""; frameDiv.style.left = ""; frameDiv.style.top = ""
+        show ? frameDiv.classList.add("mtx-moving-outer-frame") : frameDiv.classList.remove("mtx-moving-outer-frame")
+
+        if (isLocalUser) show ? frameDiv.classList.add("mtx-local-moving-outer-frame") : frameDiv.classList.remove("mtx-local-moving-outer-frame")
+        if (!isLocalUser) show ? frameDiv.classList.add("mtx-remote-moving-outer-frame") : frameDiv.classList.remove("mtx-remote-moving-outer-frame")
+
+        show ? vLocalDiv.classList.add("mtx-moving-video-frame") : vLocalDiv.classList.remove("mtx-moving-video-frame")
+        show ? vLocalDiv.classList.remove("mtx-video-frame") : vLocalDiv.classList.add("mtx-video-frame")
+        show ? videoDisabledDiv.classList.add("mtx-moving-video-disabled-div") : videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
+        show ? videoDisabledDiv.classList.remove("mtx-video-disabled-div") : videoDisabledDiv.classList.add("mtx-video-disabled-div")
+        show ?? videoContainer.classList.remove("mtx-hidden")
+        show ? videoContainer.style.height = "0vh" : videoContainer.style.height = "80vh"
     },
     handleMouse: (event) => {
         let x = event.clientX;
@@ -214,10 +144,10 @@ const scrollPosition = () => {
 const emitScroll = () => {
     if (scrollEnded) return
     scrollEnded = true
-    console.log("scroll ended now, emit scroll")
-    scrollPosition()
+    scrollPosition() // it would be called to emit scroll when local scroll stops.
 }
 
+// prevent from emitting when remote scroll.
 setInterval(() => {
     if (scrollCount > prevScrollCount || prevScrollCount === 0) prevScrollCount = scrollCount
     else emitScroll()
@@ -225,7 +155,7 @@ setInterval(() => {
 
 scroller.onscroll = () => {
     console.log("scrolling")
-    if (!remoteScroll) scrollEnded = false
+    if (!remoteScroll) scrollEnded = false // prevent from emitting when remote scroll.
     scrollCount += 1
     pageX = this.scrollX
     pageY = this.scrollY

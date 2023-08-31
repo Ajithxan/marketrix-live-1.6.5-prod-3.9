@@ -48,12 +48,12 @@ const initiatSocketConnection = () => {
                 ipAddress: ipAddress,
                 country: "Sri lanka",
             };
-
             let visitor = { visitedTime, currentUrl, visitorDevice };
             SOCKET.emit.connectVisitor(visitor)
         }
         SOCKET.emit.getActiveAgents();
         SOCKET.on.emitActiveAgents();
+        SOCKET.on.userResopnseToVisitor();
     }
 };
 
@@ -209,8 +209,7 @@ const start = () => {
     buttonDiv.setAttribute("id", "button-div");
     contactFormDiv.setAttribute("id", "contact-form-div");
 
-    // $("#button-div").css("position", "relative")
-    buttonDiv.style.position = "relative";
+    // buttonDiv.style.position = "relative";
     document.body.prepend(contactFormDiv);
     document.body.prepend(buttonDiv);
 
@@ -399,7 +398,7 @@ const submit = async () => {
     if (!validate("mtx-form")) {
         removeFromStore("MEETING_VARIABLES") // remove meeting variables when submit new data
         meetingVariables.id = false
-        
+
         SOCKET.emit.visitorRequestMeet(visitor)
     }
 };

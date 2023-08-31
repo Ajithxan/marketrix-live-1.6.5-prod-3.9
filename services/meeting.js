@@ -333,7 +333,6 @@ const meetingObj = {
             const webCamIconElem = document.getElementById("webcam-icon");
             if (meetingObj.isWebCamOn) {
                 meetingObj.meeting?.disableWebcam();
-                // fDiv.style.display = "none";
                 webCamIconElem.classList.add("fa-solid");
                 webCamIconElem.classList.add("fa-video-slash");
                 webCamIconElem.classList.remove("fas");
@@ -345,7 +344,6 @@ const meetingObj = {
                 document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden")
             } else {
                 meetingObj.meeting?.enableWebcam();
-                // fDiv.style.display = "inline";
                 webCamIconElem.classList.remove("fa-solid");
                 webCamIconElem.classList.remove("fa-video-slash");
                 webCamIconElem.classList.add("fas");
