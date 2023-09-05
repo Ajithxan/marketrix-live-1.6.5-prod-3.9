@@ -608,5 +608,7 @@ const joinMeeting = (videoEnabled) => {
     }
     adminMeetingObj.leaveMeeting()
     adminConnects = false
-    window.location.reload()
+    document.getElementById("mtx-admin-call-div").classList.add("mtx-hidden")
+    document.getElementById("mtx-footer-controls").classList.remove("mtx-hidden")
+    checkMeetingVariables()
 }

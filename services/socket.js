@@ -39,6 +39,7 @@ const SOCKET = {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
                 // console.log("connectedUsers..........", data);
+
                 if (meetingEnded) {
                     meetingEnded = false
                     setToStore("MEETING_ENDED", meetingEnded)
@@ -51,11 +52,14 @@ const SOCKET = {
                 const index = data.findIndex(
                     (r) =>
                         r.userRole !== localUserRole && r.meetingId === meetingVariables.id
+                    // {
+                    //     if (r.cursorId === "1693893220674") console.log(r.cursor, r.cursorId)
+                    // }
                 );
                 // console.log("connected users index", index)
                 if (index >= 0) {
                     const cursor = data[index].cursor;
-                    // console.log(cursor, data[index].userRole, localUserRole);
+                    console.log(data[index]);
                     const remoteId = meetingVariables.participant.remoteId;
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
@@ -77,16 +81,19 @@ const SOCKET = {
                         fDiv.style.top = cursor.y + "px"
                         cpDiv.style.left = cursor.x + "px"
                         cpDiv.style.top = cursor.y + "px"
+                        console.log(cursor)
+                        // console.log(cursor.x, cursor.y)
+                        // console.log("fDiv =>", fDiv)
                     }
                 }
             });
         },
         userResopnseToVisitor: () => {
             socket.on("userResponseToVisitor", (data, event) => {
-                if((/false/).test(getFromStore("MEETING_ENDED"))) return
+                if ((/false/).test(getFromStore("MEETING_ENDED"))) return
                 console.log("userResponseToVisitor...", data);
                 adminMessage = data.message
-                adminName = data.liveMeet.name
+                adminName = data.userName
                 meetingEnded = false
                 setToStore("MEETING_ENDED", meetingEnded)
                 adminConnects = true
@@ -138,11 +145,12 @@ const SOCKET = {
             });
         },
         cursorPosition: (mouse, cursorId) => {
+            console.log(mouse.cursor, meetingVariables.id, cursorId)
             socket?.emit(
                 "cursorPosition",
                 mouse.cursor,
                 meetingVariables.id,
-                cursorId,
+                parseInt(cursorId),
                 (response) => {
                     // console.log("cursorPosition-send", response); // ok
                 }
@@ -183,6 +191,7 @@ const SOCKET = {
             socket.emit("modeChange", marketrixMode);
         },
         connectVisitor: (visitor) => {
+            console.log("connect visitor", visitor)
             socket.emit("connectVisitor", visitor);
         }
     },

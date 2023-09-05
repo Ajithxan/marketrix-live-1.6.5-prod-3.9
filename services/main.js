@@ -38,7 +38,7 @@ const initiateSocketConnection = () => {
                 windowHeight: window?.innerHeight,
                 windowResolution: window?.innerWidth + "x" + window?.innerHeight,
                 ipAddress: ipAddress,
-                country: "Sri lanka",
+                country: "United States",
             };
             let visitor = { visitedTime, currentUrl, visitorDevice };
             SOCKET.emit.connectVisitor(visitor)
@@ -373,7 +373,7 @@ const submit = async () => {
         locationHref: window.location.href,
         ipAddress,
         geoLocation,
-        country: 'Sri lanka'
+        country: 'United States'
     };
 
     if (!validate("mtx-form")) {
