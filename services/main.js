@@ -14,23 +14,15 @@ const setCDNLink = () => {
     }
 }
 
-const checkReady = (callback) => {
-    setTimeout(() => {
-        callback();
-    }, 500);
-};
-
-const initiatSocketConnection = () => {
+const initiateSocketConnection = () => {
     console.log("socket connection called");
     socketStarted = true
     if (cursorId) {
         socket = io.connect(socketUrl, {
             query: { appId, role: meetingVariables.userRole, cursorId },
         });
-
         if (meetingVariables.userRole === "visitor") {
             const visitedTime = new Date().getTime();
-            const currentUrl = window.location.href;
             const visitorDevice = {
                 browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
                 browserVersion:
@@ -61,7 +53,6 @@ const adminJoin = () => {
     console.log("admin join trigger", meetingVariables)
     meetingEnded = false
     setToStore("MEETING_ENDED", meetingEnded)
-    initiatSocketConnection()
     showModal()
     // hide notfication and cursor header of form
     mtxCursorHeader.classList.add("mtx-hidden")
@@ -82,13 +73,12 @@ const generateCursorId = () => {
         cursorId = Date.now()
         setToStore("CURSOR_ID", cursorId)
     }
-    console.log('cursorId', cursorId)
 }
 
 const getQuery = () => {
     if (getFromStore('MEETING_VARIABLES')) return // these data already stored
     console.log("coming inside the get query function")
-    const url = window.location.href;
+    const url = currentUrl;
     const queryString = new URL(url).searchParams.get("marketrix-meet");
 
     if (queryString != null) {
@@ -105,16 +95,16 @@ const getQuery = () => {
             meetingVariables.token = decodedObject.token;
             meetingVariables.name = decodedObject.userName;
             meetingVariables.userRole = decodedObject.userRole;
+            meetingVariables.adminToken = decodedObject.adminToken;
+            meetingVariables.inquiryId = decodedObject.inquiryId;
+            hideRemoteCursor = true
             adminJoin()
         }
     }
 };
 
-let currentUrl = window.location.href
-
 
 const checkUrlChanges = () => {
-    console.log("url changes", currentUrl, getFromStore('CURRENT_URL'))
     isUrlChanged = false
     if (getFromStore('CURRENT_URL')) {
         if (currentUrl !== getFromStore('CURRENT_URL')) {
@@ -122,15 +112,12 @@ const checkUrlChanges = () => {
             isUrlChanged = true
         }
     }
-
-    setToStore('CURRENT_URL', currentUrl) // set current url in the store
 }
 
 const visitorJoin = () => {
     console.log("visitor joined called")
-    // hide notfication and cursor header of form
 
-    if((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED")) {
+    if ((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED")) {
         showModal()
         mtxCursorHeader.classList.add("mtx-hidden")
         mtxContactFormNotificationCard.classList.add("mtx-hidden")
@@ -157,13 +144,21 @@ const visitorJoin = () => {
 
     socket?.emit("visitorJoinLive", visitor);
     SOCKET.on.connectedUser();
-    meetingObj.connect()
+    console.log("adminConnects", adminConnects)
+
+    if ((/true/).test(adminConnects)) {
+        mtxFooterControl.classList.add("mtx-hidden")
+        mtxAdminCallDiv.classList.remove("mtx-hidden")
+        videoContainer = document.getElementById("mtx-admin-video-container");
+        adminMeetingObj.connect()
+    } // admin connecting
+    else meetingObj.connect()
+
 }
 
 const checkMeetingVariables = () => {
     // localStorage.clear()
     console.log("meeting variables", getFromStore('MEETING_VARIABLES'))
-    // if meeting variables are available it means meeting is not over yet. so establishing it again
     if (getFromStore('MEETING_VARIABLES')) {
         meetingStoredVariables = JSON.parse(getFromStore('MEETING_VARIABLES'))
         meetingVariables.id = meetingStoredVariables.id
@@ -171,29 +166,18 @@ const checkMeetingVariables = () => {
         meetingVariables.participant = meetingStoredVariables.participant
         meetingVariables.token = meetingStoredVariables.token
         meetingVariables.userRole = meetingStoredVariables.userRole
+
+        if (isUrlChanged) SOCKET.emit.urlChange() // emit url changes
+
         if (meetingVariables.userRole === "admin") {
             decodedObject = JSON.parse(getFromStore("DECODED_OBJECT"))
             adminJoin()
         }
         else {
-            initiatSocketConnection()
-            if (isUrlChanged) SOCKET.emit.urlChange()
             visitorJoin()
         }
     }
 }
-
-// all watch
-const listenting = () => {
-    console.log("listening function is called")
-}
-
-// get geo location
-// navigator.geolocation.getCurrentPosition((position) => {
-//     geoLocation = position.coords
-// }, (error) => {
-//     console.log(error);
-// });
 
 // get ip address
 fetch('https://api.ipify.org/?format=json')
@@ -202,23 +186,23 @@ fetch('https://api.ipify.org/?format=json')
         ipAddress = data.ip
     });
 
-const start = () => {
-    const buttonDiv = document.createElement("div");
+const initiateSnippet = () => {
+    const parentDiv = document.createElement("div");
     const contactFormDiv = document.createElement("div");
 
-    buttonDiv.setAttribute("id", "button-div");
-    contactFormDiv.setAttribute("id", "contact-form-div");
+    parentDiv.setAttribute("id", "mtx-parent-div");
+    contactFormDiv.setAttribute("id", "mtx-contact-form-div");
 
-    // buttonDiv.style.position = "relative";
+    // parentDiv.style.position = "relative";
     document.body.prepend(contactFormDiv);
-    document.body.prepend(buttonDiv);
+    document.body.prepend(parentDiv);
 
     fetch(`${CDNlink}pages/contact-button.html`)
         .then((response) => {
             return response.text();
         })
         .then((html) => {
-            buttonDiv.innerHTML = html;
+            parentDiv.innerHTML = html;
             marketrixButton = document.getElementById("marketrix-button");
             setCDNLink()
         });
@@ -234,25 +218,26 @@ const start = () => {
             );
             mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
             mtxFormContent = document.getElementById("mtx-form-content")
+            mtxAdminCallDiv = document.getElementById("mtx-admin-call-div")
+            mtxFooterControl = document.getElementById("mtx-footer-controls")
             mtxFormCloseBtn = document.getElementById("mtx-form-close-btn")
             mtxConnectBtn = document.getElementById("mtx-btn-connect")
             mtxEndCallBtn = document.getElementById("mtx-btn-endcall")
             mtxCursorHeader = document.getElementById("mtx-cursor-header")
             overlay = document.querySelector(".mtx-overlay");
+            currentUrl = window.location.href // set current Url
             setCDNLink()
             generateCursorId() // generate cursor id
             checkUrlChanges() // this method would be called when redirecting or reloading
+            setToStore('CURRENT_URL', currentUrl) // set current url in the store
+            initiateSocketConnection() // initialize socket connection
             checkMeetingVariables() // this method would be called when redirection or reloading
-            getQuery()
-            listenting()
-            if (!getFromStore('MEETING_VARIABLES') && meetingVariables.userRole === "visitor") initiatSocketConnection()
+            getQuery() // admin get request
         });
 };
 
-// initializing this snippet in 500 ms
-checkReady(() => {
-    start();
-});
+// initializing this snippet
+initiateSnippet()
 
 document.addEventListener("keydown", function (event) {
     // Check if the "Escape" key is pressed (esc key has keycode 27)
@@ -287,10 +272,6 @@ const showModal = () => {
 
 // let visitor connect
 const connectUserToLive = (meetInfo) => {
-    console.log("meetInfo---", meetInfo);
-    console.log("socket", socket)
-    console.log("isUrlChanged", isUrlChanged)
-    if (isUrlChanged) SOCKET.emit.urlChange()
     SOCKET.emit.userJoinLive(meetInfo)
     SOCKET.on.connectedUser()
     SOCKET.on.changeScroll()

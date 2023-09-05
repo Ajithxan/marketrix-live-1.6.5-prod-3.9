@@ -4,15 +4,19 @@ const meetingObj = {
     isMicOn: true,
     isWebCamOn: false,
     connect() {
-        if ((/true/).test(getFromStore("MEETING_ENDED")) && meetingVariables.userRole === "visitor") return
+        if (
+            /true/.test(getFromStore("MEETING_ENDED")) &&
+            meetingVariables.userRole === "visitor"
+        )
+            return;
         const videoConfigDiv = document.createElement("div");
         videoConfigDiv.setAttribute("id", "video-sdk-config");
         document.body.prepend(videoConfigDiv);
-        mtxConnectBtn.classList.add("mtx-hidden")
-        mtxEndCallBtn.classList.remove("mtx-hidden")
+        mtxConnectBtn.classList.add("mtx-hidden");
+        mtxEndCallBtn.classList.remove("mtx-hidden");
 
-        meetingEnded = false
-        setToStore("MEETING_ENDED", meetingEnded)
+        meetingEnded = false;
+        setToStore("MEETING_ENDED", meetingEnded);
 
         fetch(`${CDNlink}pages/configuration.html`)
             .then((response) => {
@@ -25,10 +29,10 @@ const meetingObj = {
                     "mtx-configuration-cover"
                 );
                 gridScreenDiv = document.getElementById("mtx-grid-screen");
-                cursorLoading = document.getElementById("cursor-loading")
+                cursorLoading = document.getElementById("cursor-loading");
                 marketrixButton?.classList.add("mtx-hidden");
-                mouse.loading.show()
-                setCDNLink()
+                mouse.loading.show();
+                setCDNLink();
                 setTimeout(() => {
                     meetingObj.joinMeeting();
                 }, 1000);
@@ -64,12 +68,9 @@ const meetingObj = {
             // meeting joined event
             meetingObj.meeting.on("meeting-joined", () => {
                 gridScreenDiv?.classList.remove("mtx-hidden");
-                console.log(
-                    "decode user role",
-                    meetingVariables.userRole
-                );
+                console.log("decode user role", meetingVariables.userRole);
                 if (meetingVariables.userRole === "admin") {
-                    console.log("decode object =>", decodedObject)
+                    console.log("decode object =>", decodedObject);
                     connectUserToLive(decodedObject);
                     console.log("coming inside even its visitor");
                     const showCursorDiv = document.getElementById("show-cursor");
@@ -79,26 +80,28 @@ const meetingObj = {
 
             // meeting left event
             meetingObj.meeting.on("meeting-left", () => {
-                console.log("meeting left event called")
+                console.log("meeting left event called");
                 videoContainer.innerHTML = "";
             });
 
             meetingObj.meeting.on("participant-left", (participant) => {
-                mouse.loading.show()
-                console.log("participant left", participant)
-            })
+                mouse.loading.show();
+                console.log("participant left", participant);
+                if (meetingVariables.userRole === "admin") hideRemoteCursor = false
+            });
 
             // Remote participants Event
             // participant joined
             meetingObj.meeting.on("participant-joined", (participant) => {
-                console.log("particpant joined")
-                mouse.loading.hide()
+                console.log("particpant joined");
+                mouse.loading.hide();
                 let videoElement = meetingObj.createVideoElement(
                     participant.id,
                     participant.displayName
                 );
+
                 meetingVariables.participant.remoteId = participant.id;
-                setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
+                setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
                 let audioElement = meetingObj.createAudioElement(participant.id);
                 const remoteId = meetingVariables.participant.remoteId;
 
@@ -113,8 +116,12 @@ const meetingObj = {
                         aiDiv.classList.add("fa-microphone");
                     } else {
                         console.log("enabled video with f-remoteid");
-                        document.getElementById(`v-${remoteId}`).classList.remove("mtx-hidden")
-                        document.getElementById(`vd-${remoteId}`).classList.add("mtx-hidden")
+                        document
+                            .getElementById(`v-${remoteId}`)
+                            .classList.remove("mtx-hidden");
+                        document
+                            .getElementById(`vd-${remoteId}`)
+                            .classList.add("mtx-hidden");
                     }
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
@@ -129,14 +136,29 @@ const meetingObj = {
                         aiDiv.classList.remove("fa-solid");
                         aiDiv.classList.remove("fa-microphone");
                     } else {
-                        console.log("disable video with f-remoteid", "local user role", meetingVariables.userRole);
+                        console.log(
+                            "disable video with f-remoteid",
+                            "local user role",
+                            meetingVariables.userRole
+                        );
                         if (meetingVariables.userRole === "visitor") {
-                            console.log("coming inside the userrole of visitor when disable the video")
-                            const videoDisabledImageOfAdmin = document.getElementById(`vdi-${remoteId}`)
-                            videoDisabledImageOfAdmin.setAttribute("src", `${CDNlink}assets/images/profile.png`) // set admin profile here
+                            console.log(
+                                "coming inside the userrole of visitor when disable the video"
+                            );
+                            const videoDisabledImageOfAdmin = document.getElementById(
+                                `vdi-${remoteId}`
+                            );
+                            videoDisabledImageOfAdmin.setAttribute(
+                                "src",
+                                `${CDNlink}assets/images/profile.png`
+                            ); // set admin profile here
                         }
-                        document.getElementById(`v-${remoteId}`).classList.add("mtx-hidden")
-                        document.getElementById(`vd-${remoteId}`).classList.remove("mtx-hidden")
+                        document
+                            .getElementById(`v-${remoteId}`)
+                            .classList.add("mtx-hidden");
+                        document
+                            .getElementById(`vd-${remoteId}`)
+                            .classList.remove("mtx-hidden");
                     }
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
@@ -154,18 +176,19 @@ const meetingObj = {
                 cursorPointerDiv.setAttribute("id", `cp-${participant.id}`); // remote id
                 cursorPointerDiv.appendChild(cursorPointer);
 
-                videoContainer.append(cursorPointerDiv);
-                videoContainer.append(videoElement);
-                videoContainer.append(audioElement);
-
-                console.log("meeting connect", mouse.showCursor)
-                if ((/true/).test(mouse.showCursor) || (/null/).test(mouse.showCursor)) mouse.show()
-                else {
-                    mouse.hide()
-                    videoContainer.classList.remove("mtx-hidden")
-                    videoContainer.style.height = "0vh"
+                if ((/false/).test(hideRemoteCursor)) {
+                    videoContainer.append(cursorPointerDiv);
+                    videoContainer.append(videoElement);
+                    videoContainer.append(audioElement);
                 }
 
+                if (/true/.test(mouse.showCursor) || /null/.test(mouse.showCursor))
+                    mouse.show();
+                else {
+                    mouse.hide();
+                    videoContainer.classList.remove("mtx-hidden");
+                    videoContainer.style.height = "0vh";
+                }
             });
 
             // participants left
@@ -186,7 +209,7 @@ const meetingObj = {
         );
         meetingVariables.participant.localId =
             meetingObj.meeting.localParticipant.id;
-        setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
+        setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
         let localAudioElement = meetingObj.createAudioElement(
             meetingObj.meeting.localParticipant.id
         );
@@ -235,20 +258,23 @@ const meetingObj = {
         videoElement.setAttribute("playsinline", true);
 
         // video disabled
-        let videoDisabledDiv = document.createElement("div")
-        videoDisabledDiv.classList.add("mtx-hidden")
-        videoDisabledDiv.setAttribute("id", `vd-${pId}`)
+        let videoDisabledDiv = document.createElement("div");
+        videoDisabledDiv.classList.add("mtx-hidden");
+        videoDisabledDiv.setAttribute("id", `vd-${pId}`);
 
         // video disabled image
-        videoDisabledImg = document.createElement("img")
-        videoDisabledImg.classList.add("mtx-video-disabled-img")
-        videoDisabledImg.setAttribute("id", `vdi-${pId}`)
-        videoDisabledImg.setAttribute("src", `${CDNlink}assets/images/cam-user.png`)
+        videoDisabledImg = document.createElement("img");
+        videoDisabledImg.classList.add("mtx-video-disabled-img");
+        videoDisabledImg.setAttribute("id", `vdi-${pId}`);
+        videoDisabledImg.setAttribute(
+            "src",
+            `${CDNlink}assets/images/cam-user.png`
+        );
 
-        videoDisabledDiv.appendChild(videoDisabledImg)
+        videoDisabledDiv.appendChild(videoDisabledImg);
 
-        videoFrame.appendChild(videoElement)
-        videoFrame.appendChild(videoDisabledDiv)
+        videoFrame.appendChild(videoElement);
+        videoFrame.appendChild(videoDisabledDiv);
 
         let displayName = document.createElement("div");
         displayName.classList.add("user-names");
@@ -280,17 +306,17 @@ const meetingObj = {
     },
 
     leaveMeeting: () => {
+        console.log("LEAVE________", meetingVariables);
         if (meetingVariables.userRole === "admin") {
-            SOCKET.emit.endMeeting()
-            setTimeout(() => {
-                window.close()
-            }, 1000)
+            SOCKET.emit.endMeeting();
+            meetingObj.endMeetingApiCall();
         }
         // sessionStorage.clear()
-        meetingEnded = true
-        setToStore("MEETING_ENDED", meetingEnded)
-        meetingObj.meeting?.end()
-        if (meetingVariables.userRole === "visitor") window.location.reload()
+        meetingEnded = true;
+        meetingVariables.id = false
+        setToStore("MEETING_ENDED", meetingEnded);
+        meetingObj.meeting?.end();
+        if (meetingVariables.userRole === "visitor") window.location.reload();
     },
 
     toggle: {
@@ -298,7 +324,7 @@ const meetingObj = {
             const localId = meetingVariables.participant.localId;
             const micIconElem = document.getElementById("mic-icon");
             const aiDiv = document.getElementById(`ai-${localId}`);
-            console.log("meetingObj mic", meetingObj.isMicOn)
+            console.log("meetingObj mic", meetingObj.isMicOn);
             if (meetingObj.isMicOn) {
                 // Disable Mic in Meeting
                 meetingObj.meeting?.muteMic();
@@ -328,31 +354,259 @@ const meetingObj = {
         },
 
         webCam: () => {
-            const localId = meetingVariables.participant.localId
+            const localId = meetingVariables.participant.localId;
             const fDiv = document.getElementById(`f-${localId}`);
             const webCamIconElem = document.getElementById("webcam-icon");
             if (meetingObj.isWebCamOn) {
                 meetingObj.meeting?.disableWebcam();
+                // fDiv.style.display = "none";
                 webCamIconElem.classList.add("fa-solid");
                 webCamIconElem.classList.add("fa-video-slash");
                 webCamIconElem.classList.remove("fas");
                 webCamIconElem.classList.remove("fa-video");
-                console.log("disabled video with f-localuserid")
-                const videoDisabledImageOfAdmin = document.getElementById(`vdi-${localId}`)
-                if (meetingVariables.userRole === "admin") videoDisabledImageOfAdmin.setAttribute("src", `${CDNlink}assets/images/profile.png`) // set admin profile image here
-                document.getElementById(`v-${localId}`).classList.add("mtx-hidden")
-                document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden")
+                console.log("disabled video with f-localuserid");
+                const videoDisabledImageOfAdmin = document.getElementById(
+                    `vdi-${localId}`
+                );
+                if (meetingVariables.userRole === "admin")
+                    videoDisabledImageOfAdmin.setAttribute(
+                        "src",
+                        `${CDNlink}assets/images/profile.png`
+                    ); // set admin profile image here
+                document.getElementById(`v-${localId}`).classList.add("mtx-hidden");
+                document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden");
             } else {
                 meetingObj.meeting?.enableWebcam();
+                // fDiv.style.display = "inline";
                 webCamIconElem.classList.remove("fa-solid");
                 webCamIconElem.classList.remove("fa-video-slash");
                 webCamIconElem.classList.add("fas");
                 webCamIconElem.classList.add("fa-video");
-                console.log("enabled video with f-localuserid")
-                document.getElementById(`v-${localId}`).classList.remove("mtx-hidden")
-                document.getElementById(`vd-${localId}`).classList.add("mtx-hidden")
+                console.log("enabled video with f-localuserid");
+                document.getElementById(`v-${localId}`).classList.remove("mtx-hidden");
+                document.getElementById(`vd-${localId}`).classList.add("mtx-hidden");
             }
             meetingObj.isWebCamOn = !meetingObj.isWebCamOn;
         },
     },
+
+    endMeetingApiCall: () => {
+        console.log("API CALL");
+        const adminToken = meetingVariables.adminToken;
+        const inquiryId = meetingVariables.inquiryId;
+
+        const requestOptions = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${adminToken}`,
+            },
+        };
+        fetch(
+            `${serverBaseUrl}meet-live/inquiries/end_session/${inquiryId}`,
+            requestOptions
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("END CALL", data);
+                setTimeout(() => {
+                    window.close();
+                }, 1000);
+            });
+    },
 };
+
+const adminMeetingObj = {
+    meeting: null,
+    isMicOn: true,
+    isWebCamOn: false,
+    connect() {
+        setTimeout(() => {
+            adminMeetingObj.joinMeeting();
+        }, 1000);
+    },
+
+    initializeMeeting: () => {
+        if (meetingVariables.token) {
+            window.VideoSDK.config(meetingVariables.token);
+
+            adminMeetingObj.meeting = window.VideoSDK.initMeeting({
+                meetingId: meetingVariables.id, // required
+                name: meetingVariables.name, // required
+                micEnabled: true, // optional, default: true
+                webcamEnabled: true, // optional, default: true
+            });
+
+            adminMeetingObj.meeting.join();
+
+            // Creating local participant
+            // adminMeetingObj.createLocalParticipant();
+
+            // Setting local participant stream
+            adminMeetingObj.meeting.localParticipant.on("stream-enabled", (stream) => {
+                adminMeetingObj.setTrack(
+                    stream,
+                    null,
+                    meetingObj.meeting.localParticipant,
+                    true
+                );
+            });
+
+            // meeting joined event
+            adminMeetingObj.meeting.on("meeting-joined", () => {
+                document.getElementById("grid-screen").style.display = "block";
+            });
+
+            // meeting left event
+            adminMeetingObj.meeting.on("meeting-left", () => {
+                console.log("meeting left event called")
+                videoContainer.innerHTML = "";
+            });
+
+            adminMeetingObj.meeting.on("participant-left", (participant) => {
+                // mouse.loading.show()
+                console.log("participant left", participant)
+            })
+
+            // remote participant joined
+            adminMeetingObj.meeting.on("participant-joined", (participant) => {
+                console.log("particpant joined")
+                // mouse.loading.hide()
+                let videoElement = adminMeetingObj.createVideoElement(
+                    participant.id,
+                    participant.displayName
+                );
+
+                meetingVariables.participant.remoteId = participant.id;
+                setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
+                let audioElement = adminMeetingObj.createAudioElement(participant.id);
+                const remoteId = meetingVariables.participant.remoteId;
+
+                // stream-enabled
+                participant.on("stream-enabled", (stream) => {
+                    adminMeetingObj.setTrack(stream, audioElement, participant, false);
+                });
+
+                participant.on("stream-disabled", (stream) => {
+                    adminMeetingObj.setTrack(stream, audioElement, participant, false);
+                });
+
+                // creaste cursor pointer
+                const message = `Hi there!, I'm ${adminName}. ${adminMessage}`
+                document.getElementById("admin-message").innerText = message
+                videoContainer.append(videoElement);
+            });
+
+            // participants left
+            adminMeetingObj.meeting.on("participant-left", (participant) => {
+                let vElement = document.getElementById(`f-${participant.id}`);
+                vElement.remove(vElement);
+
+                let aElement = document.getElementById(`a-${participant.id}`);
+                aElement.remove(aElement);
+            });
+        }
+    },
+
+    createLocalParticipant: () => {
+        let localParticipant = adminMeetingObj.createVideoElement(
+            adminMeetingObj.meeting.localParticipant.id,
+            adminMeetingObj.meeting.localParticipant.displayName
+        );
+        meetingVariables.participant.localId =
+            adminMeetingObj.meeting.localParticipant.id;
+        setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
+        let localAudioElement = adminMeetingObj.createAudioElement(
+            adminMeetingObj.meeting.localParticipant.id
+        );
+        videoContainer.append(localParticipant);
+        videoContainer.append(localAudioElement);
+        console.log("local participant video", localParticipant, mouse)
+        // meetingObj.meeting?.muteMic();
+
+    },
+
+    setTrack: (stream, audioElement, participant, isLocal) => {
+        console.log(isLocal, stream, audioElement, participant);
+        if (stream.kind == "video") {
+            meetingObj.isWebCamOn = true;
+            const mediaStream = new MediaStream();
+            mediaStream.addTrack(stream.track);
+            let videoElm = document.getElementById(`v-${participant.id}`);
+            videoElm.srcObject = mediaStream;
+            videoElm
+                .play()
+                .catch((error) =>
+                    console.error("videoElem.current.play() failed", error)
+                );
+        }
+        if (stream.kind == "audio") {
+            if (isLocal) {
+                isMicOn = true;
+            } else {
+                const mediaStream = new MediaStream();
+                mediaStream.addTrack(stream.track);
+                audioElement.srcObject = mediaStream;
+                audioElement
+                    .play()
+                    .catch((error) => console.error("audioElem.play() failed", error));
+            }
+        }
+    },
+
+    createVideoElement: (pId, name) => {
+        let videoFrame = document.createElement("div");
+        videoFrame.setAttribute("id", `f-${pId}`);
+        videoFrame.classList.add("mtx-admin-video-frame")
+
+        //create video
+        let videoElement = document.createElement("video");
+        videoElement.classList.add("mtx-moving-video-frame");
+        videoElement.setAttribute("id", `v-${pId}`);
+        videoElement.setAttribute("playsinline", true);
+
+        let cursorPointerDiv = document.createElement("div");
+        cursorPointerDiv.classList.add("mtx-admin-frame-pointer")
+        let cursorPointer = document.createElement("img");
+        cursorPointer.setAttribute(
+            "src",
+            `${CDNlink}/assets/images/pointer.png`
+        );
+        cursorPointerDiv.append(cursorPointer)
+
+        videoFrame.appendChild(cursorPointerDiv);
+        videoFrame.appendChild(videoElement);
+        return videoFrame;
+    },
+
+    createAudioElement: (pId) => {
+        let audioElement = document.createElement("audio");
+        audioElement.setAttribute("autoPlay", "false");
+        audioElement.setAttribute("playsInline", "true");
+        audioElement.setAttribute("controls", "false");
+        audioElement.setAttribute("id", `a-${pId}`);
+        audioElement.style.display = "none";
+        return audioElement;
+    },
+
+    joinMeeting: () => {
+        adminMeetingObj.initializeMeeting();
+    },
+
+    leaveMeeting: () => {
+        adminMeetingObj.meeting.leave()
+        meetingVariables.id = false
+        videoContainer.remove()
+    },
+};
+
+const joinMeeting = (videoEnabled) => {
+    if ((/true/).test(videoEnabled)) {
+        setToStore("VIDEO_ENABLED", true)
+    } else {
+        setToStore("VIDEO_ENABLED", false)
+    }
+    adminMeetingObj.leaveMeeting()
+    adminConnects = false
+    window.location.reload()
+}

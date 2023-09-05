@@ -5,15 +5,16 @@ const mouse = {
         y: "",
         windowWidth: "",
         windowHeight: "",
-        // showCursor: false,
     },
     showCursor: true,
     startMove: () => {
         document.onmousemove = mouse.handleMouse;
     },
-    show: () => {
+    show: (localCursor = false) => {
+        if ((/true/).test(adminConnects) && meetingVariables.userRole === "visitor") return
         console.log("mouse show is called, show cursor is", mouse.showCursor)
         const localId = meetingVariables.participant.localId;
+        console.log("localId", localId)
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
         const mtxModeBtn = document.getElementById("marketrix-mode-btn")
@@ -31,12 +32,12 @@ const mouse = {
         } // admin make the cursor movement on both side
         mouse.startMove();
 
-        remoteCursorDiv.classList.remove("mtx-hidden"); // show
+        if (remoteCursorDiv) remoteCursorDiv.classList.remove("mtx-hidden"); // show
 
         if (localId) mouse.cursorFrameElement(localId, true, true)
-        if (remoteId) mouse.cursorFrameElement(remoteId, false, true)
+        if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, true)
     },
-    hide: () => {
+    hide: (localCursor = false) => {
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
         const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
@@ -56,13 +57,16 @@ const mouse = {
         remoteCursorDiv.classList.add("mtx-hidden"); // hide
 
         if (localId) mouse.cursorFrameElement(localId, true, false)
-        if (remoteId) mouse.cursorFrameElement(remoteId, false, false)
+        if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, false)
     },
     cursorFrameElement: (userId, isLocalUser, show) => {
+        console.log("cursorFrameElement", userId, isLocalUser, show)
         const frameDiv = document.getElementById(`f-${userId}`);
         const vLocalDiv = document.getElementById(`v-${userId}`);
         const videoDisabledImgDiv = document.getElementById(`vdi-${userId}`)
         const videoDisabledDiv = document.getElementById(`vd-${userId}`)
+
+        console.log("frame-div", frameDiv)
 
         show ? frameDiv.style.position = "absolute" : frameDiv.style.position = ""; frameDiv.style.left = ""; frameDiv.style.top = ""
         show ? frameDiv.classList.add("mtx-moving-outer-frame") : frameDiv.classList.remove("mtx-moving-outer-frame")
@@ -107,6 +111,7 @@ const mouse = {
     },
     loading: {
         show: () => {
+            console.log("mouse loading is called")
             meetingObj.showCursor = false
             videoContainer.classList.add("mtx-hidden")
             mouse.startMove()

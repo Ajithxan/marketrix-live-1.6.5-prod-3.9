@@ -7,6 +7,7 @@ console.log("store.js is established #2")
 // CURSOR_ID
 // MARKETRIX_MODE
 // MEETING_ENDED
+// VIDEO_ENDABLED
 
 const setToStore = (key, value) => {
     sessionStorage.setItem(key, value)

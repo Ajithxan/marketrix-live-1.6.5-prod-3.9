@@ -38,8 +38,8 @@ const SOCKET = {
         connectedUser: () => {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
-                console.log("connectedUsers..........", data);
-                if(meetingEnded) {
+                // console.log("connectedUsers..........", data);
+                if (meetingEnded) {
                     meetingEnded = false
                     setToStore("MEETING_ENDED", meetingEnded)
                     visitorJoin()
@@ -83,10 +83,15 @@ const SOCKET = {
         },
         userResopnseToVisitor: () => {
             socket.on("userResponseToVisitor", (data, event) => {
+                if((/false/).test(getFromStore("MEETING_ENDED"))) return
                 console.log("userResponseToVisitor...", data);
+                adminMessage = data.message
+                adminName = data.liveMeet.name
                 meetingEnded = false
                 setToStore("MEETING_ENDED", meetingEnded)
-                if (meetingVariables.id) return; // already joined the meeting
+                adminConnects = true
+                console.log("meetingId", meetingVariables.id)
+                // if (meetingVariables.id) return; // already joined the meeting
                 meetingVariables.id = data.meetingId;
                 meetingVariables.token = data.token;
                 meetingVariables.name = data.liveMeet.name;

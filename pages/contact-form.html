@@ -37,7 +37,7 @@
                                         <div class="mtx-form-group">
                                             <div class="title-one">We are here to support you!</div>
                                             <p class="title-two">Inorder to get started, we'd like to collect some
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  information.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  information.
                                             </p>
                                         </div>
                                     </div>
@@ -50,31 +50,55 @@
                                         <input name="email" type="text" class="mtx-form-control " placeholder="Work email"/>
                                     </div>
                                     <!-- <div class="mtx-form-group">
-                                                                            <select name="inquiry_type" class="mtx-form-control" aria-label="Default select example">
-                                                                                <option class="mtx-option-selected" selected="selected">
-                                                                                    Select a Inquiry Type
-                                                                                </option>
-                                                                                <option value="Account">Account</option>
-                                                                                <option value="Billing">Billing</option>
-                                                                                <option value="Refunds">Refunds</option>
-                                                                                <option value="General">General</option>
-                                                                                <option value="Feature">Feature</option>
-                                                                                <option value="Integration">Integration</option>
-                                                                                <option value="Product">Product</option>
-                                                                                <option value="Technical">Technical</option>
-                                                                            </select>
-                                                                        </div> -->
+                                                                                                                                                                                        <select name="inquiry_type" class="mtx-form-control" aria-label="Default select example">
+                                                                                                                                                                                            <option class="mtx-option-selected" selected="selected">
+                                                                                                                                                                                                Select a Inquiry Type
+                                                                                                                                                                                            </option>
+                                                                                                                                                                                            <option value="Account">Account</option>
+                                                                                                                                                                                            <option value="Billing">Billing</option>
+                                                                                                                                                                                            <option value="Refunds">Refunds</option>
+                                                                                                                                                                                            <option value="General">General</option>
+                                                                                                                                                                                            <option value="Feature">Feature</option>
+                                                                                                                                                                                            <option value="Integration">Integration</option>
+                                                                                                                                                                                            <option value="Product">Product</option>
+                                                                                                                                                                                            <option value="Technical">Technical</option>
+                                                                                                                                                                                        </select>
+                                                                                                                                                                                    </div> -->
 
                                     <!-- <div class="mtx-form-group">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <input name="phone_no" type="text" class="mtx-form-control " placeholder="Phone Number" />
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <input name="phone_no" type="text" class="mtx-form-control " placeholder="Phone Number" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
 
                                     <div class="mtx-form-group">
                                         <textarea rows="2" type="text" class="mtx-form-control shadow-lg" name="message" placeholder="Tell us how we can help you?"></textarea>
                                     </div>
                                 </form>
                             </div>
-                            <div class="mtx-main-footer">
+                            <div id="mtx-admin-call-div" class="mtx-hidden">
+                                <div id="grid-screen" style="display: none">
+                                    <div id="mtx-admin-video-container"></div>
+                                </div>
+                                <div class="mtx-admin-call-text"> <span id="admin-message">Loading...</span></div>
+                                <div class="mtx-main-footer">
+                                    <div class="mtx-admin-call-footer">
+                                        <div class="mtx-footer-actions">
+                                            <div type="button" class="mtx-join-with-video-btn" onclick="joinMeeting(true)">
+                                                <span >
+                                                    <i id="webcam-icon" class="fas fa-video"></i>
+                                                    Join with video
+                                                </span>
+                                            </div>
+                                            <div type="button" class="mtx-join-with-audio-btn" onclick="joinMeeting(false)">
+                                                <span>
+                                                    <i class="fa fa-headphones" aria-hidden="true"></i>
+                                                    Join with audio
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mtx-footer-controls" class="mtx-main-footer">
                                 <div class="mtx-connect-footer">
                                     <div class="mtx-footer-actions">
                                         <div type="button" class="mtx-btn-background " onclick="meetingObj.toggle.mic()">
