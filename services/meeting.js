@@ -492,8 +492,18 @@ const adminMeetingObj = {
                 });
 
                 // creaste cursor pointer
-                const message = `Hi there!, I'm ${adminName}. ${adminMessage}`
-                document.getElementById("admin-message").innerText = message
+                let cursorPointerDiv = document.createElement("div");
+                cursorPointerDiv.classList.add("mtx-admin-frame-pointer")
+                let cursorPointer = document.createElement("img");
+                cursorPointer.setAttribute(
+                    "src",
+                    `${CDNlink}/assets/images/pointer.png`
+                );
+                cursorPointerDiv.append(cursorPointer)
+                const agentMsg = `<div class='agent-msg'>${adminName} is trying to connect with you.</div>`
+                const customMsg = `${agentMsg} <div class='custom-msg'>Hi there!, ${adminMessage}</div>`
+                document.getElementById("admin-message").innerHTML = customMsg
+                videoContainer.append(cursorPointerDiv);
                 videoContainer.append(videoElement);
             });
 
@@ -559,22 +569,14 @@ const adminMeetingObj = {
         videoFrame.setAttribute("id", `f-${pId}`);
         videoFrame.classList.add("mtx-admin-video-frame")
 
+        // set background image
+        videoFrame.style.backgroundImage = `url("${CDNlink}/assets/images/spinner-i.gif")`
+
         //create video
         let videoElement = document.createElement("video");
         videoElement.classList.add("mtx-moving-video-frame");
         videoElement.setAttribute("id", `v-${pId}`);
         videoElement.setAttribute("playsinline", true);
-
-        let cursorPointerDiv = document.createElement("div");
-        cursorPointerDiv.classList.add("mtx-admin-frame-pointer")
-        let cursorPointer = document.createElement("img");
-        cursorPointer.setAttribute(
-            "src",
-            `${CDNlink}/assets/images/pointer.png`
-        );
-        cursorPointerDiv.append(cursorPointer)
-
-        videoFrame.appendChild(cursorPointerDiv);
         videoFrame.appendChild(videoElement);
         return videoFrame;
     },

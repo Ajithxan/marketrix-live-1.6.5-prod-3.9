@@ -313,7 +313,7 @@
 }
 .mtx-join-with-video-btn{
     width: 60%;
-    background: #7e42cb;
+    background: center center / cover rgb(127, 86, 217);
     border-radius: 100px;
     display: flex;
     justify-content: center;
@@ -323,7 +323,7 @@
 }
 .mtx-join-with-audio-btn{
     width: 60%;
-    background:  #bfbec0;
+    background:  #bfbec040;
     border-radius: 100px;
     display: flex;
     justify-content: center;
@@ -417,6 +417,14 @@
     border: 5px solid #7e42cb;
     margin-bottom: 17px;
     margin-top: 21px;
+    background-position: center;
+}
+.agent-msg{
+    font-size: 13px;
+    margin-bottom: 11px;
+}
+.custom-msg{
+    margin-bottom: 11px;
 }
 .mtx-admin-frame-pointer{
     position: absolute;
