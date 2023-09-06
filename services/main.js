@@ -147,8 +147,6 @@ const visitorJoin = () => {
     console.log("adminConnects", adminConnects)
 
     if ((/true/).test(adminConnects)) {
-        // mtxFooterControl.classList.add("mtx-hidden")
-        // mtxAdminCallDiv.classList.remove("mtx-hidden")
         closeModal()
         videoContainer = document.getElementById("mtx-admin-video-container");
         adminMeetingObj.connect()
@@ -270,7 +268,8 @@ const showModal = () => {
         field.classList.remove("mtx-form-control-error")
     })
 
-    if ((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED")) {
+    if (!(/null/).test(getFromStore("MEETING_ENDED")) && ((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED"))) {
+        console.log("coming here", getFromStore("MEETING_ENDED"))
         mtxCursorHeader.classList.add("mtx-hidden")
         mtxContactFormNotificationCard.classList.add("mtx-hidden")
         mtxFormContent.classList.add("mtx-hidden")

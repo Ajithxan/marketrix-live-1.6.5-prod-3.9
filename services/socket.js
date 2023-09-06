@@ -38,7 +38,7 @@ const SOCKET = {
         connectedUser: () => {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
-                // console.log("connectedUsers..........", data);
+                console.log("connectedUsers..........", data);
 
                 if (meetingEnded) {
                     meetingEnded = false

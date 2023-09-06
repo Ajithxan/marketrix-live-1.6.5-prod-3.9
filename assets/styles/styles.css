@@ -292,6 +292,7 @@
     background: #f2f4f7;
     border: 1px solid #d0d5dd;
     transition: all 0.5s ease-out;
+    cursor: pointer;
 } 
 .mtx-btn-connect {
     width: 60%;
@@ -310,6 +311,7 @@
     justify-content: center;
     align-items: center;
     color: red;
+    cursor: pointer;
 }
 .mtx-join-with-video-btn{
     width: 60%;
@@ -320,6 +322,7 @@
     align-items: center;
     color: white;
     padding: 11px;
+    cursor: pointer;
 }
 .mtx-join-with-audio-btn{
     width: 60%;
@@ -339,6 +342,7 @@
     border: 1px solid #d0d5dd;
     transition: all 0.5s ease-out;
     color: black;
+    cursor: pointer;
 }
 
 .mtx-btn-connect span {
@@ -421,11 +425,14 @@
     background-size: cover;
 }
 .agent-msg{
-    font-size: 13px;
-    margin-bottom: 11px;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
 }
 .custom-msg{
-    margin-bottom: 11px;
+    margin-bottom: 20px;
+    font-size: 20px;
 }
 .mtx-admin-frame-pointer{
     position: absolute;
