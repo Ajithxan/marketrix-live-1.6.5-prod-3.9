@@ -418,6 +418,7 @@
     margin-bottom: 17px;
     margin-top: 21px;
     background-position: center;
+    background-size: cover;
 }
 .agent-msg{
     font-size: 13px;

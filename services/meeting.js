@@ -505,6 +505,13 @@ const adminMeetingObj = {
                 document.getElementById("admin-message").innerHTML = customMsg
                 videoContainer.append(cursorPointerDiv);
                 videoContainer.append(videoElement);
+                showModal()
+                mtxCursorHeader.classList.add("mtx-hidden")
+                mtxContactFormNotificationCard.classList.add("mtx-hidden")
+                mtxFormContent.classList.add("mtx-hidden")
+                mtxFormCloseBtn.classList.add("mtx-hidden")
+                mtxFooterControl.classList.add("mtx-hidden")
+                mtxAdminCallDiv.classList.remove("mtx-hidden")
             });
 
             // participants left
@@ -570,7 +577,7 @@ const adminMeetingObj = {
         videoFrame.classList.add("mtx-admin-video-frame")
 
         // set background image
-        videoFrame.style.backgroundImage = `url("${CDNlink}/assets/images/spinner-i.gif")`
+        videoFrame.style.backgroundImage = `url("${CDNlink}/assets/images/animation.gif")`
 
         //create video
         let videoElement = document.createElement("video");
