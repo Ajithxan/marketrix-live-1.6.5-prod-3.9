@@ -21,6 +21,8 @@ const initiateSocketConnection = () => {
         socket = io.connect(socketUrl, {
             query: { appId, role: meetingVariables.userRole, cursorId },
         });
+        console.log("meetingVariables", meetingVariables)
+        console.log(meetingVariables.userRole)
         if (meetingVariables.userRole === "visitor") {
             const visitedTime = new Date().getTime();
             const visitorDevice = {
@@ -72,6 +74,21 @@ const generateCursorId = () => {
     else {
         cursorId = Date.now()
         setToStore("CURSOR_ID", cursorId)
+    }
+}
+
+const setUserRole = () => {
+    const url = currentUrl
+    const queryString = new URL(url).searchParams.get("marketrix-meet");
+    if (queryString != null) {
+        const decodedString = decodeURIComponent(queryString);
+        decodedObject = JSON.parse(decodedString);
+        meetingVariables.userRole = decodedObject.userRole
+    }
+
+    if (getFromStore('MEETING_VARIABLES')){
+        meetingStoredVariables = JSON.parse(getFromStore('MEETING_VARIABLES'))
+        meetingVariables.userRole = meetingStoredVariables.userRole
     }
 }
 
@@ -229,6 +246,7 @@ const initiateSnippet = () => {
             generateCursorId() // generate cursor id
             checkUrlChanges() // this method would be called when redirecting or reloading
             setToStore('CURRENT_URL', currentUrl) // set current url in the store
+            setUserRole() // set user role
             initiateSocketConnection() // initialize socket connection
             checkMeetingVariables() // this method would be called when redirection or reloading
             getQuery() // admin get request

@@ -38,7 +38,7 @@ const SOCKET = {
         connectedUser: () => {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
-                console.log("connectedUsers..........", data);
+                // console.log("connectedUsers..........", data);
 
                 if (meetingEnded) {
                     meetingEnded = false
@@ -59,7 +59,7 @@ const SOCKET = {
                 // console.log("connected users index", index)
                 if (index >= 0) {
                     const cursor = data[index].cursor;
-                    console.log(data[index]);
+                    // console.log(data[index]);
                     const remoteId = meetingVariables.participant.remoteId;
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
@@ -81,7 +81,7 @@ const SOCKET = {
                         fDiv.style.top = cursor.y + "px"
                         cpDiv.style.left = cursor.x + "px"
                         cpDiv.style.top = cursor.y + "px"
-                        console.log(cursor)
+                        // console.log(cursor)
                         // console.log(cursor.x, cursor.y)
                         // console.log("fDiv =>", fDiv)
                     }
@@ -145,7 +145,7 @@ const SOCKET = {
             });
         },
         cursorPosition: (mouse, cursorId) => {
-            console.log(mouse.cursor, meetingVariables.id, cursorId)
+            // console.log(mouse.cursor, meetingVariables.id, cursorId)
             socket?.emit(
                 "cursorPosition",
                 mouse.cursor,

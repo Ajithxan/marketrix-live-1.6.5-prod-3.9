@@ -11,7 +11,10 @@ const mouse = {
         document.onmousemove = mouse.handleMouse;
     },
     show: (localCursor = false) => {
-        if ((/true/).test(adminConnects) && meetingVariables.userRole === "visitor") return
+        if ((/true/).test(adminConnects) && meetingVariables.userRole === "visitor") {
+            console.log("coming inside the mouse show")
+            return
+        }
         console.log("mouse show is called, show cursor is", mouse.showCursor)
         const localId = meetingVariables.participant.localId;
         console.log("localId", localId)
