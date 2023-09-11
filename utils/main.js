@@ -165,7 +165,7 @@ const visitorJoin = () => {
 
     if ((/true/).test(adminConnects)) {
         closeModal()
-        videoContainer = document.getElementById("mtx-admin-video-container");
+        adminVidoeContainer = document.getElementById("mtx-admin-video-container");
         adminMeetingObj.connect()
     } // admin connecting
     else meetingObj.connect()
@@ -209,7 +209,6 @@ const initiateSnippet = () => {
     parentDiv.setAttribute("id", "mtx-parent-div");
     contactFormDiv.setAttribute("id", "mtx-contact-form-div");
 
-    // parentDiv.style.position = "relative";
     document.body.prepend(contactFormDiv);
     document.body.prepend(parentDiv);
 

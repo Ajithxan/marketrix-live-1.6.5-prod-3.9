@@ -39,9 +39,12 @@ const SOCKET = {
             mouse.showCursor = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
                 // console.log("connectedUsers..........", data);
+                console.log("meetingEnded", meetingEnded)
 
-                if (meetingEnded) {
+                if ((/true/).test(meetingEnded)) {
+                    console.log("coming inside")
                     meetingEnded = false
+                    adminConnects = true
                     setToStore("MEETING_ENDED", meetingEnded)
                     visitorJoin()
                 }
@@ -50,17 +53,21 @@ const SOCKET = {
                 // console.log("local user role", localUserRole);
                 // console.log("meeting id", meetingVariables.id)
                 const index = data.findIndex(
-                    (r) =>
-                        r.userRole !== localUserRole && r.meetingId === meetingVariables.id
+                    (d) =>
+                        d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.x
                     // {
-                    //     if (r.cursorId === "1693893220674") console.log(r.cursor, r.cursorId)
+                    //     if (d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.x) {
+                    //         console.log(d)
+                    //         return
+                    //     }
                     // }
                 );
                 // console.log("connected users index", index)
                 if (index >= 0) {
                     const cursor = data[index].cursor;
-                    // console.log(data[index]);
+                    // console.log(cursor);
                     const remoteId = meetingVariables.participant.remoteId;
+                    console.log("remoteId", remoteId)
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
                     if (remoteId && /true/.test(mouse.showCursor)) {

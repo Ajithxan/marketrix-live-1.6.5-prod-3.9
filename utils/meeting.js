@@ -150,7 +150,7 @@ const meetingObj = {
                             );
                             videoDisabledImageOfAdmin.setAttribute(
                                 "src",
-                                `${CDNlink}assets/images/profile.png`
+                                adminVideoDisabledImage
                             ); // set admin profile here
                         }
                         document
@@ -168,7 +168,7 @@ const meetingObj = {
                 let cursorPointer = document.createElement("img");
                 cursorPointer.setAttribute(
                     "src",
-                    `${CDNlink}/assets/images/pointer.png`
+                    cursorPointerImage
                 );
                 cursorPointer.classList.add("mtx-remote-cursor");
                 cursorPointerDiv.classList.add("mtx-remote-cursor-png-div");
@@ -187,7 +187,7 @@ const meetingObj = {
                 else {
                     mouse.hide();
                     videoContainer.classList.remove("mtx-hidden");
-                    videoContainer.style.height = "0vh";
+                    videoContainer.classList.add("mtx-mode-video-container")
                 }
             });
 
@@ -263,15 +263,15 @@ const meetingObj = {
         videoDisabledDiv.setAttribute("id", `vd-${pId}`);
 
         // video disabled image
-        videoDisabledImg = document.createElement("img");
-        videoDisabledImg.classList.add("mtx-video-disabled-img");
-        videoDisabledImg.setAttribute("id", `vdi-${pId}`);
-        videoDisabledImg.setAttribute(
+        videoDisabledImgElement = document.createElement("img");
+        videoDisabledImgElement.classList.add("mtx-video-disabled-img");
+        videoDisabledImgElement.setAttribute("id", `vdi-${pId}`);
+        videoDisabledImgElement.setAttribute(
             "src",
-            `${CDNlink}assets/images/cam-user.png`
+            videoDisabledImage
         );
 
-        videoDisabledDiv.appendChild(videoDisabledImg);
+        videoDisabledDiv.appendChild(videoDisabledImgElement);
 
         videoFrame.appendChild(videoElement);
         videoFrame.appendChild(videoDisabledDiv);
@@ -297,7 +297,7 @@ const meetingObj = {
         audioElement.setAttribute("playsInline", "true");
         audioElement.setAttribute("controls", "false");
         audioElement.setAttribute("id", `a-${pId}`);
-        audioElement.style.display = "none";
+        audioElement.classList.add("mtx-hidden")
         return audioElement;
     },
 
@@ -359,7 +359,7 @@ const meetingObj = {
             const webCamIconElem = document.getElementById("webcam-icon");
             if (meetingObj.isWebCamOn) {
                 meetingObj.meeting?.disableWebcam();
-                // fDiv.style.display = "none";
+
                 webCamIconElem.classList.add("fa-solid");
                 webCamIconElem.classList.add("fa-video-slash");
                 webCamIconElem.classList.remove("fas");
@@ -371,13 +371,12 @@ const meetingObj = {
                 if (meetingVariables.userRole === "admin")
                     videoDisabledImageOfAdmin.setAttribute(
                         "src",
-                        `${CDNlink}assets/images/profile.png`
+                        adminVideoDisabledImage
                     ); // set admin profile image here
                 document.getElementById(`v-${localId}`).classList.add("mtx-hidden");
                 document.getElementById(`vd-${localId}`).classList.remove("mtx-hidden");
             } else {
                 meetingObj.meeting?.enableWebcam();
-                // fDiv.style.display = "inline";
                 webCamIconElem.classList.remove("fa-solid");
                 webCamIconElem.classList.remove("fa-video-slash");
                 webCamIconElem.classList.add("fas");
@@ -454,13 +453,13 @@ const adminMeetingObj = {
 
             // meeting joined event
             adminMeetingObj.meeting.on("meeting-joined", () => {
-                document.getElementById("grid-screen").style.display = "block";
+                document.getElementById("mtx-admin-grid-screen").classList.remove("mtx-hidden");
             });
 
             // meeting left event
             adminMeetingObj.meeting.on("meeting-left", () => {
                 console.log("meeting left event called")
-                videoContainer.innerHTML = "";
+                adminVidoeContainer.innerHTML = "";
             });
 
             adminMeetingObj.meeting.on("participant-left", (participant) => {
@@ -497,14 +496,14 @@ const adminMeetingObj = {
                 let cursorPointer = document.createElement("img");
                 cursorPointer.setAttribute(
                     "src",
-                    `${CDNlink}/assets/images/pointer.png`
+                    cursorPointerImage
                 );
                 cursorPointerDiv.append(cursorPointer)
                 const agentMsg = `<div class='agent-msg'>${adminName} is trying to connect with you.</div>`
                 const customMsg = `${agentMsg} <div class='custom-msg'>Hi there!, ${adminMessage}</div>`
                 document.getElementById("admin-message").innerHTML = customMsg
-                videoContainer.append(cursorPointerDiv);
-                videoContainer.append(videoElement);
+                adminVidoeContainer.append(cursorPointerDiv);
+                adminVidoeContainer.append(videoElement);
                 showModal()
                 mtxCursorHeader.classList.add("mtx-hidden")
                 mtxContactFormNotificationCard.classList.add("mtx-hidden")
@@ -536,8 +535,8 @@ const adminMeetingObj = {
         let localAudioElement = adminMeetingObj.createAudioElement(
             adminMeetingObj.meeting.localParticipant.id
         );
-        videoContainer.append(localParticipant);
-        videoContainer.append(localAudioElement);
+        adminVidoeContainer.append(localParticipant);
+        adminVidoeContainer.append(localAudioElement);
         console.log("local participant video", localParticipant, mouse)
         // meetingObj.meeting?.muteMic();
 
@@ -572,20 +571,20 @@ const adminMeetingObj = {
     },
 
     createVideoElement: (pId, name) => {
-        let videoFrame = document.createElement("div");
-        videoFrame.setAttribute("id", `f-${pId}`);
-        videoFrame.classList.add("mtx-admin-video-frame")
+        let adminVideoFrame = document.createElement("div");
+        adminVideoFrame.setAttribute("id", `f-${pId}`);
+        adminVideoFrame.classList.add("mtx-admin-video-frame")
 
         // set background image
-        videoFrame.style.backgroundImage = `url("${CDNlink}/assets/images/animation.gif")`
+        adminVideoFrame.style.backgroundImage = adminNotificationBackgroundAnimation
 
         //create video
         let videoElement = document.createElement("video");
         videoElement.classList.add("mtx-moving-video-frame");
         videoElement.setAttribute("id", `v-${pId}`);
         videoElement.setAttribute("playsinline", true);
-        videoFrame.appendChild(videoElement);
-        return videoFrame;
+        adminVideoFrame.appendChild(videoElement);
+        return adminVideoFrame;
     },
 
     createAudioElement: (pId) => {
@@ -594,7 +593,7 @@ const adminMeetingObj = {
         audioElement.setAttribute("playsInline", "true");
         audioElement.setAttribute("controls", "false");
         audioElement.setAttribute("id", `a-${pId}`);
-        audioElement.style.display = "none";
+        audioElement.classList.add("mtx-hidden")
         return audioElement;
     },
 
@@ -605,7 +604,7 @@ const adminMeetingObj = {
     leaveMeeting: () => {
         adminMeetingObj.meeting.leave()
         meetingVariables.id = false
-        videoContainer.remove()
+        adminVidoeContainer.remove()
     },
 };
 

@@ -1,9 +1,9 @@
 console.log("variables.js is established #4")
 
-// const socketUrl = "https://socket-dev.creative-hub.co/";
-// const serverBaseUrl = "http://api-dev.creative-hub.co/";
-const socketUrl = "https://socket-v2.marketrix.io/";
-const serverBaseUrl = "https://api-v2.marketrix.io/";
+const socketUrl = "https://socket-dev.creative-hub.co/";
+const serverBaseUrl = "http://api-dev.creative-hub.co/";
+// const socketUrl = "https://socket-v2.marketrix.io/";
+// const serverBaseUrl = "https://api-v2.marketrix.io/";
 // let socket
 let startInterval
 let decodedObject = {} // admin information which are getting from the url would be store in the objec
@@ -38,6 +38,7 @@ let mtxConnectBtn
 let mtxEndCallBtn
 let mtxCursorHeader
 let videoContainer
+let adminVidoeContainer
 let videoDisabledImg
 let configurationCoverDiv
 let gridScreenDiv
@@ -57,6 +58,12 @@ let adminConnects = false // admin connecting
 let adminMessage;
 let adminName;
 let hideRemoteCursor = false
+
+// background images
+let adminNotificationBackgroundAnimation = `url("${CDNlink}/assets/images/animation.gif")`
+let adminVideoDisabledImage = `${CDNlink}assets/images/profile.png`
+let cursorPointerImage = `${CDNlink}/assets/images/pointer.png`
+let videoDisabledImage = `${CDNlink}assets/images/cam-user.png`
 
 const browserName = (function (agent) {
     switch (true) {

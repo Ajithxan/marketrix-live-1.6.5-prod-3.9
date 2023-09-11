@@ -71,7 +71,8 @@ const mouse = {
 
         console.log("frame-div", frameDiv)
 
-        show ? frameDiv.style.position = "absolute" : frameDiv.style.position = ""; frameDiv.style.left = ""; frameDiv.style.top = ""
+        show ? frameDiv.classList.add("start-move") : frameDiv.classList.add("stop-move")
+        show ? frameDiv.classList.remove("stop-move") : frameDiv.classList.remove("start-move")
         show ? frameDiv.classList.add("mtx-moving-outer-frame") : frameDiv.classList.remove("mtx-moving-outer-frame")
 
         if (isLocalUser) show ? frameDiv.classList.add("mtx-local-moving-outer-frame") : frameDiv.classList.remove("mtx-local-moving-outer-frame")
@@ -82,7 +83,7 @@ const mouse = {
         show ? videoDisabledDiv.classList.add("mtx-moving-video-disabled-div") : videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
         show ? videoDisabledDiv.classList.remove("mtx-video-disabled-div") : videoDisabledDiv.classList.add("mtx-video-disabled-div")
         show ?? videoContainer.classList.remove("mtx-hidden")
-        show ? videoContainer.style.height = "0vh" : videoContainer.style.height = "80vh"
+        show ? videoContainer.classList.add("mtx-mode-video-container") : videoContainer.classList.remove("mtx-mode-video-container")
     },
     handleMouse: (event) => {
         let x = event.clientX;

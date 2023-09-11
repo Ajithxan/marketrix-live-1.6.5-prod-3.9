@@ -13,11 +13,11 @@ const videoSDKScript = document.createElement("script")
 const variablesScript = document.createElement("script")
 const mouseScript = document.createElement("script")
 const meetingScript = document.createElement("script")
-const fontAwesomeLink = document.createElement("link")
+const fontAwesomeCDNLink = document.createElement("link")
 
 // stylesheet links
-fontAwesomeLink.setAttribute("rel", "stylesheet");
-fontAwesomeLink.setAttribute(
+fontAwesomeCDNLink.setAttribute("rel", "stylesheet");
+fontAwesomeCDNLink.setAttribute(
   "href",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 );
@@ -43,7 +43,7 @@ envScript.addEventListener("load", () => {
     "defer",
     "true"
   );
-  storeScript.setAttribute("src", `${CDNlink}store/store.js`);
+  storeScript.setAttribute("src", `${CDNlink}utils/store.js`);
   document.body.append(storeScript);
   storeScript.addEventListener("load", () => {
     // socket script #3
@@ -55,7 +55,7 @@ envScript.addEventListener("load", () => {
       "defer",
       "true"
     );
-    socketScript.setAttribute("src", `${CDNlink}services/socket.js`);
+    socketScript.setAttribute("src", `${CDNlink}utils/socket.js`);
     document.body.append(socketScript);
     socketScript.addEventListener("load", () => {
       // variables script #4
@@ -67,7 +67,7 @@ envScript.addEventListener("load", () => {
         "defer",
         "true"
       );
-      variablesScript.setAttribute("src", `${CDNlink}services/variables.js`);
+      variablesScript.setAttribute("src", `${CDNlink}utils/variables.js`);
       document.body.append(variablesScript);
       variablesScript.addEventListener("load", () => {
         // video script #5
@@ -110,7 +110,7 @@ envScript.addEventListener("load", () => {
               "defer",
               "true"
             );
-            meetingScript.setAttribute("src", `${CDNlink}services/meeting.js`);
+            meetingScript.setAttribute("src", `${CDNlink}utils/meeting.js`);
             document.body.append(meetingScript)
             meetingScript.addEventListener("load", () => {
               // mouse script #8
@@ -122,7 +122,7 @@ envScript.addEventListener("load", () => {
                 "defer",
                 "true"
               );
-              mouseScript.setAttribute("src", `${CDNlink}services/mouse.js`);
+              mouseScript.setAttribute("src", `${CDNlink}utils/mouse.js`);
               document.body.append(mouseScript);
               mouseScript.addEventListener("load", () => {
                 // watch script #9
@@ -134,7 +134,7 @@ envScript.addEventListener("load", () => {
                   "defer",
                   "true"
                 );
-                watchScript.setAttribute("src", `${CDNlink}services/watch.js`);
+                watchScript.setAttribute("src", `${CDNlink}utils/watch.js`);
                 document.body.append(watchScript);
                 watchScript.addEventListener("load", () => {
                   // main script #10
@@ -146,7 +146,7 @@ envScript.addEventListener("load", () => {
                     "defer",
                     "true"
                   );
-                  mainScript.setAttribute("src", `${CDNlink}services/main.js`);
+                  mainScript.setAttribute("src", `${CDNlink}utils/main.js`);
                   document.body.append(mainScript);
                   mainScript.addEventListener("load", () => {
                     console.log("all scripts loaded...")
@@ -161,7 +161,7 @@ envScript.addEventListener("load", () => {
   })
 })
 // header link
-document.head.prepend(fontAwesomeLink);
+document.head.prepend(fontAwesomeCDNLink);
 
 const appId = document.currentScript.getAttribute("marketrix-id");
 const apiKey = document.currentScript.getAttribute("marketrix-key");
