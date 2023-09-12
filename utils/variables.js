@@ -58,6 +58,10 @@ let adminConnects = false // admin connecting
 let adminMessage;
 let adminName;
 let hideRemoteCursor = false
+let cursorMoveCount = 0
+let preveCursorMoveCount = 0
+let cursorMoveEnded = true
+let movementsArr = []
 
 // background images
 let adminNotificationBackgroundAnimation = `url("${CDNlink}/assets/images/animation.gif")`

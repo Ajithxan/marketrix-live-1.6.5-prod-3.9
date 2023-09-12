@@ -1,11 +1,6 @@
 console.log("mouse.js is established #8")
 const mouse = {
-    cursor: {
-        x: "",
-        y: "",
-        windowWidth: "",
-        windowHeight: "",
-    },
+    cursor: [],
     showCursor: true,
     startMove: () => {
         document.onmousemove = mouse.handleMouse;
@@ -86,18 +81,17 @@ const mouse = {
         show ? videoContainer.classList.add("mtx-mode-video-container") : videoContainer.classList.remove("mtx-mode-video-container")
     },
     handleMouse: (event) => {
+        cursorMoveEnded = false
         let x = event.clientX;
         let y = event.clientY;
         let windowWidth = getWindowSize().innerWidth;
         let windowHeight = getWindowSize().innerHeight;
-        // console.log(event)
-        // return; // test console log
-        mouse.cursor.x = x;
-        mouse.cursor.y = y;
-        mouse.cursor.windowHeight = windowHeight;
-        mouse.cursor.windowWidth = windowWidth;
 
-        // mouse.cursor.showCursor = mouse.showCursor;
+        const cursor = {}
+        cursor.x = x;
+        cursor.y = y;
+        cursor.windowHeight = windowHeight;
+        cursor.windowWidth = windowWidth;
 
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
@@ -111,7 +105,9 @@ const mouse = {
         cursorLoading.style.left = x + "px";
         cursorLoading.style.top = y + "px";
 
-        SOCKET.emit.cursorPosition(mouse, cursorId)
+        cursorMoveCount += 1
+        movementsArr.push(cursor)
+        if(movementsArr.length > 0) mouse.cursor = movementsArr
     },
     loading: {
         show: () => {
@@ -127,6 +123,21 @@ const mouse = {
         }
     }
 };
+
+const emitCursorMovment = () => {
+    movementsArr = []
+    if (cursorMoveEnded) return
+    cursorMoveEnded = true
+    console.log(mouse)
+    SOCKET.emit.cursorPosition(mouse, cursorId)
+    // console.log(mouse.cursor)
+}
+
+// check cursor move starts and stops.
+setInterval(() => {
+    if (cursorMoveCount < preveCursorMoveCount || preveCursorMoveCount === 0) preveCursorMoveCount = cursorMoveCount
+    else emitCursorMovment()
+}, 1000)
 
 // scroll event
 let scroller = document.getElementsByTagName("body")[0]
@@ -156,14 +167,13 @@ const emitScroll = () => {
     scrollPosition() // it would be called to emit scroll when local scroll stops.
 }
 
-// prevent from emitting when remote scroll.
+// check scroll starts and stops.
 setInterval(() => {
     if (scrollCount > prevScrollCount || prevScrollCount === 0) prevScrollCount = scrollCount
     else emitScroll()
 }, 1000)
 
 scroller.onscroll = () => {
-    console.log("scrolling")
     if (!remoteScroll) scrollEnded = false // prevent from emitting when remote scroll.
     scrollCount += 1
     pageX = this.scrollX

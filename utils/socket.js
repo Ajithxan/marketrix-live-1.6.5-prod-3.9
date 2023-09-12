@@ -50,24 +50,15 @@ const SOCKET = {
                 }
 
                 const localUserRole = meetingVariables.userRole;
-                // console.log("local user role", localUserRole);
-                // console.log("meeting id", meetingVariables.id)
                 const index = data.findIndex(
-                    (d) =>
-                        d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.x
-                    // {
-                    //     if (d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.x) {
-                    //         console.log(d)
-                    //         return
-                    //     }
-                    // }
+                    (d) => d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.length > 0
                 );
                 // console.log("connected users index", index)
                 if (index >= 0) {
                     const cursor = data[index].cursor;
-                    // console.log(cursor);
+                    console.log(cursor);
                     const remoteId = meetingVariables.participant.remoteId;
-                    console.log("remoteId", remoteId)
+                    // console.log("remoteId", remoteId)
                     const meetingId = meetingVariables.id;
                     mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
                     if (remoteId && /true/.test(mouse.showCursor)) {
@@ -75,22 +66,26 @@ const SOCKET = {
                         const fDiv = document.getElementById(`f-${remoteId}`);
                         const cpDiv = document.getElementById(`cp-${remoteId}`);
 
-                        let windowWidth = getWindowSize().innerWidth;
-                        let widthRatio = windowWidth / cursor.windowWidth;
+                        let timeCount = 0
+                        cursor.forEach(c => {
+                            timeCount++
 
-                        let windowHeight = getWindowSize().innerHeight;
-                        let heightRatio = windowHeight / cursor.windowHeight;
+                            setTimeout(() => {
+                                let windowWidth = getWindowSize().innerWidth;
+                                let widthRatio = windowWidth / c.windowWidth;
 
-                        cursor.x = cursor.x * widthRatio //(cursor.x / 100) * windowWidth
-                        cursor.y = cursor.y * heightRatio //(cursor.y / 100) * windowHeight 
+                                let windowHeight = getWindowSize().innerHeight;
+                                let heightRatio = windowHeight / c.windowHeight;
 
-                        fDiv.style.left = cursor.x + "px"
-                        fDiv.style.top = cursor.y + "px"
-                        cpDiv.style.left = cursor.x + "px"
-                        cpDiv.style.top = cursor.y + "px"
-                        // console.log(cursor)
-                        // console.log(cursor.x, cursor.y)
-                        // console.log("fDiv =>", fDiv)
+                                c.x = c.x * widthRatio //(c.x / 100) * windowWidth
+                                c.y = c.y * heightRatio //(c.y / 100) * windowHeight 
+
+                                fDiv.style.left = c.x + "px"
+                                fDiv.style.top = c.y + "px"
+                                cpDiv.style.left = c.x + "px"
+                                cpDiv.style.top = c.y + "px"
+                            }, 20 * timeCount)
+                        });
                     }
                 }
             });
