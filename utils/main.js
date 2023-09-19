@@ -47,7 +47,7 @@ const initiateSocketConnection = () => {
         }
         SOCKET.emit.getActiveAgents();
         SOCKET.on.emitActiveAgents();
-        SOCKET.on.userResopnseToVisitor();
+        SOCKET.on.adminResponseToVisitor();
     }
 };
 
@@ -64,9 +64,7 @@ const adminJoin = () => {
 
     if (meetingVariables.id && meetingVariables.token) meetingObj.connect(); // video sdk screen is starting
 
-    socket?.on("redirectUserToVisitor", (visitorLocation) => {
-        console.log("redirecting to visitor", visitorLocation);
-    });
+    SOCKET.on.redirectUserToVisitor()
 }
 
 const generateCursorId = () => {
@@ -86,7 +84,7 @@ const setUserRole = () => {
         meetingVariables.userRole = decodedObject.userRole
     }
 
-    if (getFromStore('MEETING_VARIABLES')){
+    if (getFromStore('MEETING_VARIABLES')) {
         meetingStoredVariables = JSON.parse(getFromStore('MEETING_VARIABLES'))
         meetingVariables.userRole = meetingStoredVariables.userRole
     }
@@ -136,10 +134,6 @@ const visitorJoin = () => {
 
     if ((/false/).test(getFromStore("MEETING_ENDED")) || !getFromStore("MEETING_ENDED")) {
         showModal()
-        mtxCursorHeader.classList.add("mtx-hidden")
-        mtxContactFormNotificationCard.classList.add("mtx-hidden")
-        mtxFormContent.classList.add("mtx-hidden")
-        mtxFormCloseBtn.classList.add("mtx-hidden")
     }
 
     SOCKET.on.changeUrl()
@@ -159,12 +153,12 @@ const visitorJoin = () => {
 
     console.log("visitor join live", visitor)
 
-    socket?.emit("visitorJoinLive", visitor);
+    SOCKET.emit.visitorJoinLive(visitor)
     SOCKET.on.connectedUser();
     console.log("adminConnects", adminConnects)
 
     if ((/true/).test(adminConnects)) {
-        closeModal()
+        closeModal() // it may oppened. so it should be closed
         adminVidoeContainer = document.getElementById("mtx-admin-video-container");
         adminMeetingObj.connect()
     } // admin connecting
@@ -294,9 +288,8 @@ const showModal = () => {
     }
 };
 
-// let visitor connect
-const connectUserToLive = (meetInfo) => {
-    SOCKET.emit.userJoinLive(meetInfo)
+const connectAdminToLive = (meetInfo) => {
+    SOCKET.emit.userJoinLive(meetInfo) // admin join live
     SOCKET.on.connectedUser()
     SOCKET.on.changeScroll()
     SOCKET.on.changeUrl()

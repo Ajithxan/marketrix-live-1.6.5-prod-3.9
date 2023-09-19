@@ -1,7 +1,7 @@
 console.log("mouse.js is established #8")
 const mouse = {
     cursor: [],
-    showCursor: true,
+    marketrixMode: true,
     startMove: () => {
         document.onmousemove = mouse.handleMouse;
     },
@@ -10,7 +10,7 @@ const mouse = {
             console.log("coming inside the mouse show")
             return
         }
-        console.log("mouse show is called, show cursor is", mouse.showCursor)
+        console.log("mouse show is called, show cursor is", mouse.marketrixMode)
         const localId = meetingVariables.participant.localId;
         console.log("localId", localId)
         const remoteId = meetingVariables.participant.remoteId;
@@ -24,8 +24,8 @@ const mouse = {
         focusModeBtn.classList.add("mtx-hidden")
 
         if (meetingVariables.userRole === "admin") {
-            mouse.showCursor = true;
-            setToStore("MARKETRIX_MODE", mouse.showCursor)
+            mouse.marketrixMode = true;
+            setToStore("MARKETRIX_MODE", mouse.marketrixMode)
             SOCKET.emit.modeChange({ mode: true, meetingId: meetingVariables.id })
         } // admin make the cursor movement on both side
         mouse.startMove();
@@ -47,8 +47,8 @@ const mouse = {
         focusModeBtn.classList.remove("mtx-hidden")
 
         if (meetingVariables.userRole === "admin") {
-            mouse.showCursor = false;
-            setToStore("MARKETRIX_MODE", mouse.showCursor)
+            mouse.marketrixMode = false;
+            setToStore("MARKETRIX_MODE", mouse.marketrixMode)
             SOCKET.emit.modeChange({ mode: false, meetingId: meetingVariables.id })
         }
 
@@ -96,7 +96,7 @@ const mouse = {
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
 
-        if (localId && (/true/).test(mouse.showCursor)) {
+        if (localId && (/true/).test(mouse.marketrixMode)) {
             const fLocalDiv = document.getElementById(`f-${localId}`);
             fLocalDiv.style.left = x + "px";
             fLocalDiv.style.top = y + "px";
@@ -112,7 +112,6 @@ const mouse = {
     loading: {
         show: () => {
             console.log("mouse loading is called")
-            meetingObj.showCursor = false
             videoContainer.classList.add("mtx-hidden")
             mouse.startMove()
             cursorLoading.classList.remove("mtx-hidden")

@@ -392,8 +392,9 @@
     filter: invert(100%);
     -webkit-filter: invert(100%);
     position: relative;
-    bottom: 3px;
-    left: -4px;
+    bottom: 5px;
+    left: -1px;
+    transform: rotate(-23deg)
 }
 .mtx-moving-video-disabled-div {
     /* padding: 71px 0px 0px 58px; */

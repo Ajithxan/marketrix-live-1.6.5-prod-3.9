@@ -71,7 +71,7 @@ const meetingObj = {
                 console.log("decode user role", meetingVariables.userRole);
                 if (meetingVariables.userRole === "admin") {
                     console.log("decode object =>", decodedObject);
-                    connectUserToLive(decodedObject);
+                    connectAdminToLive(decodedObject);
                     console.log("coming inside even its visitor");
                     const showCursorDiv = document.getElementById("show-cursor");
                     showCursorDiv.classList.remove("mtx-hidden");
@@ -163,7 +163,7 @@ const meetingObj = {
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
 
-                // creaste cursor pointer
+                // creaste cursor pointer for remote user
                 let cursorPointerDiv = document.createElement("div");
                 let cursorPointer = document.createElement("img");
                 cursorPointer.setAttribute(
@@ -174,6 +174,7 @@ const meetingObj = {
                 cursorPointerDiv.classList.add("mtx-remote-cursor-png-div");
                 cursorPointerDiv.classList.add("mtx-hidden");
                 cursorPointerDiv.setAttribute("id", `cp-${participant.id}`); // remote id
+                cursorPointerDiv.style.top = "50vh"
                 cursorPointerDiv.appendChild(cursorPointer);
 
                 if ((/false/).test(hideRemoteCursor)) {
@@ -182,7 +183,7 @@ const meetingObj = {
                     videoContainer.append(audioElement);
                 }
 
-                if (/true/.test(mouse.showCursor) || /null/.test(mouse.showCursor))
+                if (/true/.test(mouse.marketrixMode) || /null/.test(mouse.marketrixMode))
                     mouse.show();
                 else {
                     mouse.hide();
@@ -250,6 +251,9 @@ const meetingObj = {
         videoFrame.setAttribute("id", `f-${pId}`);
         videoFrame.classList.add("mtx-col-6");
         videoFrame.classList.add("mtx-outer-frame");
+
+        // set default position
+        videoFrame.style.top = "50vh"
 
         //create video
         let videoElement = document.createElement("video");
@@ -505,10 +509,8 @@ const adminMeetingObj = {
                 adminVidoeContainer.append(cursorPointerDiv);
                 adminVidoeContainer.append(videoElement);
                 showModal()
-                mtxCursorHeader.classList.add("mtx-hidden")
-                mtxContactFormNotificationCard.classList.add("mtx-hidden")
-                mtxFormContent.classList.add("mtx-hidden")
-                mtxFormCloseBtn.classList.add("mtx-hidden")
+                const audio = new Audio(`${CDNlink}assets/sounds/call-ring.wav`);
+                audio.play();
                 mtxFooterControl.classList.add("mtx-hidden")
                 mtxAdminCallDiv.classList.remove("mtx-hidden")
             });

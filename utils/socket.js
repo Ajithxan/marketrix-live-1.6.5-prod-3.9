@@ -36,9 +36,10 @@ const SOCKET = {
             });
         },
         connectedUser: () => {
-            mouse.showCursor = getFromStore("MARKETRIX_MODE");
+            mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
-                // console.log("connectedUsers..........", data);
+                // cursoe movements receive here...
+                console.log("connectedUsers..........", data);
                 console.log("meetingEnded", meetingEnded)
 
                 if ((/true/).test(meetingEnded)) {
@@ -49,55 +50,57 @@ const SOCKET = {
                     visitorJoin()
                 }
 
+                // cursor movements stuffs starts here...
                 const localUserRole = meetingVariables.userRole;
                 const index = data.findIndex(
                     (d) => d.userRole !== localUserRole && d.meetingId === meetingVariables.id && d.cursor.length > 0
                 );
-                // console.log("connected users index", index)
+                console.log("index", index)
                 if (index >= 0) {
-                    const cursor = data[index].cursor;
-                    console.log(cursor);
+                    console.log("coming")
+                    const cursorPositions = data[index].cursor;
+                    console.log(cursorPositions);
                     const remoteId = meetingVariables.participant.remoteId;
-                    // console.log("remoteId", remoteId)
-                    const meetingId = meetingVariables.id;
-                    mouse.showCursor = getFromStore("MARKETRIX_MODE"); //cursor.showCursor
-                    if (remoteId && /true/.test(mouse.showCursor)) {
+                    mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
+                    if (remoteId && /true/.test(mouse.marketrixMode)) {
                         // use marketrxiMode instead
                         const fDiv = document.getElementById(`f-${remoteId}`);
                         const cpDiv = document.getElementById(`cp-${remoteId}`);
 
                         let timeCount = 0
-                        cursor.forEach(c => {
+                        cursorPositions.forEach(cursor => {
                             timeCount++
 
                             setTimeout(() => {
                                 let windowWidth = getWindowSize().innerWidth;
-                                let widthRatio = windowWidth / c.windowWidth;
+                                let widthRatio = windowWidth / cursor.windowWidth;
 
                                 let windowHeight = getWindowSize().innerHeight;
-                                let heightRatio = windowHeight / c.windowHeight;
+                                let heightRatio = windowHeight / cursor.windowHeight;
 
-                                c.x = c.x * widthRatio //(c.x / 100) * windowWidth
-                                c.y = c.y * heightRatio //(c.y / 100) * windowHeight 
+                                xPosition = cursor.x * widthRatio
+                                yPosition = cursor.y * heightRatio
 
-                                fDiv.style.left = c.x + "px"
-                                fDiv.style.top = c.y + "px"
-                                cpDiv.style.left = c.x + "px"
-                                cpDiv.style.top = c.y + "px"
+                                // video frame div
+                                fDiv.style.left = xPosition + "px"
+                                fDiv.style.top = yPosition + "px"
+
+                                // cursor pointer div
+                                cpDiv.style.left = xPosition + "px"
+                                cpDiv.style.top = yPosition + "px"
                             }, 20 * timeCount)
                         });
                     }
                 }
             });
         },
-        userResopnseToVisitor: () => {
+        adminResponseToVisitor: () => {
             socket.on("userResponseToVisitor", (data, event) => {
                 if ((/false/).test(getFromStore("MEETING_ENDED"))) return
-                console.log("userResponseToVisitor...", data);
-                adminMessage = data.message
-                adminName = data.userName
                 meetingEnded = false
                 setToStore("MEETING_ENDED", meetingEnded)
+                adminMessage = data.message
+                adminName = data.userName
                 adminConnects = true
                 console.log("meetingId", meetingVariables.id)
                 // if (meetingVariables.id) return; // already joined the meeting
@@ -128,6 +131,11 @@ const SOCKET = {
                 }
             });
         },
+        redirectUserToVisitor: () => {
+            socket.on("redirectUserToVisitor", (visitorLocation) => {
+                console.log("redirecting to visitor", visitorLocation);
+            });
+        }
     },
     emit: {
         urlChange: () => {
@@ -159,7 +167,7 @@ const SOCKET = {
             );
         },
         userJoinLive: (meetInfo) => {
-            socket.emit("userJoinLive", meetInfo);
+            socket.emit("userJoinLive", meetInfo); // admin join live
         },
         getActiveAgents: () => {
             socket.emit("getActiveAgents");
@@ -177,7 +185,7 @@ const SOCKET = {
                 mtxFormContent.classList.add("mtx-hidden");
                 mtxFormCloseBtn.classList.add("mtx-hidden");
                 showNotification();
-                SOCKET.on.userResopnseToVisitor();
+                SOCKET.on.adminResponseToVisitor();
             } else {
 
                 mtxContactFormNotificationCard.classList.remove("mtx-hidden");
@@ -195,6 +203,9 @@ const SOCKET = {
         connectVisitor: (visitor) => {
             console.log("connect visitor", visitor)
             socket.emit("connectVisitor", visitor);
+        },
+        visitorJoinLive: (visitor) => {
+            socket.emit("visitorJoinLive", visitor)
         }
     },
 };
