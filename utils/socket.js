@@ -2,7 +2,9 @@ console.log("socket.js is established #3");
 const SOCKET = {
     on: {
         changeUrl: () => {
+
             socket.on("changeUrl", (data) => {
+                console.log("changeUrl on", data);
                 changedUrl = data.url;
                 setToStore("CURRENT_URL", changedUrl);
                 setToStore("LOADING_MESSAGE", "Redirecting...")
@@ -134,6 +136,7 @@ const SOCKET = {
     },
     emit: {
         urlChange: () => {
+            console.log("urlChange EMIT", currentUrl);
             socket.emit("urlChange", {
                 meetingId: meetingVariables.id,
                 url: currentUrl,

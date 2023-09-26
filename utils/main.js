@@ -115,6 +115,7 @@ const getQuery = () => {
 
 
 const checkUrlChanges = () => {
+    console.log("checkUrlChanges CALLED")
     isUrlChanged = false
     if (getFromStore('CURRENT_URL')) {
         if (currentUrl !== getFromStore('CURRENT_URL')) {
