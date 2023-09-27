@@ -387,6 +387,11 @@
     left: -84px;
     top: 0;
     max-width: fit-content !important;
+        /*Mirror code starts*/
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+  /*Mirror code ends*/
     /* width: ; */
 }
 .mtx-moving-video-disabled-img {
