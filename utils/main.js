@@ -26,19 +26,60 @@ const initiateWatchMethod = () => {
 
 const getIpInfo = async () => {
   try {
-    const response = await fetch("http://ip-api.com/json");
+    const response = await fetch("https://ip-api.com/json");
     const data = await response.json();
-    console.log("getIp RES", data);
-    return data;
+    if (data?.status === "success") {
+      const ipObj = {
+        query: data?.query,
+        country: data?.country,
+        countryCode: data?.countryCode,
+        regionName: data?.regionName,
+        city: data?.city,
+        zip: data?.zip,
+        lat: data?.lat,
+        lon: data?.lon,
+        timezone: data?.timezone,
+        isp: data?.isp,
+        org: data?.org,
+        as: data?.as,
+      };
+      return ipObj;
+    } else {
+      const ipObj = {
+        query: "",
+        country: "United States",
+      };
+      return ipObj;
+    }
   } catch (error) {
     console.log("Error fetching IP ", error);
     throw error; // You may want to handle this error further up the call stack
   }
 };
 
+const getUtmInfo = async () => {
+  // const queryString = new URL(url).searchParams.get("marketrix-meet");
+  var utmParams = {};
+  var queryString = window.location.search.substring(1);
+  var params = queryString.split("&");
+
+  for (var i = 0; i < params.length; i++) {
+    var pair = params[i].split("=");
+    var key = decodeURIComponent(pair[0]);
+    var value = decodeURIComponent(pair[1]);
+
+    if (key.indexOf("utm_") === 0) {
+      utmParams[key] = value;
+    }
+  }
+  console.log("getUtmInfo", utmParams);
+  return utmParams;
+};
+
 const initiateSocketConnection = async () => {
   try {
     let ipInfo = await getIpInfo();
+    let utmInfo = await getUtmInfo();
     socketStarted = true;
     if (cursorId) {
       socket = io.connect(socketUrl, {
@@ -64,7 +105,14 @@ const initiateSocketConnection = async () => {
           ipAddress: ipInfo?.query,
           country: ipInfo?.country,
         };
-        let visitor = { visitedTime, currentUrl, visitorDevice };
+        const utm = {
+          utm_source: utmInfo?.utm_source,
+          utm_medium: utmInfo?.utm_medium,
+          utm_campaign: utmInfo?.utm_campaign,
+          utm_term: utmInfo?.utm_term,
+          utm_content: utmInfo?.utm_content,
+        };
+        let visitor = { visitedTime, currentUrl, visitorDevice, utm };
         SOCKET.emit.connectVisitor(visitor);
       }
       SOCKET.emit.getActiveAgents();
@@ -219,18 +267,18 @@ fetch("https://api.ipify.org/?format=json")
   });
 
 const initiateSnippet = () => {
-    parentDiv = document.createElement("div");
-    contactFormDiv = document.createElement("div");
+  parentDiv = document.createElement("div");
+  contactFormDiv = document.createElement("div");
 
   parentDiv.setAttribute("id", "mtx-parent-div");
   contactFormDiv.setAttribute("id", "mtx-contact-form-div");
 
-    // hide these elements until everything is loaded
-    parentDiv.style.display = "none"
-    contactFormDiv.style.display = "none"
+  // hide these elements until everything is loaded
+  parentDiv.style.display = "none";
+  contactFormDiv.style.display = "none";
 
-    document.body.prepend(contactFormDiv);
-    document.body.prepend(parentDiv);
+  document.body.prepend(contactFormDiv);
+  document.body.prepend(parentDiv);
 
   fetch(`${CDNlink}pages/contact-button.html`)
     .then((response) => {
@@ -242,42 +290,43 @@ const initiateSnippet = () => {
       setCDNLink();
     });
 
-    fetch(`${CDNlink}pages/contact-form.html`)
-        .then((response) => {
-            return response.text();
-        })
-        .then((html) => {
-            contactFormDiv.innerHTML = html;
-            marketrixModalContainer = document.getElementById(
-                "marketrix-modal-container"
-            );
-            mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
-            mtxFormContent = document.getElementById("mtx-form-content")
-            mtxAdminCallDiv = document.getElementById("mtx-admin-call-div")
-            mtxFooterControl = document.getElementById("mtx-footer-controls")
-            mtxFormCloseBtn = document.getElementById("mtx-form-close-btn")
-            mtxConnectBtn = document.getElementById("mtx-btn-connect")
-            mtxEndCallBtn = document.getElementById("mtx-btn-endcall")
-            mtxCursorHeader = document.getElementById("mtx-cursor-header")
-            overlay = document.querySelector(".mtx-overlay");
-            currentUrl = window.location.href // set current Url
-            setCDNLink()
-            generateCursorId() // generate cursor id
-            initiateWatchMethod() // iniate watch methods
-            checkUrlChanges() // this method would be called when redirecting or reloading
-            setToStore('CURRENT_URL', currentUrl) // set current url in the store
-            setUserRole() // set user role
-            initiateSocketConnection() // initialize socket connection
-            checkMeetingVariables() // this method would be called when redirection or reloading
-            getQuery() // admin get request
+  fetch(`${CDNlink}pages/contact-form.html`)
+    .then((response) => {
+      return response.text();
+    })
+    .then((html) => {
+      contactFormDiv.innerHTML = html;
+      marketrixModalContainer = document.getElementById(
+        "marketrix-modal-container"
+      );
+      mtxContactFormNotificationCard = document.getElementById(
+        "mtx-contact-form-notification-card"
+      );
+      mtxFormContent = document.getElementById("mtx-form-content");
+      mtxAdminCallDiv = document.getElementById("mtx-admin-call-div");
+      mtxFooterControl = document.getElementById("mtx-footer-controls");
+      mtxFormCloseBtn = document.getElementById("mtx-form-close-btn");
+      mtxConnectBtn = document.getElementById("mtx-btn-connect");
+      mtxEndCallBtn = document.getElementById("mtx-btn-endcall");
+      mtxCursorHeader = document.getElementById("mtx-cursor-header");
+      overlay = document.querySelector(".mtx-overlay");
+      currentUrl = window.location.href; // set current Url
+      setCDNLink();
+      generateCursorId(); // generate cursor id
+      initiateWatchMethod(); // iniate watch methods
+      checkUrlChanges(); // this method would be called when redirecting or reloading
+      setToStore("CURRENT_URL", currentUrl); // set current url in the store
+      setUserRole(); // set user role
+      initiateSocketConnection(); // initialize socket connection
+      checkMeetingVariables(); // this method would be called when redirection or reloading
+      getQuery(); // admin get request
 
-            // show these element after everything is loaded properly
-            setTimeout(() => {
-                parentDiv.style.display = "block"
-                contactFormDiv.style.display = "block"
-            
-            }, 2000)
-        });
+      // show these element after everything is loaded properly
+      setTimeout(() => {
+        parentDiv.style.display = "block";
+        contactFormDiv.style.display = "block";
+      }, 2000);
+    });
 };
 
 // initializing this snippet
