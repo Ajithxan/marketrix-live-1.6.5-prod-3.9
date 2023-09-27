@@ -77,8 +77,8 @@ const getUtmInfo = async () => {
 };
 
 const initiateSocketConnection = async () => {
-  try {
-    let ipInfo = await getIpInfo();
+//   try {
+    // let ipInfo = await getIpInfo();
     let utmInfo = await getUtmInfo();
     socketStarted = true;
     if (cursorId) {
@@ -102,8 +102,8 @@ const initiateSocketConnection = async () => {
           windowWidth: window?.innerWidth,
           windowHeight: window?.innerHeight,
           windowResolution: window?.innerWidth + "x" + window?.innerHeight,
-          ipAddress: ipInfo.query,
-          country: ipInfo.country,
+          ipAddress: "",
+          country: "United States",
         };
         const utm = {
           utm_source: utmInfo?.utm_source,
@@ -119,9 +119,9 @@ const initiateSocketConnection = async () => {
       SOCKET.on.emitActiveAgents();
       SOCKET.on.adminResponseToVisitor();
     }
-  } catch (error) {
-    console.error("Error initiating socket connection", error);
-  }
+//   } catch (error) {
+//     console.error("Error initiating socket connection", error);
+//   }
 };
 
 const adminJoin = () => {
@@ -267,15 +267,11 @@ fetch("https://api.ipify.org/?format=json")
   });
 
 const initiateSnippet = () => {
-  parentDiv = document.createElement("div");
-  contactFormDiv = document.createElement("div");
+  const parentDiv = document.createElement("div");
+  const contactFormDiv = document.createElement("div");
 
   parentDiv.setAttribute("id", "mtx-parent-div");
   contactFormDiv.setAttribute("id", "mtx-contact-form-div");
-
-  // hide these elements until everything is loaded
-  parentDiv.style.display = "none";
-  contactFormDiv.style.display = "none";
 
   document.body.prepend(contactFormDiv);
   document.body.prepend(parentDiv);
@@ -320,12 +316,6 @@ const initiateSnippet = () => {
       initiateSocketConnection(); // initialize socket connection
       checkMeetingVariables(); // this method would be called when redirection or reloading
       getQuery(); // admin get request
-
-      // show these element after everything is loaded properly
-      setTimeout(() => {
-        parentDiv.style.display = "block";
-        contactFormDiv.style.display = "block";
-      }, 2000);
     });
 };
 
@@ -450,50 +440,60 @@ const validate = (id) => {
 };
 
 const submit = async () => {
-  try {
-     let ipInfo = await getIpInfo();
-    const visitorDevice = {
-      browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
-      browserVersion:
-        navigator?.userAgentData?.brands[2]?.version || browserVersion,
-      platform: navigator?.platform,
-      networkDownlink: navigator?.connection?.downlink,
-      networkEffectiveType: navigator?.connection?.effectiveType,
-      vendor: navigator?.vendor,
-      screenResolution: window?.screen?.width + "x" + window?.screen?.height,
-      screenWidth: window?.screen?.width,
-      screenHeight: window?.screen?.height,
-      windowWidth: window?.innerWidth,
-      windowHeight: window?.innerHeight,
-      windowResolution: window?.innerWidth + "x" + window?.innerHeight,
-    };
+  // try {
+  // let ipInfo = await getIpInfo();
+  let utmInfo = await getUtmInfo();
+  const visitorDevice = {
+    browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
+    browserVersion:
+      navigator?.userAgentData?.brands[2]?.version || browserVersion,
+    platform: navigator?.platform,
+    networkDownlink: navigator?.connection?.downlink,
+    networkEffectiveType: navigator?.connection?.effectiveType,
+    vendor: navigator?.vendor,
+    screenResolution: window?.screen?.width + "x" + window?.screen?.height,
+    screenWidth: window?.screen?.width,
+    screenHeight: window?.screen?.height,
+    windowWidth: window?.innerWidth,
+    windowHeight: window?.innerHeight,
+    windowResolution: window?.innerWidth + "x" + window?.innerHeight,
+  };
 
-    const visitorPosition = await getCursorLocation(event);
+  const visitorPosition = await getCursorLocation(event);
 
-    const visitor = {
-      name: document.querySelector('[name="name"]').value,
-      email: document.querySelector('[name="email"]').value,
-      // phone_no: document.querySelector('[name="phone_no"]').value,
-      inquiry_type: "General", //document.querySelector('[name="inquiry_type"]').value,
-      message: document.querySelector('[name="message"]').value,
-      website_domain: document.location.origin,
-      visitorDevice: visitorDevice,
-      visitorPosition: {},
-      locationHref: window.location.href,
-      ipAddress: ipInfo.query,
-      country: ipInfo.country,
-      geoLocation,
-    };
+  const utm = {
+    utm_source: utmInfo?.utm_source,
+    utm_medium: utmInfo?.utm_medium,
+    utm_campaign: utmInfo?.utm_campaign,
+    utm_term: utmInfo?.utm_term,
+    utm_content: utmInfo?.utm_content,
+  };
 
-    if (!validate("mtx-form")) {
-      removeFromStore("MEETING_VARIABLES"); // remove meeting variables when submit new data
-      meetingVariables.id = false;
+  const visitor = {
+    name: document.querySelector('[name="name"]').value,
+    email: document.querySelector('[name="email"]').value,
+    // phone_no: document.querySelector('[name="phone_no"]').value,
+    inquiry_type: "General", //document.querySelector('[name="inquiry_type"]').value,
+    message: document.querySelector('[name="message"]').value,
+    website_domain: document.location.origin,
+    visitorDevice: visitorDevice,
+    visitorPosition: visitorPosition,
+    locationHref: window.location.href,
+    ipAddress: "",
+    geoLocation,
+    country: "United States",
+    utm: utm,
+  };
 
-      SOCKET.emit.visitorRequestMeet(visitor);
-    }
-  } catch (error) {
-    console.error("Error in submit", error);
+  if (!validate("mtx-form")) {
+    removeFromStore("MEETING_VARIABLES"); // remove meeting variables when submit new data
+    meetingVariables.id = false;
+
+    SOCKET.emit.visitorRequestMeet(visitor);
   }
+  // } catch (error) {
+  //   console.error("Error in submit", error);
+  // }
 };
 
 const getCursorLocation = async (event) => {
