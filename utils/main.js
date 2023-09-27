@@ -78,7 +78,7 @@ const getUtmInfo = async () => {
 
 const initiateSocketConnection = async () => {
   try {
-    let ipInfo = await getIpInfo();
+    // let ipInfo = await getIpInfo();
     let utmInfo = await getUtmInfo();
     socketStarted = true;
     if (cursorId) {
@@ -102,8 +102,8 @@ const initiateSocketConnection = async () => {
           windowWidth: window?.innerWidth,
           windowHeight: window?.innerHeight,
           windowResolution: window?.innerWidth + "x" + window?.innerHeight,
-          ipAddress: ipInfo?.query,
-          country: ipInfo?.country,
+          ipAddress: "",
+          country: "United States",
         };
         const utm = {
           utm_source: utmInfo?.utm_source,
@@ -451,7 +451,7 @@ const validate = (id) => {
 
 const submit = async () => {
   try {
-    let ipInfo = await getIpInfo();
+    // let ipInfo = await getIpInfo();
     const visitorDevice = {
       browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
       browserVersion:
@@ -480,9 +480,9 @@ const submit = async () => {
       visitorDevice: visitorDevice,
       visitorPosition: visitorPosition,
       locationHref: window.location.href,
-      ipAddress: ipInfo?.query,
+      ipAddress: "",
+      country: "United States",
       geoLocation,
-      country: ipInfo?.country,
     };
 
     if (!validate("mtx-form")) {
