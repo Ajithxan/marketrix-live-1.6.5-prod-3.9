@@ -24,6 +24,8 @@ const meetingVariables = {
     inquiryId: "",
     message: "",
 };
+let parentDiv
+let contactFormDiv
 let video; //video sdk
 let marketrixModalContainer;
 let overlay;

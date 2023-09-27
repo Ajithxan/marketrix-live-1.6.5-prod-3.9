@@ -219,14 +219,18 @@ fetch("https://api.ipify.org/?format=json")
   });
 
 const initiateSnippet = () => {
-  const parentDiv = document.createElement("div");
-  const contactFormDiv = document.createElement("div");
+    parentDiv = document.createElement("div");
+    contactFormDiv = document.createElement("div");
 
   parentDiv.setAttribute("id", "mtx-parent-div");
   contactFormDiv.setAttribute("id", "mtx-contact-form-div");
 
-  document.body.prepend(contactFormDiv);
-  document.body.prepend(parentDiv);
+    // hide these elements until everything is loaded
+    parentDiv.style.display = "none"
+    contactFormDiv.style.display = "none"
+
+    document.body.prepend(contactFormDiv);
+    document.body.prepend(parentDiv);
 
   fetch(`${CDNlink}pages/contact-button.html`)
     .then((response) => {
@@ -238,37 +242,42 @@ const initiateSnippet = () => {
       setCDNLink();
     });
 
-  fetch(`${CDNlink}pages/contact-form.html`)
-    .then((response) => {
-      return response.text();
-    })
-    .then((html) => {
-      contactFormDiv.innerHTML = html;
-      marketrixModalContainer = document.getElementById(
-        "marketrix-modal-container"
-      );
-      mtxContactFormNotificationCard = document.getElementById(
-        "mtx-contact-form-notification-card"
-      );
-      mtxFormContent = document.getElementById("mtx-form-content");
-      mtxAdminCallDiv = document.getElementById("mtx-admin-call-div");
-      mtxFooterControl = document.getElementById("mtx-footer-controls");
-      mtxFormCloseBtn = document.getElementById("mtx-form-close-btn");
-      mtxConnectBtn = document.getElementById("mtx-btn-connect");
-      mtxEndCallBtn = document.getElementById("mtx-btn-endcall");
-      mtxCursorHeader = document.getElementById("mtx-cursor-header");
-      overlay = document.querySelector(".mtx-overlay");
-      currentUrl = window.location.href; // set current Url
-      setCDNLink();
-      generateCursorId(); // generate cursor id
-      initiateWatchMethod(); // iniate watch methods
-      checkUrlChanges(); // this method would be called when redirecting or reloading
-      setToStore("CURRENT_URL", currentUrl); // set current url in the store
-      setUserRole(); // set user role
-      initiateSocketConnection(); // initialize socket connection
-      checkMeetingVariables(); // this method would be called when redirection or reloading
-      getQuery(); // admin get request
-    });
+    fetch(`${CDNlink}pages/contact-form.html`)
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            contactFormDiv.innerHTML = html;
+            marketrixModalContainer = document.getElementById(
+                "marketrix-modal-container"
+            );
+            mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
+            mtxFormContent = document.getElementById("mtx-form-content")
+            mtxAdminCallDiv = document.getElementById("mtx-admin-call-div")
+            mtxFooterControl = document.getElementById("mtx-footer-controls")
+            mtxFormCloseBtn = document.getElementById("mtx-form-close-btn")
+            mtxConnectBtn = document.getElementById("mtx-btn-connect")
+            mtxEndCallBtn = document.getElementById("mtx-btn-endcall")
+            mtxCursorHeader = document.getElementById("mtx-cursor-header")
+            overlay = document.querySelector(".mtx-overlay");
+            currentUrl = window.location.href // set current Url
+            setCDNLink()
+            generateCursorId() // generate cursor id
+            initiateWatchMethod() // iniate watch methods
+            checkUrlChanges() // this method would be called when redirecting or reloading
+            setToStore('CURRENT_URL', currentUrl) // set current url in the store
+            setUserRole() // set user role
+            initiateSocketConnection() // initialize socket connection
+            checkMeetingVariables() // this method would be called when redirection or reloading
+            getQuery() // admin get request
+
+            // show these element after everything is loaded properly
+            setTimeout(() => {
+                parentDiv.style.display = "block"
+                contactFormDiv.style.display = "block"
+            
+            }, 2000)
+        });
 };
 
 // initializing this snippet

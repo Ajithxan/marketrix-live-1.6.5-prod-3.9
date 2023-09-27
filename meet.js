@@ -14,6 +14,7 @@ const variablesScript = document.createElement("script")
 const mouseScript = document.createElement("script")
 const meetingScript = document.createElement("script")
 const fontAwesomeCDNLink = document.createElement("link")
+// const mtxStylesSheeCDNLink = document.createElement("link")
 
 // stylesheet links
 fontAwesomeCDNLink.setAttribute("rel", "stylesheet");
@@ -21,6 +22,15 @@ fontAwesomeCDNLink.setAttribute(
   "href",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 );
+// mtxStylesSheeCDNLink.setAttribute("rel", "stylesheet");
+// mtxStylesSheeCDNLink.setAttribute(
+//   "href",
+//   `${CDNlink}assets/styles/styles.css`
+// );
+
+// header link
+document.head.prepend(fontAwesomeCDNLink);
+// document.head.prepend(mtxStylesSheeCDNLink);
 
 // env scripts #1
 envScript.setAttribute(
@@ -160,8 +170,6 @@ envScript.addEventListener("load", () => {
     })
   })
 })
-// header link
-document.head.prepend(fontAwesomeCDNLink);
 
 const appId = document.currentScript.getAttribute("marketrix-id");
 const apiKey = document.currentScript.getAttribute("marketrix-key");

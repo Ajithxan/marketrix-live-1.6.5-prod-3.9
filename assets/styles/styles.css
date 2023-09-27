@@ -328,7 +328,7 @@
 }
 .mtx-join-with-video-btn {
     width: 60%;
-    background: center center / cover rgb(127, 86, 217);
+    background: center center / cover rgb(127, 86, 217) !important;
     border-radius: 100px;
     display: flex;
     justify-content: center;
