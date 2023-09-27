@@ -1,9 +1,9 @@
 console.log("variables.js is established #4")
 
-const socketUrl = "https://socket-dev.creative-hub.co/";
-const serverBaseUrl = "http://api-dev.creative-hub.co/";
-// const socketUrl = "https://socket-v2.marketrix.io/";
-// const serverBaseUrl = "https://api-v2.marketrix.io/";
+// const socketUrl = "https://socket-dev.creative-hub.co/";
+// const serverBaseUrl = "http://api-dev.creative-hub.co/";
+const socketUrl = "https://socket-v2.marketrix.io/";
+const serverBaseUrl = "https://api-v2.marketrix.io/";
 // let socket
 let startInterval
 let decodedObject = {} // admin information which are getting from the url would be store in the objec
