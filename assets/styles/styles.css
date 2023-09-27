@@ -492,6 +492,9 @@
 }
 .mtx-video-frame {
     width: 100%;
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+    -moz-transform: rotateY(180deg); /* Firefox */
 }
 
 .mtx-admin-video-frame {
