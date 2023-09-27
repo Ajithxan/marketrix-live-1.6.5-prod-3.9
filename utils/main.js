@@ -78,7 +78,7 @@ const getUtmInfo = async () => {
 
 const initiateSocketConnection = async () => {
   try {
-    // let ipInfo = await getIpInfo();
+    let ipInfo = await getIpInfo();
     let utmInfo = await getUtmInfo();
     socketStarted = true;
     if (cursorId) {
@@ -102,8 +102,8 @@ const initiateSocketConnection = async () => {
           windowWidth: window?.innerWidth,
           windowHeight: window?.innerHeight,
           windowResolution: window?.innerWidth + "x" + window?.innerHeight,
-          ipAddress: "",
-          country: "United States",
+          ipAddress: ipInfo.query,
+          country: ipInfo.country,
         };
         const utm = {
           utm_source: utmInfo?.utm_source,
@@ -451,7 +451,7 @@ const validate = (id) => {
 
 const submit = async () => {
   try {
-    // let ipInfo = await getIpInfo();
+     let ipInfo = await getIpInfo();
     const visitorDevice = {
       browser: navigator?.userAgentData?.brands[2]?.brand || browserName,
       browserVersion:
@@ -478,10 +478,10 @@ const submit = async () => {
       message: document.querySelector('[name="message"]').value,
       website_domain: document.location.origin,
       visitorDevice: visitorDevice,
-      visitorPosition: visitorPosition,
+      visitorPosition: {},
       locationHref: window.location.href,
-      ipAddress: "",
-      country: "United States",
+      ipAddress: ipInfo.query,
+      country: ipInfo.country,
       geoLocation,
     };
 
