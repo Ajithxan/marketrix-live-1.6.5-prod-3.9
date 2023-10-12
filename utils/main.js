@@ -74,8 +74,7 @@ const initiateSocketConnection = () => {
                 windowHeight: window?.innerHeight,
                 windowResolution: window?.innerWidth + "x" + window?.innerHeight,
                 ipAddress: ipAddress,
-                country: country,
-                ipData: ipData,
+                country: country, 
             };
             const utm = {
                 utm_source: utmInfo?.utm_source,
@@ -85,7 +84,7 @@ const initiateSocketConnection = () => {
                 utm_content: utmInfo?.utm_content,
             };
             console.log(utm)
-            let visitor = { visitedTime, currentUrl, visitorDevice, utm };
+            let visitor = { visitedTime, currentUrl, visitorDevice, utm , ipData };
             SOCKET.emit.connectVisitor(visitor)
         }
         SOCKET.emit.getActiveAgents();
