@@ -75,7 +75,7 @@ const initiateSocketConnection = () => {
                 windowResolution: window?.innerWidth + "x" + window?.innerHeight,
                 ipAddress: ipAddress,
                 country: country,
-                ipdData: ipData,
+                ipData: ipData,
             };
             const utm = {
                 utm_source: utmInfo?.utm_source,
