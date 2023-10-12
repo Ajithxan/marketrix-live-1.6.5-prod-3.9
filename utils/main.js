@@ -75,6 +75,7 @@ const initiateSocketConnection = () => {
                 windowResolution: window?.innerWidth + "x" + window?.innerHeight,
                 ipAddress: ipAddress,
                 country: country,
+                ipdData: ipData,
             };
             const utm = {
                 utm_source: utmInfo?.utm_source,
@@ -239,7 +240,9 @@ const getIpAddress = async () => {
 
             await fetch(`https://ipapi.co/${ipAddress}/json/`).then(response => response.json()).then(async data => {
                 country = await data.country_name
+                ipData = await data
                 console.log("country", country)
+                
             })
         });
 }

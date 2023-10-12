@@ -73,6 +73,7 @@ let movementsArr = []
 let firstTimeAdminRequest = false
 let country
 let utmInfo
+let ipData
 
 // background images
 let adminNotificationBackgroundAnimation = `url("${CDNlink}/assets/images/animation.gif")`
