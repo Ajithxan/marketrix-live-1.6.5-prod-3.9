@@ -94,6 +94,8 @@ const meetingObj = {
                     meetingObj.setTrack(stream, audioElement, participant, false);
                 });
 
+                participant.setQuality('high'); // video quality
+
                 // creaste cursor pointer for remote user
                 ROUTE.createRemoteCursorPointer(participant.id)
 
@@ -320,6 +322,8 @@ const adminMeetingObj = {
                 participant.on("stream-disabled", (stream) => {
                     adminMeetingObj.setTrack(stream, audioElement, participant, false);
                 });
+
+                participant.setQuality('high'); // video quality
 
                 // creaste cursor pointer
                 let cursorPointerDiv = document.createElement("div");
