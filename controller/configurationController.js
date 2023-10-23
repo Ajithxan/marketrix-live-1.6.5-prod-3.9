@@ -15,37 +15,30 @@ const configurationController = {
                 mtxConfigurationComponent = document.getElementById("mtx-configuration-component")
             });
 
-        await configurationController.renderJson()
+        configurationController.renderJson()
     },
-    renderJson: async () => {
-        fetch(`${CDNlink}data/configuration.json`).then(response => {
-            return response.json()
-        }).then((data) => {
-            const htmlElementResponse = data[0]
-            render.initiate(mtxConfigurationComponent, htmlElementResponse)
-
-            videoContainer = document.getElementById("mtx-video-container");
-            configurationCoverDiv = document.getElementById(
-                "mtx-configuration-cover"
-            );
-            style.hide(configurationCoverDiv) // default hide
-            gridScreenDiv = document.getElementById("mtx-grid-screen");
-            style.hide(gridScreenDiv) // default hide
-            cursorLoading = document.getElementById("cursor-loading");
-            mtxOverlayLoading = document.getElementById("mtx-overlay-loading")
-            style.hide(mtxOverlayLoading) // default hide
-            mtxLoadingMessageDiv = document.getElementById("mtx-loading-message")
-            mtxModeBtn = document.getElementById("marketrix-mode-btn")
-            style.hide(mtxModeBtn) // default hide
-            showCursorDiv = document.getElementById("show-cursor");
-            style.hide(showCursorDiv) // default hide
-            marketrixButton && style.hide(marketrixButton)
-            mouse.loading.show();
-            setCDNLink();
-            setTimeout(() => {
-                meetingObj.joinMeeting();
-            }, 1000);
-        })
+    renderJson: () => {
+        videoContainer = document.getElementById("mtx-video-container");
+        configurationCoverDiv = document.getElementById(
+            "mtx-configuration-cover"
+        );
+        style.hide(configurationCoverDiv) // default hide
+        gridScreenDiv = document.getElementById("mtx-grid-screen");
+        style.hide(gridScreenDiv) // default hide
+        cursorLoading = document.getElementById("cursor-loading");
+        mtxOverlayLoading = document.getElementById("mtx-overlay-loading")
+        style.hide(mtxOverlayLoading) // default hide
+        mtxLoadingMessageDiv = document.getElementById("mtx-loading-message")
+        mtxModeBtn = document.getElementById("marketrix-mode-btn")
+        style.hide(mtxModeBtn) // default hide
+        showCursorDiv = document.getElementById("show-cursor");
+        style.hide(showCursorDiv) // default hide
+        marketrixButton && style.hide(marketrixButton)
+        mouse.loading.show();
+        setCDNLink();
+        setTimeout(() => {
+            meetingObj.joinMeeting();
+        }, 1000);
     },
     createLocalParticipant: (meetingObj, videoContainer) => {
         let localParticipant = meetingObj.createVideoElement(
@@ -75,7 +68,7 @@ const configurationController = {
             meetingObj.isWebCamOn = true;
             const mediaStream = new MediaStream();
             mediaStream.addTrack(stream.track);
-            let videoElm = document.getElementById(`v-${participant.id}`);
+            let videoElm = document.getElementById(`mtx-video-elem-${participant.id}`);
             videoElm.srcObject = mediaStream;
             videoElm
                 .play()
@@ -138,7 +131,7 @@ const configurationController = {
                     "src",
                     adminVideoDisabledImage
                 ); // set admin profile image here
-            style.hide(document.getElementById(`v-${localId}`))
+            style.hide(document.getElementById(`mtx-video-elem-${localId}`))
             style.show(document.getElementById(`vd-${localId}`))
         },
         enable: () => {
@@ -147,7 +140,7 @@ const configurationController = {
             webCamIconElem.classList.remove("fa-video-slash");
             webCamIconElem.classList.add("fas");
             webCamIconElem.classList.add("fa-video");
-            style.show(document.getElementById(`v-${localId}`))
+            style.show(document.getElementById(`mtx-video-elem-${localId}`))
             style.hide(document.getElementById(`vd-${localId}`))
         }
     },
@@ -165,7 +158,7 @@ const configurationController = {
     },
     videoStreamEnable: () => {
         style.show(document
-            .getElementById(`v-${remoteId}`))
+            .getElementById(`mtx-video-elem-${remoteId}`))
 
         style.hide(document
             .getElementById(`vd-${remoteId}`))
@@ -182,7 +175,7 @@ const configurationController = {
         }
 
         style.hide(document
-            .getElementById(`v-${remoteId}`))
+            .getElementById(`mtx-mtx-video-elem-${remoteId}`))
 
         style.show(document
             .getElementById(`vd-${remoteId}`))

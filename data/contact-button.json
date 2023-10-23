@@ -21,10 +21,10 @@
                         "element": "div",
                         "class": ["mtx-button-txt"],
                         "inlineStyles": {
-                            "backgroundColor": "",
+                            "backgroundColor": "live_agent_background_color",
                             "color": ""
                         },
-                        "text": "Live Agent"
+                        "text": "live_agent_text"
                     }
                 ]
             }

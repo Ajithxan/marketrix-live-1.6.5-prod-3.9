@@ -1,7 +1,7 @@
 const mouseController = {
     cursorVideoFrameElement: (userId, isLocalUser, show) => {
         const cursorVideoFrameDiv = document.getElementById(`f-${userId}`);
-        const vLocalDiv = document.getElementById(`v-${userId}`);
+        const vLocalDiv = document.getElementById(`mtx-video-elem-${userId}`);
         const videoDisabledImgDiv = document.getElementById(`vdi-${userId}`)
         const videoDisabledDiv = document.getElementById(`vd-${userId}`)
 

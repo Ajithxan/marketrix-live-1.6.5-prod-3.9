@@ -80,5 +80,5 @@ const render = {
         keys.forEach(key => {
             element.style[key] = inlineStyles[key]
         })
-    }
+    },
 }

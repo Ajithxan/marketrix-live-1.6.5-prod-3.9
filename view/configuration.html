@@ -4,8 +4,40 @@
         <title>configurtion page</title>
     </head>
     <body>
-        <section id="mtx-configuration-component">
-           <!-- dynamic element -->
-        </section>
+        <div id="mtx-configuration-cover" class="mtx-hidden"></div>
+        <div id="mtx-overlay-loading" class="mtx-hidden">
+            <div class="mtx-loading-img">
+                <div>
+                    <img src="{{CDN_LINK}}assets/images/mtx-logo.jpg">
+                </div>
+                <div>
+                    <span>Marketrix</span>
+                </div>
+            </div>
+            <div style="font-size: 12px;">
+                <i class="fas fa-spinner fa-pulse"></i>
+                <span id="mtx-loading-message"></span>
+            </div>
+        </div>
+        <div id="mtx-configuration" class="mtx-configuration-position">
+            <div id="mtx-grid-screen" class="mtx-container-fluid mtx-hidden">
+                <div id="mtx-video-container" class=""></div>
+                <div class="mtx-config-controls">
+                    <div id="show-cursor" class="mtx-hidden">
+                        <div id="focus-mode-btn" class="config-btn-circle" onclick="mouse.show()">
+                            <img class="mtx-cursor-img" src="{{CDN_LINK}}assets/images/cursor.png"/>
+                        </div>
+                        <div id="marketrix-mode-btn" class="config-btn-circle mtx-hidden mtx-mode" onclick="mouse.hide()">
+                            <img class="mtx-cursor-img" src="{{CDN_LINK}}assets/images/cursor.png"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- cursor loading -->
+            <div
+                id="cursor-loading" class="mtx-cursor-loading">
+            </div>
+            <!-- end curson loading -->
+        </div>
     </body>
 </html>

@@ -12,7 +12,7 @@ const contactFormController = {
                 style.hide(marketrixModalContainer)
             });
 
-        await contactFormController.renderJson()
+        // await contactFormController.renderJson()
 
         mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
         style.hide(mtxContactFormNotificationCard) // default hide

@@ -14,7 +14,7 @@ const contactButtonController = {
         document.body.prepend(contactFormDiv);
         document.body.prepend(parentDiv);
 
-        await fetch(`${CDNlink}view/contact-button.html`)
+        await fetch(`${CDNlink}view/agent-button.html`)
             .then((response) => {
                 return response.text();
             })
@@ -23,7 +23,7 @@ const contactButtonController = {
                 marketrixButton = document.getElementById("marketrix-button");
             });
 
-        await contactButtonController.renderJson()
+        // await contactButtonController.renderJson()
     },
 
     renderJson: async () => {

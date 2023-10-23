@@ -145,7 +145,7 @@ const meetingObj = {
         //create video
         let videoElement = document.createElement("video");
         videoElement.classList.add("mtx-video-frame");
-        videoElement.setAttribute("id", `v-${pId}`);
+        videoElement.setAttribute("id", `mtx-video-elem-${pId}`);
         videoElement.setAttribute("playsinline", true);
 
         // video disabled
@@ -376,7 +376,7 @@ const adminMeetingObj = {
         //create video
         let videoElement = document.createElement("video");
         videoElement.classList.add("mtx-moving-video-frame");
-        videoElement.setAttribute("id", `v-${pId}`);
+        videoElement.setAttribute("id", `mtx-video-elem-${pId}`);
         videoElement.setAttribute("playsinline", true);
         adminVideoFrame.appendChild(videoElement);
         return adminVideoFrame;
