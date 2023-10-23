@@ -1,0 +1,32 @@
+[{
+        "element": "div",
+        "class": ["mtx-mainButton"],
+        "child": {
+            "element": "div",
+            "class": ["mtx-button"],
+            "onclick": "showModal()",
+            "children": {
+                "elements": [
+                    {
+                        "element": "div",
+                        "class": ["mtx-avatar"],
+                        "child": {
+                            "element": "div",
+                            "child": {
+                                "element": "img",
+                                "src":"{{CDN_LINK}}assets/images/mtx-logo.jpg"
+                            }
+                        }
+                    }, {
+                        "element": "div",
+                        "class": ["mtx-button-txt"],
+                        "inlineStyles": {
+                            "backgroundColor": "live_agent_background_color",
+                            "color": ""
+                        },
+                        "text": "live_agent_text"
+                    }
+                ]
+            }
+        }
+    }]

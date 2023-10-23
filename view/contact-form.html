@@ -1,0 +1,136 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="{{CDN_LINK}}assets/styles/styles.css"/>
+        <title>contact-button</title>
+    </head>
+
+    <body>
+        <div class="mtx-form-position mtx-hidden" id="marketrix-modal-container">
+            <section class="mtx-modal">
+                <div class="marketrix-flex">
+                    <div class="mtxx-modal-content">
+
+                        <div class="">
+                            <div id="mtx-cursor-header" class="mtx-main-cursor-header">
+                                <div class="mtx-cursor-header">
+                                    <div class="mtx-cursor-one">
+                                        <img src="{{CDN_LINK}}assets/images/cursor-one.png"/>
+                                    </div>
+                                    <div class="mtx-cursor-two">
+                                        <img src="{{CDN_LINK}}assets/images/cursor-two.png"/>
+                                    </div>
+                                    <div class="mtx-cursor-three">
+                                        <img src="{{CDN_LINK}}assets/images/cursor-three.png"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mtx-contact-form-notification-card" class="mtx-hidden">
+                                <div>
+                                    <i id="mtx-notification-icon" class="fa notification-icon" aria-hidden="true"></i>
+                                    <span id="mtx-contact-notification"></span>
+                                </div>
+                            </div>
+                            <div id="mtx-form-content" class="mtx-form-body">
+                                <form id="mtx-form">
+                                    <div>
+                                        <div class="mtx-form-group">
+                                            <div class="title-one">We are here to support you!</div>
+                                            <p class="title-two">Inorder to get started, we'd like to collect some
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  information.
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mtx-form-group">
+                                        <input name="name" type="text" class="mtx-form-control " placeholder="Your name"/>
+                                    </div>
+                                    <div class="mtx-form-group">
+                                        <input name="email" type="text" class="mtx-form-control " placeholder="Work email"/>
+                                    </div>
+                                    <!-- <div class="mtx-form-group">
+                                                                                                                                                                                        <select name="inquiry_type" class="mtx-form-control" aria-label="Default select example">
+                                                                                                                                                                                            <option class="mtx-option-selected" selected="selected">
+                                                                                                                                                                                                Select a Inquiry Type
+                                                                                                                                                                                            </option>
+                                                                                                                                                                                            <option value="Account">Account</option>
+                                                                                                                                                                                            <option value="Billing">Billing</option>
+                                                                                                                                                                                            <option value="Refunds">Refunds</option>
+                                                                                                                                                                                            <option value="General">General</option>
+                                                                                                                                                                                            <option value="Feature">Feature</option>
+                                                                                                                                                                                            <option value="Integration">Integration</option>
+                                                                                                                                                                                            <option value="Product">Product</option>
+                                                                                                                                                                                            <option value="Technical">Technical</option>
+                                                                                                                                                                                        </select>
+                                                                                                                                                                                    </div> -->
+
+                                    <!-- <div class="mtx-form-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <input name="phone_no" type="text" class="mtx-form-control " placeholder="Phone Number" />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div> -->
+
+                                    <div class="mtx-form-group">
+                                        <textarea rows="2" type="text" class="mtx-form-control shadow-lg" name="message" placeholder="Tell us how we can help you?"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="mtx-admin-call-div" class="mtx-hidden">
+                                <div id="mtx-admin-grid-screen" class="mtx-hidden">
+                                    <div id="mtx-admin-video-container"></div>
+                                </div>
+                                <div class="mtx-admin-call-text"> <span id="admin-message">Loading...</span></div>
+                                <div class="mtx-main-footer">
+                                    <div class="mtx-admin-call-footer">
+                                        <div class="mtx-footer-actions">
+                                            <div type="button" class="mtx-join-with-video-btn" onclick="joinMeeting(true)">
+                                                <span >
+                                                    <i class="fas fa-video"></i>
+                                                    Join with video
+                                                </span>
+                                            </div>
+                                            <div type="button" class="mtx-join-with-audio-btn" onclick="joinMeeting(false)">
+                                                <span>
+                                                    <i class="fa fa-headphones" aria-hidden="true"></i>
+                                                    Join with audio
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="mtx-footer-controls" class="mtx-main-footer">
+                                <div class="mtx-connect-footer">
+                                    <div class="mtx-footer-actions">
+                                        <div type="button" class="mtx-btn-background " onclick="meetingObj.toggle.mic()">
+                                            <i id="mic-icon" class="fa-solid fa-microphone"></i>
+                                        </div>
+                                        <div type="button" class="mtx-btn-background" onclick="meetingObj.toggle.webCam()">
+                                            <i id="webcam-icon" class="fas fa-video"></i>
+                                        </div>
+                                        <div type="button" id="mtx-btn-connect" class="mtx-btn-connect" onclick="submit()">
+                                            <span>
+                                                <i class="fa fa-headphones" aria-hidden="true"></i>Connect</span>
+                                        </div>
+                                        <div type="button" id="mtx-btn-endcall" class="mtx-btn-end-call mtx-hidden" onclick="meetingObj.leaveMeeting()">
+                                            <span>
+                                                <i class="fa-solid fa-phone-slash"></i>
+                                                End call
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="mtx-form-close-btn" class="mtx-close-btn-footer">
+                                    <div type="button" onclick="closeModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </body>
+        </body>
+    </body>
+</html>
+<!-- </div><div class="mtx-overlay mtx-hidden"></div></body></html> -->
