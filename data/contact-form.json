@@ -1,0 +1,295 @@
+[{
+        "element": "section",
+        "class": ["mtx-modal"],
+        "child": {
+            "element": "div",
+            "class": ["marketrix-flex"],
+            "child": {
+                "element": "div",
+                "class": ["mtxx-modal-content"],
+                "child": {
+                    "element": "div",
+                    "children": {
+                        "elements": [
+                            {
+                                "element": "div",
+                                "id": "mtx-cursor-header",
+                                "class": ["mtx-main-cursor-header"],
+                                "child": {
+                                    "element": "div",
+                                    "class": ["mtx-cursor-header"],
+                                    "children": {
+                                        "elements": [
+                                            {
+                                                "element": "div",
+                                                "class": ["mtx-cursor-one"],
+                                                "child": {
+                                                    "element": "img",
+                                                    "src": "{{CDN_LINK}}assets/images/cursor-one.png"
+                                                }
+                                            }, {
+                                                "element": "div",
+                                                "class": ["mtx-cursor-two"],
+                                                "child": {
+                                                    "element": "img",
+                                                    "src": "{{CDN_LINK}}assets/images/cursor-two.png"
+                                                }
+                                            }, {
+                                                "element": "div",
+                                                "class": ["mtx-cursor-three"],
+                                                "child": {
+                                                    "element": "img",
+                                                    "src": "{{CDN_LINK}}assets/images/cursor-three.png"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "element": "div",
+                                "id": "mtx-contact-form-notification-card",
+                                "child": {
+                                    "element": "div",
+                                    "children": {
+                                        "elements": [
+                                            {
+                                                "element": "i",
+                                                "class": [
+                                                    "fa", "notification-icon"
+                                                ],
+                                                "ariaHidden": "true"
+                                            }, {
+                                                "element": "span",
+                                                "id": "mtx-contact-notification"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "element": "div",
+                                "id": "mtx-form-content",
+                                "class": ["mtx-form-body"],
+                                "child": {
+                                    "element": "form",
+                                    "id": "mtx-form",
+                                    "children": {
+                                        "elements": [
+                                            {
+                                                "element": "div",
+                                                "child": {
+                                                    "element": "div",
+                                                    "class": ["mtx-form-group"],
+                                                    "children": {
+                                                        "elements": [
+                                                            {
+                                                                "element": "div",
+                                                                "class": ["title-one"],
+                                                                "text": "We are here to support you!"
+                                                            }, {
+                                                                "element": "p",
+                                                                "class": ["title-two"],
+                                                                "text": "Inorder to get started, we'd like to collect some information."
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }, {
+                                                "element": "div",
+                                                "class": ["mtx-form-group"],
+                                                "child": {
+                                                    "element": "input",
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "class": ["mtx-form-control"],
+                                                    "placeholder": "Your name"
+                                                }
+                                            }, {
+                                                "element": "div",
+                                                "class": ["mtx-form-group"],
+                                                "child": {
+                                                    "element": "input",
+                                                    "name": "email",
+                                                    "type": "text",
+                                                    "class": ["mtx-form-control"],
+                                                    "placeholder": "Work email"
+                                                }
+                                            }, {
+                                                "element": "div",
+                                                "class": ["mtx-form-group"],
+                                                "child": {
+                                                    "element": "textarea",
+                                                    "rows": "2",
+                                                    "name": "message",
+                                                    "type": "text",
+                                                    "class": [
+                                                        "mtx-form-control", "shadow-lg"
+                                                    ],
+                                                    "placeholder": "Tell us how we can help you?"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "element": "div",
+                                "id": "mtx-admin-call-div",
+                                "children": {
+                                    "elements": [
+                                        {
+                                            "element": "div",
+                                            "id": "mtx-admin-grid-screen",
+                                            "child": {
+                                                "element": "div",
+                                                "id": "mtx-admin-video-container"
+                                            }
+                                        }, {
+                                            "element": "div",
+                                            "class": ["mtx-admin-call-text"],
+                                            "child": {
+                                                "element": "span",
+                                                "id": "admin-message",
+                                                "text": "Loading..."
+                                            }
+                                        }, {
+                                            "element": "div",
+                                            "class": ["mtx-main-footer"],
+                                            "child": {
+                                                "element": "div",
+                                                "class": ["mtx-admin-call-footer"],
+                                                "child": {
+                                                    "element": "div",
+                                                    "class": ["mtx-footer-actions"],
+                                                    "children": {
+                                                        "elements": [
+                                                            {
+                                                                "element": "div",
+                                                                "type": "button",
+                                                                "class": ["mtx-join-with-video-btn"],
+                                                                "onclick": "joinMeeting(true)",
+                                                                "child": {
+                                                                    "element": "span",
+                                                                    "text": "Join with video ",
+                                                                    "child": {
+                                                                        "element": "i",
+                                                                        "class": ["fas", "fa-video"]
+                                                                    }
+                                                                }
+                                                            }, {
+                                                                "element": "div",
+                                                                "class": ["mtx-join-with-audio-btn"],
+                                                                "onclick": "joinMeeting(false)",
+                                                                "child": {
+                                                                    "element": "span",
+                                                                    "text": "Join with audio ",
+                                                                    "child": {
+                                                                        "element": "i",
+                                                                        "class": [
+                                                                            "fa", "fa-headphones"
+                                                                        ],
+                                                                        "ariaHidden": "true"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "element": "div",
+                                "id": "mtx-footer-controls",
+                                "class": ["mtx-main-footer"],
+                                "children": {
+                                    "elements": [
+                                        {
+                                            "element": "div",
+                                            "class": ["mtx-connect-footer"],
+                                            "child": {
+                                                "element": "div",
+                                                "class": ["mtx-footer-actions"],
+                                                "children": {
+                                                    "elements": [
+                                                        {
+                                                            "element": "div",
+                                                            "type": "button",
+                                                            "class": ["mtx-btn-background"],
+                                                            "onclick": "meetingObj.toggle.mic()",
+                                                            "child": {
+                                                                "element": "i",
+                                                                "id": "mic-icon",
+                                                                "class": ["fa-solid", "fa-microphone"]
+                                                            }
+                                                        }, {
+                                                            "element": "div",
+                                                            "type": "button",
+                                                            "class": ["mtx-btn-background"],
+                                                            "onclick": "meetingObj.toggle.webCam()",
+                                                            "child": {
+                                                                "element": "i",
+                                                                "id": "webcam-icon",
+                                                                "class": ["fas", "fa-video"]
+                                                            }
+                                                        }, {
+                                                            "element": "div",
+                                                            "type": "button",
+                                                            "id": "mtx-btn-connect",
+                                                            "class": ["mtx-btn-connect"],
+                                                            "onclick": "submit()",
+                                                            "child": {
+                                                                "element": "span",
+                                                                "child": {
+                                                                    "element": "i",
+                                                                    "class": [
+                                                                        "fa", "fa-headphones"
+                                                                    ],
+                                                                    "ariaHidden": "true"
+                                                                },
+                                                                "text": "Connect"
+                                                            }
+                                                        }, {
+                                                            "element": "div",
+                                                            "type": "button",
+                                                            "id": "mtx-btn-endcall",
+                                                            "class": ["mtx-btn-end-call"],
+                                                            "onclick": "meetingObj.leaveMeeting()",
+                                                            "child": {
+                                                                "element": "span",
+                                                                "child": {
+                                                                    "element": "i",
+                                                                    "class": [
+                                                                        "fa-solid", "fa-phone-slash"
+                                                                    ],
+                                                                    "ariaHidden": "true"
+                                                                },
+                                                                "text": "End call "
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        }, {
+                                            "element": "div",
+                                            "id": "mtx-form-close-btn",
+                                            "class": ["mtx-close-btn-footer"],
+                                            "child": {
+                                                "element": "div",
+                                                "type": "button",
+                                                "onclick": "closeModal()",
+                                                "signText": "&times;"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }]

@@ -1,0 +1,111 @@
+[{
+        "elements": [
+            {
+                "element": "div",
+                "id": "mtx-configuration-cover"
+            }, {
+                "element": "div",
+                "id": "mtx-overlay-loading",
+                "children": {
+                    "elements": [
+                        {
+                            "element": "div",
+                            "class": ["mtx-loading-img"],
+                            "children": {
+                                "elements": [
+                                    {
+                                        "element": "div",
+                                        "child": {
+                                            "element": "img",
+                                            "src": "{{CDN_LINK}}assets/images/mtx-logo.jpg"
+                                        }
+                                    }, {
+                                        "element": "div",
+                                        "child": {
+                                            "element": "span",
+                                            "text": "Marketrix"
+                                        }
+                                    }
+                                ]
+                            }
+                        }, {
+                            "element": "div",
+                            "inlineStyles": {
+                                "fontSize": "12px"
+                            },
+                            "children": {
+                                "elements": [
+                                    {
+                                        "element": "i",
+                                        "class": ["fas", "fa-spinner", "fa-pulse"]
+                                    }, {
+                                        "element": "span",
+                                        "class": ["mtx-loading-message"]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }, {
+                "element": "div",
+                "id": "mtx-configuration",
+                "class": ["mtx-configuration-position"],
+                "children": {
+                    "elements": [
+                        {
+                            "element": "div",
+                            "id": "mtx-grid-screen",
+                            "class": ["mtx-container-fluid"],
+                            "children": {
+                                "elements": [
+                                    {
+                                        "element": "div",
+                                        "id": "mtx-video-container"
+                                    }, {
+                                        "element": "div",
+                                        "class": ["mtx-config-controls"],
+                                        "child": {
+                                            "element": "div",
+                                            "id": "show-cursor",
+                                            "children": {
+                                                "elements": [
+                                                    {
+                                                        "element": "div",
+                                                        "id": "focus-mode-btn",
+                                                        "class": ["config-btn-circle"],
+                                                        "onclick": "mouse.show()",
+                                                        "child": {
+                                                            "element": "img",
+                                                            "class": ["mtx-cursor-img"],
+                                                            "src": "{{CDN_LINK}}assets/images/cursor.png"
+                                                        }
+                                                    }, {
+                                                        "element": "div",
+                                                        "id": "marketrix-mode-btn",
+                                                        "class": [
+                                                            "config-btn-circle", "mtx-mode"
+                                                        ],
+                                                        "onclick": "mouse.hide()",
+                                                        "child": {
+                                                            "element": "img",
+                                                            "class": ["mtx-cursor-img"],
+                                                            "src": "{{CDN_LINK}}assets/images/cursor.png"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }, {
+                            "element": "div",
+                            "id": "cursor-loading",
+                            "class": ["mtx-cursor-loading"]
+                        }
+                    ]
+                }
+            }
+        ]
+    }]
