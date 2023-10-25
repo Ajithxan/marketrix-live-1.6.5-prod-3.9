@@ -150,23 +150,24 @@ const initiateSnippet = async () => {
         else await ROUTE.widgetCard()
 
         await ROUTE.contactForm()
+        setCDNLink() // set CDN link
+        generateCursorId() // generate cursor id
+        await getUtmInfo()
+        await getIpAddress()
+        initiateWatchMethod() // iniate watch methods
+        checkUrlChanges() // this method would be called when redirecting or reloading
+        setToStore('CURRENT_URL', currentUrl) // set current url in the store
+        setUserRole() // set user role
+        initiateSocketConnection() // initialize socket connection
+        checkMeetingVariables() // this method would be called when redirection or reloading
+        getQuery() // admin get request
     }
-
-    setCDNLink() // set CDN link
-    generateCursorId() // generate cursor id
-    await getUtmInfo()
-    await getIpAddress()
-    initiateWatchMethod() // iniate watch methods
-    checkUrlChanges() // this method would be called when redirecting or reloading
-    setToStore('CURRENT_URL', currentUrl) // set current url in the store
-    setUserRole() // set user role
-    initiateSocketConnection() // initialize socket connection
-    checkMeetingVariables() // this method would be called when redirection or reloading
-    getQuery() // admin get request
 };
 
 // initializing this snippet
-initiateSnippet()
+setTimeout(async () => {
+    await initiateSnippet()
+}, 1000)
 
 document.addEventListener("keydown", function (event) {
     // Check if the "Escape" key is pressed (esc key has keycode 27)
