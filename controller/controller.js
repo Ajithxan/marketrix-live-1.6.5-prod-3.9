@@ -1,5 +1,5 @@
 console.log("controller.js is loaded")
-const controllers = ["contactButtonController", "contactFormController", "configurationController", "mouseController", "scrollController", "notificationController"]
+const controllers = ["widgetButtonController", "contactFormController", "configurationController", "mouseController", "scrollController", "notificationController", "componentController", "widgetCardController"]
 
 let controllersFirstIndex = 0
 

@@ -1,6 +1,7 @@
 console.log("route.js is loaded")
 const ROUTE = {
-    contactButton: async () => await contactButtonController.view(),
+    widgetButton: async () => await widgetButtonController.view(),
+    widgetCard: async () => await widgetCardController.view(),
     contactForm: async () => await contactFormController.view(),
     configuration: async () => await configurationController.view(),
     createLocalParticipant: (meeitngObj, videoContainer) => configurationController.createLocalParticipant(meeitngObj, videoContainer),
@@ -33,5 +34,6 @@ const ROUTE = {
     checkMeetingVariables: () => configurationController.checkMeetingVariables(),
     generateCursorId: () => mouseController.cursor.ID(),
     scrollPosition: (pageX, pageY) => scrollController.position(pageX, pageY),
-    formNotification: (isAgentAvailable) => notificationController.form(isAgentAvailable)
+    formNotification: (isAgentAvailable) => notificationController.form(isAgentAvailable),
+    componentData: (componentName) => componentController.getData(componentName)
 }

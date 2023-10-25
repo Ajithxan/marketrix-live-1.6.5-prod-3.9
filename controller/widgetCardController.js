@@ -1,5 +1,4 @@
-console.log("contactButtonController.js is loaded")
-const contactButtonController = {
+const widgetCardController = {
     view: async () => {
         parentDiv = document.createElement("div");
         contactFormDiv = document.createElement("div");
@@ -14,7 +13,7 @@ const contactButtonController = {
         document.body.prepend(contactFormDiv);
         document.body.prepend(parentDiv);
 
-        await fetch(`${CDNlink}view/agent-button.html`)
+        await fetch(`${CDNlink}view/widget-card.html`)
             .then((response) => {
                 return response.text();
             })
@@ -22,16 +21,5 @@ const contactButtonController = {
                 parentDiv.innerHTML = html; // rendering
                 marketrixButton = document.getElementById("marketrix-button");
             });
-
-        // await contactButtonController.renderJson()
-    },
-
-    renderJson: async () => {
-        fetch(`${CDNlink}data/contact-button.json`).then(response => {
-            return response.json()
-        }).then((data) => {
-            const htmlElementResponse = data[0]
-            render.initiate(marketrixButton, htmlElementResponse)
-        })
     }
 }

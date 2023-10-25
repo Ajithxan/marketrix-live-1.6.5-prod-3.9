@@ -1,5 +1,5 @@
-const meetVersion = "1.6.5-prod-2.4"
-const CDNlink = 'http://localhost/creativehub/marketrix-live-1.3.4/' //`https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/`
+const meetVersion = "1.6.5-prod-2.5"
+const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //'http://localhost/creativehub/marketrix-live-1.3.4/'
 console.log(CDNlink)
 const startingTime = new Date().getTime()
 const fontAwesomeCDNLink = document.createElement("link")

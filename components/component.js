@@ -1,9 +1,9 @@
 console.log("component.js is loaded")
-const components = ["agentButton"]
+const components = ["widgetButton", "widgetCard"]
 
 let componentsFirstIndex = 0
 
-const loadComponent = () => {
+const loadComponent = async () => {
     if (componentsFirstIndex === components.length) return
 
     let script = document.createElement("script")
@@ -19,5 +19,12 @@ const loadComponent = () => {
         loadComponent()
     })
 }
+
+// fetch component design
+fetch(`https://api-v2.marketrix.io/admin/tenant/snippet_json/mLive-DHsAT`).then(async (response) => {
+    return await response.json()
+}).then(async (data) => {
+    if ((/true/).test(data.status)) setToStore("COMPONENT_DATA", JSON.stringify(data.data))
+})
 
 loadComponent()
