@@ -1,0 +1,12 @@
+@forward "./abstracts";
+@forward "./base";
+@forward "./components/";
+@forward "./layouts";
+@forward "./utilities/";
+
+body {
+  width: auto;
+  padding: 0rem;
+  margin: 0;
+  font-family: "Inter-Bold";
+}

@@ -1,27 +1,27 @@
 class WidgetCard extends HTMLElement {
-    constructor() {
-        super();
+  constructor() {
+    super();
 
-        this.text = "Widget card text"
+    this.text = "Widget card text";
+  }
+
+  connectedCallback() {
+    this.fetchData();
+    this.render();
+  }
+
+  fetchData() {
+    const data = ROUTE.componentData("widget_card");
+    if (data) {
+      console.log(data);
     }
+  }
 
-    connectedCallback() {
-        this.fetchData()
-        this.render()
-    }
-
-    fetchData() {
-        const data = ROUTE.componentData("widget_card")
-        if (data) {
-            console.log(data)
-        }
-    }
-
-    render() {
-        this.innerHTML = `<div class="mtx-mainButton">
+  render() {
+    this.innerHTML = `<div class="mtx-mainButton">
                 ${this.text}
-            </div>`
-    }
+            </div>`;
+  }
 }
 
-customElements.define("widget-card", WidgetCard)
+customElements.define("widget-card", WidgetCard);

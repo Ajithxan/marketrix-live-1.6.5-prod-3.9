@@ -1,0 +1,29 @@
+@forward "../abstracts/variables";
+@forward "../base/color";
+
+.mtx-snpt-input-box-primary {
+  border: var(--mtx-snpt-border);
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--mtx-snpt-border-radius-primary);
+  margin: 0.8rem 0rem;
+  font-size: 1rem;
+  display: flex;
+  color: var(--gray-700);
+  font-family: Inter-Medium;
+}
+
+.mtx-snpt-input-feild {
+  font-size: 1rem;
+  display: flex;
+  color: var(--gray-700);
+  margin: 0.3rem 0rem;
+  width: 100%;
+  font-family: Inter-Medium;
+}
+
+.mtx-snpt-hintText {
+  color: var(--gray-500);
+  font-size: 14px;
+  font-family: Inter-Medium;
+  margin: 0;
+}

@@ -1,0 +1,49 @@
+@forward "../abstracts/variables";
+//controller Button
+.mtx-snpt-controller {
+  border-radius: 100%;
+  padding: 0.8rem;
+  background-repeat: no-repeat;
+  border-radius: 6.25rem;
+  background-color: white;
+  width: min-content;
+  border: var(--mtx-snpt-border);
+  transition-duration: 300ms;
+
+  &:hover {
+    cursor: pointer;
+  }
+  &-mic {
+    @extend .mtx-snpt-controller;
+    background: url(/assets/icons/mic.svg) no-repeat;
+    background-position: center;
+
+    &-disabled,
+    &:disabled,
+    &[disabled] {
+      background: url(/assets/icons/mic.svg) no-repeat;
+    }
+  }
+
+  &-headphone {
+    background: url(/assets/icons/headphones.svg) no-repeat;
+
+    &-disabled,
+    &:disabled,
+    &[disabled] {
+      background: url(/assets/icons/mic.svg) no-repeat;
+    }
+  }
+
+  &-video {
+    @extend .mtx-snpt-controller;
+    background: url(/assets/icons/video.svg) no-repeat;
+    background-position: center;
+
+    &-disabled,
+    &:disabled,
+    &[disabled] {
+      background: url(/assets/icons/mic.svg) no-repeat;
+    }
+  }
+}
