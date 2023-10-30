@@ -2,9 +2,11 @@ class WidgetCard extends HTMLElement {
   constructor() {
     super();
 
-    this.text = "Widget card text";
-    this.themeColor = "purple";
+    this.theme_color = "purple";
+    this.video_url = "videoCard";
   }
+
+  // <video src="{{CDN_LINK}}assets/videos/videoCard.mp4" autoplay="" loop="" muted="" playsinline="" width="360px" height="210px"></video>
 
   connectedCallback() {
     this.fetchData();
@@ -22,11 +24,12 @@ class WidgetCard extends HTMLElement {
     this.innerHTML = `
     <div class="mtx-snpt-video-circle-comp" onclick="showModal()"> 
     <p>Press Right arrow key  to start the journey 👉🏼 </p>
- <div class="mtx-video-circle"> 
-          
- <video muted autoplay loop>
-   <source src="{{CDN_LINK}}assets/images/hellovideo.mp4" type="video/mp4">
- </video>`;
+        <div class="mtx-video-circle" style="border: 0.5rem solid ${this.theme_color};">
+           <video width="320" height="240" >
+            <source src="{{CDN_LINK}}assets/videos/${this.video_url}.mp4" type="video/mp4">
+           </video>
+        </div>
+        `;
   }
 }
 
