@@ -1,0 +1,57 @@
+.mtx-snpt-video-circle-comp {
+  bottom: 1rem;
+  width: min-content;
+  position: fixed;
+  padding: 2rem;
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  backdrop-filter: blur(14px);
+  background-color: rgba(255, 255, 255, 0.2);
+  height: auto;
+  border-radius: 1rem;
+  justify-content: center;
+  align-items: start;
+  display: flex;
+  z-index: 500;
+  flex-direction: column;
+  margin-left: 1rem;
+
+  p {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    width: 12rem;
+    font-weight: 700;
+  }
+}
+
+.mtx-video-circle {
+  border: 0.5rem solid var(--primary-700);
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 50;
+  position: relative;
+
+  p {
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    z-index: 80;
+    position: absolute;
+    bottom: 20px;
+    color: aliceblue;
+  }
+  video {
+    // overflow: hidden;
+    // object-fit: cover;
+    z-index: 40;
+    width: 400px;
+    height: 400px;
+  }
+}

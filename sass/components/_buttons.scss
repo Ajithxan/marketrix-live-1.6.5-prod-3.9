@@ -1,0 +1,88 @@
+@forward "../abstracts/variables";
+@forward "../base/color";
+
+.mtx-snpt-button {
+  display: flex;
+  padding: 0.8rem 1.125rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5rem;
+  text-align: center;
+  transition-duration: 300ms;
+  cursor: pointer;
+  white-space: nowrap;
+  width: auto;
+  min-width: 7rem;
+  font-family: "Inter-Medium";
+  gap: 0.5rem;
+  color: white;
+  outline: 0;
+  border: 0;
+
+  &-agent {
+    @extend .mtx-snpt-button;
+    position: fixed;
+    bottom: 1rem;
+    border: var(--mtx-snpt-border);
+    background: var(--gray-25);
+    box-shadow: var(--mtx-snpt-box-shadow);
+    z-index: 9999;
+    color: black;
+    padding: 0.6rem;
+
+    img {
+      border-radius: 100%;
+      width: 3rem;
+    }
+  }
+
+  &-primary {
+    @extend .mtx-snpt-button;
+    color: white;
+    border: 0px solid;
+    outline: 0;
+
+    &:hover {
+      opacity: 80%;
+      outline: 0;
+    }
+
+    &-disabled,
+    &:disabled,
+    &[disabled] {
+      @extend .mtx-snpt-button;
+      opacity: 30%;
+      outline: 0;
+      cursor: not-allowed;
+      pointer-events: all !important;
+    }
+
+    &-focus,
+    &:focus,
+    &[focus] {
+      @extend .mtx-snpt-button;
+      opacity: 50%;
+      outline: 0;
+    }
+  }
+
+  &-secondary {
+    @extend .mtx-snpt-button;
+    color: rgba(52, 64, 84, 1);
+    background-color: var(--);
+    border: var(--mtx-snpt-border);
+
+    &:hover {
+      background: var(--gray-300);
+    }
+
+    &-disabled,
+    &:disabled,
+    &[disabled] {
+      @extend .mtx-snpt-button;
+      opacity: 90%;
+      cursor: not-allowed;
+      pointer-events: all !important;
+    }
+  }
+}

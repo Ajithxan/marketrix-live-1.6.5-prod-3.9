@@ -1,0 +1,13 @@
+@forward "../abstracts/variables";
+
+.mtx-snpt-container {
+  border-radius: var(--mtx-snpt-border-primary);
+  padding: 1rem;
+  box-shadow: var(--mtx-snpt-box-shadow);
+
+  &-primary {
+    @extend .mtx-snpt-container;
+    width: min-content;
+    height: auto;
+  }
+}

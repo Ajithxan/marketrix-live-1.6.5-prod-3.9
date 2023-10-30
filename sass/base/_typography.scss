@@ -1,0 +1,40 @@
+// Text varient
+
+@forward "../base/color";
+
+.mtx-snpt-text {
+  font-family: Inter-Regular;
+  letter-spacing: 0em;
+  text-align: left;
+ 
+  &-title {
+    @extend .mtx-snpt-text;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+    width: max-content;
+ 
+  }
+  &-subtitle {
+    @extend .mtx-snpt-text;
+    font-size: 1.125rem;
+    line-height: 2rem;
+    font-weight: 500;
+ 
+  }
+  &-bodytext {
+    @extend .mtx-snpt-text;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 00;
+    font-family: Inter-Medium;
+
+   }
+
+  &-titleLabel {
+    @extend .mtx-snpt-text;
+    font-size: 0.875rem;
+    font-family: Inter-Medium;
+    color: var(--gray-700);
+  }
+}
