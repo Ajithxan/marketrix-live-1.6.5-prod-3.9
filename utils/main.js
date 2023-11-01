@@ -148,7 +148,7 @@ const getIpAddress = async () => {
 const initiateSnippet = async () => {
   if (ROUTE.componentData("widget_visible")) {
     if (!ROUTE.componentData("widget_card_status"))
-      await ROUTE.widgetCard(); // if (!ROUTE.componentData("widget_card_status")) await ROUTE.widgetButton()
+      await ROUTE.widgetControl(); // if (!ROUTE.componentData("widget_card_status")) await ROUTE.widgetButton()
     else await ROUTE.widgetCard();
 
     await ROUTE.contactForm();

@@ -1,23 +1,36 @@
-console.log("controller.js is loaded")
-const controllers = ["widgetButtonController", "contactFormController", "configurationController", "mouseController", "scrollController", "notificationController", "componentController", "widgetCardController"]
+console.log("controller.js is loaded");
+const controllers = [
+  "widgetButtonController",
+  "contactFormController",
+  "configurationController",
+  "mouseController",
+  "scrollController",
+  "notificationController",
+  "componentController",
+  "widgetCardController",
+  "widgetControlController",
+];
 
-let controllersFirstIndex = 0
+let controllersFirstIndex = 0;
 
 const loadControllers = () => {
-    if (controllersFirstIndex === controllers.length) return
+  if (controllersFirstIndex === controllers.length) return;
 
-    let script = document.createElement("script")
+  let script = document.createElement("script");
 
-    script.setAttribute("async", "false")
-    script.setAttribute("defer", "true")
-    script.setAttribute("src", `${CDNlink}controller/${controllers[controllersFirstIndex]}.js`)
+  script.setAttribute("async", "false");
+  script.setAttribute("defer", "true");
+  script.setAttribute(
+    "src",
+    `${CDNlink}controller/${controllers[controllersFirstIndex]}.js`
+  );
 
-    document.body.append(script)
+  document.body.append(script);
 
-    script.addEventListener("load", () => {
-        controllersFirstIndex += 1
-        loadControllers()
-    })
-}
+  script.addEventListener("load", () => {
+    controllersFirstIndex += 1;
+    loadControllers();
+  });
+};
 
-loadControllers()
+loadControllers();
