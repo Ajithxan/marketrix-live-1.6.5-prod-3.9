@@ -493,7 +493,7 @@
 #mtx-admin-video-container {
     margin-left: 70px;
 }
-.mtx-video-frame {
+.mtx-video-elem {
     width: 100%;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg); /* Safari and Chrome */

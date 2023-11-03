@@ -21,10 +21,25 @@ class WidgetForm extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = `
-      <div class="mtx-snpt-video-circle-comp""> 
-      Hellooo
-      </div> `;
+    this.innerHTML = `<form id="mtx-form">
+    <div>
+        <div class="mtx-form-group">
+            <div class="title-one">We are here to support you!</div>
+            <p class="title-two">Inorder to get started, we'd like to collect some information.
+            </p>
+        </div>
+    </div>
+    <div class="mtx-form-group">
+        <input name="name" type="text" class="mtx-form-control " placeholder="Your name"/>
+    </div>
+    <div class="mtx-form-group">
+        <input name="email" type="text" class="mtx-form-control " placeholder="Work email"/>
+    </div>
+    <div class="mtx-form-group">
+        <textarea rows="2" type="text" class="mtx-form-control shadow-lg" name="message" placeholder="Tell us how we can help you?"></textarea>
+    </div>
+</form>
+`;
   }
 }
 

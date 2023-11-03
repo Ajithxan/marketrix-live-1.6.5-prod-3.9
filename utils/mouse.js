@@ -6,10 +6,10 @@ const mouse = {
         document.onmousemove = mouse.handleMouse;
     },
     show: (localCursor = false) => {
-        ROUTE.cursorVideoFrameShow(localCursor)
+        ROUTE.cursorVideoFrameShow(localCursor) // mtx mode show
     },
     hide: (localCursor = false) => {
-        ROUTE.cursorVideoFrameHide(localCursor)
+        ROUTE.cursorVideoFrameHide(localCursor) // mtx mode show
     },
     cursorFrameElement: (userId, isLocalUser, show) => {
         ROUTE.cursorVideoFrameElement(userId, isLocalUser, show)

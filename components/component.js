@@ -1,5 +1,5 @@
 console.log("component.js is loaded");
-const components = ["widgetButton", "widgetCard", "widgetForm"];
+const components = ["widgetButton", "widgetCard", "widgetForm", "controlButton", "overlayLoading", "cursorLoading", "modeControlButton", "videoContainer", "mtxModeScreen", "focusModeScreen", "cursorFrame", "videoFrame"];
 
 let componentsFirstIndex = 0;
 

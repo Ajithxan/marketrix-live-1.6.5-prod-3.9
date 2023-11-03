@@ -41,18 +41,24 @@ const configurationController = {
     }, 1000);
   },
   createLocalParticipant: (meetingObj, videoContainer) => {
-    let localParticipant = meetingObj.createVideoElement(
-      meetingObj.meeting.localParticipant.id,
-      meetingObj.meeting.localParticipant.displayName
-    );
+    // let localParticipant = meetingObj.createVideoElement(
+    //   meetingObj.meeting.localParticipant.id,
+    //   meetingObj.meeting.localParticipant.displayName
+    // );
     meetingVariables.participant.localId =
       meetingObj.meeting.localParticipant.id;
     setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
-    let localAudioElement = meetingObj.createAudioElement(
-      meetingObj.meeting.localParticipant.id
-    );
-    videoContainer.append(localParticipant);
-    videoContainer.append(localAudioElement);
+    // let localAudioElement = meetingObj.createAudioElement(
+    //   meetingObj.meeting.localParticipant.id
+    // );
+    // videoContainer.append(localParticipant);
+    // videoContainer.append(localAudioElement);
+
+    let videoFrameComponent = document.createElement("video-frame")
+    videoFrameComponent.setAttribute("participant-id", meetingObj.meeting.localParticipant.id)
+    videoFrameComponent.setAttribute("participant-name", meetingObj.meeting.localParticipant.displayName)
+    videoFrameComponent.setAttribute("is-local-user", true)
+    videoContainer.append(videoFrameComponent)
   },
   audioElement: (pId) => {
     let audioElement = document.createElement("audio");
@@ -293,4 +299,10 @@ const configurationController = {
       }
     }
   },
+  hideElement: (ele) => {
+    style.hide(ele)
+  },
+  showElement: (ele) => {
+    style.show(ele)
+  }
 };

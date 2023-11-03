@@ -13,7 +13,7 @@ const mouseController = {
         if (!isLocalUser) show ? cursorVideoFrameDiv.classList.add("mtx-remote-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-remote-moving-outer-frame")
 
         show ? vLocalDiv.classList.add("mtx-moving-video-frame") : vLocalDiv.classList.remove("mtx-moving-video-frame")
-        show ? vLocalDiv.classList.remove("mtx-video-frame") : vLocalDiv.classList.add("mtx-video-frame")
+        show ? vLocalDiv.classList.remove("mtx-video-elem") : vLocalDiv.classList.add("mtx-video-elem")
         show ? videoDisabledDiv.classList.add("mtx-moving-video-disabled-div") : videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
         show ? videoDisabledDiv.classList.remove("mtx-video-disabled-div") : videoDisabledDiv.classList.add("mtx-video-disabled-div")
         show ?? style.show(videoContainer)
@@ -66,18 +66,18 @@ const mouseController = {
         if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, false)
     },
     createRemoteCursorPointer: (participantId) => {
-        remoteCursorPointerDiv = document.createElement("div");
-        remoteCursorPointer = document.createElement("img");
-        remoteCursorPointer.setAttribute(
-            "src",
-            cursorPointerImage
-        );
-        remoteCursorPointer.classList.add("mtx-remote-cursor");
-        remoteCursorPointerDiv.classList.add("mtx-remote-cursor-png-div");
-        style.hide(remoteCursorPointerDiv)
-        remoteCursorPointerDiv.setAttribute("id", `cp-${participantId}`); // remote id
-        remoteCursorPointerDiv.style.top = "50vh"
-        remoteCursorPointerDiv.appendChild(remoteCursorPointer);
+        // remoteCursorPointerDiv = document.createElement("div");
+        // remoteCursorPointer = document.createElement("img");
+        // remoteCursorPointer.setAttribute(
+        //     "src",
+        //     cursorPointerImage
+        // );
+        // remoteCursorPointer.classList.add("mtx-remote-cursor");
+        // remoteCursorPointerDiv.classList.add("mtx-remote-cursor-png-div");
+        // style.hide(remoteCursorPointerDiv)
+        // remoteCursorPointerDiv.setAttribute("id", `cp-${participantId}`); // remote id
+        // remoteCursorPointerDiv.style.top = "50vh"
+        // remoteCursorPointerDiv.appendChild(remoteCursorPointer);
     },
     cursorHandle: (event) => {
         cursorMoveEnded = false
@@ -136,5 +136,9 @@ const mouseController = {
                 setToStore("CURSOR_ID", cursorId)
             }
         }
+    },
+    marketrixMode: () => {
+        if (getFromStore("MARKETRIX_MODE")) return getFromStore("MARKETRIX_MODE")
+        else return mouse.marketrixMode
     }
 }

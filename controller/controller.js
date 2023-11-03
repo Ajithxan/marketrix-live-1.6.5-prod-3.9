@@ -8,7 +8,6 @@ const controllers = [
   "notificationController",
   "componentController",
   "widgetCardController",
-  "widgetControlController",
 ];
 
 let controllersFirstIndex = 0;

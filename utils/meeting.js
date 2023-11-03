@@ -3,6 +3,7 @@ const meetingObj = {
     meeting: null,
     isMicOn: true,
     isWebCamOn: false,
+    stream: "",
     connect() {
         if (
             /true/.test(getFromStore("MEETING_ENDED")) &&
@@ -33,6 +34,7 @@ const meetingObj = {
 
             // Setting local participant stream
             meetingObj.meeting.localParticipant.on("stream-enabled", (stream) => {
+                meetingObj.stream = stream
                 meetingObj.setTrack(
                     stream,
                     null,
@@ -67,10 +69,10 @@ const meetingObj = {
             meetingObj.meeting.on("participant-joined", (participant) => {
                 if ((/false/).test(firstTimeAdminRequest)) mouse.loading.hide();
                 firstTimeAdminRequest = false
-                let videoElement = meetingObj.createVideoElement(
-                    participant.id,
-                    participant.displayName
-                );
+                // let videoElement = meetingObj.createVideoElement(
+                //     participant.id,
+                //     participant.displayName
+                // );
 
                 meetingVariables.participant.remoteId = participant.id;
                 setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
@@ -97,12 +99,17 @@ const meetingObj = {
                 participant.setQuality('high'); // video quality
 
                 // creaste cursor pointer for remote user
-                ROUTE.createRemoteCursorPointer(participant.id)
+                // ROUTE.createRemoteCursorPointer(participant.id)
 
                 if ((/false/).test(hideRemoteCursor)) {
-                    videoContainer.append(remoteCursorPointerDiv);
-                    videoContainer.append(videoElement);
-                    videoContainer.append(audioElement);
+                    // videoContainer.append(remoteCursorPointerDiv);
+                    // videoContainer.append(videoElement);
+                    // videoContainer.append(audioElement);                    
+                    let videoFrameComponent = document.createElement("video-frame")
+                    videoFrameComponent.setAttribute("participant-id", participant.id)
+                    videoFrameComponent.setAttribute("participant-name", participant.displayName)
+                    videoFrameComponent.setAttribute("is-local-user", false)
+                    videoContainer.append(videoFrameComponent)
                 }
 
                 if (/true/.test(mouse.marketrixMode) || /null/.test(mouse.marketrixMode))
@@ -134,6 +141,7 @@ const meetingObj = {
     },
 
     createVideoElement: (pId, name) => {
+        // video element for focus mode
         let videoFrame = document.createElement("div");
         videoFrame.setAttribute("id", `f-${pId}`);
         videoFrame.classList.add("mtx-col-6");
@@ -144,7 +152,7 @@ const meetingObj = {
 
         //create video
         let videoElement = document.createElement("video");
-        videoElement.classList.add("mtx-video-frame");
+        videoElement.classList.add("mtx-video-elem");
         videoElement.setAttribute("id", `mtx-video-elem-${pId}`);
         videoElement.setAttribute("playsinline", true);
 
@@ -152,6 +160,8 @@ const meetingObj = {
         let videoDisabledDiv = document.createElement("div");
         style.hide(videoDisabledDiv)
         videoDisabledDiv.setAttribute("id", `vd-${pId}`);
+
+        // video element for marketrix-mode
 
         // video disabled image
         videoDisabledImgElement = document.createElement("img");
