@@ -37,7 +37,6 @@ const meetingObj = {
                 meetingObj.stream = stream
                 meetingObj.setTrack(
                     stream,
-                    null,
                     meetingObj.meeting.localParticipant,
                     true
                 );
@@ -76,24 +75,26 @@ const meetingObj = {
 
                 meetingVariables.participant.remoteId = participant.id;
                 setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
-                let audioElement = meetingObj.createAudioElement(participant.id);
+                // let audioElement = meetingObj.createAudioElement(participant.id);
                 remoteId = meetingVariables.participant.remoteId;
 
                 // stream-enabled
                 participant.on("stream-enabled", (stream) => {
                     const kind = stream.kind;
-                    aiDiv = document.getElementById(`ai-${remoteId}`);
+                    mtxModeai = document.getElementById(`mtx-mode-ai-${remoteId}`);
+                    focusModeai = document.getElementById(`focus-mode-ai-${remoteId}`);
                     if (kind === "audio") ROUTE.audioStreamEnable()
                     else ROUTE.videoStreamEnable()
-                    meetingObj.setTrack(stream, audioElement, participant, false);
+                    meetingObj.setTrack(stream, participant, false);
                 });
 
                 participant.on("stream-disabled", (stream) => {
                     const kind = stream.kind;
-                    aiDiv = document.getElementById(`ai-${remoteId}`);
+                    mtxModeai = document.getElementById(`mtx-mode-ai-${remoteId}`);
+                    focusModeai = document.getElementById(`focus-mode-ai-${remoteId}`);
                     if (kind === "audio") ROUTE.audioStreamDisable()
                     else ROUTE.videoStreamDisable()
-                    meetingObj.setTrack(stream, audioElement, participant, false);
+                    meetingObj.setTrack(stream, participant, false);
                 });
 
                 participant.setQuality('high'); // video quality
@@ -123,7 +124,7 @@ const meetingObj = {
 
             // participants left
             meetingObj.meeting.on("participant-left", (participant) => {
-                let vElement = document.getElementById(`f-${participant.id}`);
+                let vElement = document.getElementById(`mtx-mode-frame-${participant.id}`);
                 vElement.remove(vElement);
 
                 let aElement = document.getElementById(`a-${participant.id}`);
@@ -136,60 +137,60 @@ const meetingObj = {
         ROUTE.createLocalParticipant(meetingObj, videoContainer)
     },
 
-    setTrack: (stream, audioElement, participant, isLocal) => {
-        ROUTE.setTrack(stream, audioElement, participant, isLocal)
+    setTrack: (stream, participant, isLocal) => {
+        ROUTE.setTrack(stream, participant, isLocal)
     },
 
     createVideoElement: (pId, name) => {
-        // video element for focus mode
-        let videoFrame = document.createElement("div");
-        videoFrame.setAttribute("id", `f-${pId}`);
-        videoFrame.classList.add("mtx-col-6");
-        videoFrame.classList.add("mtx-outer-frame");
+        // // video element for focus mode
+        // let videoFrame = document.createElement("div");
+        // videoFrame.setAttribute("id", `mtx-mode-frame-${pId}`);
+        // videoFrame.classList.add("mtx-col-6");
+        // videoFrame.classList.add("mtx-outer-frame");
 
-        // set default position
-        videoFrame.style.top = "50vh"
+        // // set default position
+        // videoFrame.style.top = "50vh"
 
-        //create video
-        let videoElement = document.createElement("video");
-        videoElement.classList.add("mtx-video-elem");
-        videoElement.setAttribute("id", `mtx-video-elem-${pId}`);
-        videoElement.setAttribute("playsinline", true);
+        // //create video
+        // let videoElement = document.createElement("video");
+        // videoElement.classList.add("mtx-video-elem");
+        // videoElement.setAttribute("id", `mtx-mode-video-elem-${pId}`);
+        // videoElement.setAttribute("playsinline", true);
 
-        // video disabled
-        let videoDisabledDiv = document.createElement("div");
-        style.hide(videoDisabledDiv)
-        videoDisabledDiv.setAttribute("id", `vd-${pId}`);
+        // // video disabled
+        // let videoDisabledDiv = document.createElement("div");
+        // style.hide(videoDisabledDiv)
+        // videoDisabledDiv.setAttribute("id", `vd-${pId}`);
 
-        // video element for marketrix-mode
+        // // video element for marketrix-mode
 
-        // video disabled image
-        videoDisabledImgElement = document.createElement("img");
-        videoDisabledImgElement.classList.add("mtx-video-disabled-img");
-        videoDisabledImgElement.setAttribute("id", `vdi-${pId}`);
-        videoDisabledImgElement.setAttribute(
-            "src",
-            videoDisabledImage
-        );
+        // // video disabled image
+        // videoDisabledImgElement = document.createElement("img");
+        // videoDisabledImgElement.classList.add("mtx-video-disabled-img");
+        // videoDisabledImgElement.setAttribute("id", `vdi-${pId}`);
+        // videoDisabledImgElement.setAttribute(
+        //     "src",
+        //     videoDisabledImage
+        // );
 
-        videoDisabledDiv.appendChild(videoDisabledImgElement);
+        // videoDisabledDiv.appendChild(videoDisabledImgElement);
 
-        videoFrame.appendChild(videoElement);
-        videoFrame.appendChild(videoDisabledDiv);
+        // videoFrame.appendChild(videoElement);
+        // videoFrame.appendChild(videoDisabledDiv);
 
-        let displayName = document.createElement("div");
-        displayName.classList.add("user-names");
-        displayName.innerHTML = `${name}`;
+        // let displayName = document.createElement("div");
+        // displayName.classList.add("user-names");
+        // displayName.innerHTML = `${name}`;
 
-        let audioElementDiv = document.createElement("i");
-        audioElementDiv.setAttribute("id", `ai-${pId}`);
-        audioElementDiv.classList.add("fa-solid");
-        audioElementDiv.classList.add("fa-microphone");
-        audioElementDiv.classList.add("mtx-ml-2");
-        displayName.appendChild(audioElementDiv);
+        // let audioElementDiv = document.createElement("i");
+        // audioElementDiv.setAttribute("id", `ai-${pId}`);
+        // audioElementDiv.classList.add("fa-solid");
+        // audioElementDiv.classList.add("fa-microphone");
+        // audioElementDiv.classList.add("mtx-ml-2");
+        // displayName.appendChild(audioElementDiv);
 
-        videoFrame.appendChild(displayName);
-        return videoFrame;
+        // videoFrame.appendChild(displayName);
+        // return videoFrame;
     },
 
     createAudioElement: (pId) => {
@@ -219,7 +220,8 @@ const meetingObj = {
         mic: () => {
             localId = meetingVariables.participant.localId;
             micIconElem = document.getElementById("mic-icon");
-            aiDiv = document.getElementById(`ai-${localId}`);
+            mtxModeai = document.getElementById(`mtx-mode-ai-${localId}`);
+            focusModeai = document.getElementById(`focus-mode-ai-${localId}`);
 
             if (meetingObj.isMicOn) ROUTE.micOff()
             else ROUTE.micOn()
@@ -228,7 +230,8 @@ const meetingObj = {
 
         webCam: () => {
             localId = meetingVariables.participant.localId;
-            fDiv = document.getElementById(`f-${localId}`);
+            fDiv = document.getElementById(`mtx-mode-frame-${localId}`);
+            focusModeFrameDiv = document.getElementById(`focus-mode-frame-${localId}`);
             webCamIconElem = document.getElementById("webcam-icon");
 
             if (meetingObj.isWebCamOn) ROUTE.wecamOff()
@@ -291,7 +294,6 @@ const adminMeetingObj = {
             adminMeetingObj.meeting.localParticipant.on("stream-enabled", (stream) => {
                 adminMeetingObj.setTrack(
                     stream,
-                    null,
                     meetingObj.meeting.localParticipant,
                     true
                 );
@@ -321,16 +323,16 @@ const adminMeetingObj = {
 
                 meetingVariables.participant.remoteId = participant.id;
                 setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
-                let audioElement = adminMeetingObj.createAudioElement(participant.id);
+                // let audioElement = adminMeetingObj.createAudioElement(participant.id);
                 const remoteId = meetingVariables.participant.remoteId;
 
                 // stream-enabled
                 participant.on("stream-enabled", (stream) => {
-                    adminMeetingObj.setTrack(stream, audioElement, participant, false);
+                    adminMeetingObj.setTrack(stream, participant, false);
                 });
 
                 participant.on("stream-disabled", (stream) => {
-                    adminMeetingObj.setTrack(stream, audioElement, participant, false);
+                    adminMeetingObj.setTrack(stream, participant, false);
                 });
 
                 participant.setQuality('high'); // video quality
@@ -358,7 +360,8 @@ const adminMeetingObj = {
 
             // participants left
             adminMeetingObj.meeting.on("participant-left", (participant) => {
-                let vElement = document.getElementById(`f-${participant.id}`);
+                let vElement = document.getElementById(`mtx-mode-frame-${participant.id}`);
+                focusModeFrameDiv = document.getElementById(`focus-mode-frame-${localId}`);
                 vElement.remove(vElement);
 
                 let aElement = document.getElementById(`a-${participant.id}`);
@@ -371,13 +374,13 @@ const adminMeetingObj = {
         ROUTE.createLocalParticipant(adminMeetingObj, adminVidoeContainer)
     },
 
-    setTrack: (stream, audioElement, participant, isLocal) => {
-        ROUTE.setTrack(stream, audioElement, participant, isLocal)
+    setTrack: (stream, participant, isLocal) => {
+        ROUTE.setTrack(stream, participant, isLocal)
     },
 
     createVideoElement: (pId, name) => {
         let adminVideoFrame = document.createElement("div");
-        adminVideoFrame.setAttribute("id", `f-${pId}`);
+        adminVideoFrame.setAttribute("id", `mtx-mode-frame-${pId}`);
         adminVideoFrame.classList.add("mtx-admin-video-frame")
 
         // set background image
@@ -386,7 +389,7 @@ const adminMeetingObj = {
         //create video
         let videoElement = document.createElement("video");
         videoElement.classList.add("mtx-moving-video-frame");
-        videoElement.setAttribute("id", `mtx-video-elem-${pId}`);
+        videoElement.setAttribute("id", `mtx-mode-video-elem-${pId}`);
         videoElement.setAttribute("playsinline", true);
         adminVideoFrame.appendChild(videoElement);
         return adminVideoFrame;

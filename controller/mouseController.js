@@ -1,23 +1,23 @@
 const mouseController = {
     cursorVideoFrameElement: (userId, isLocalUser, show) => {
-        const cursorVideoFrameDiv = document.getElementById(`f-${userId}`);
-        const vLocalDiv = document.getElementById(`mtx-video-elem-${userId}`);
-        const videoDisabledImgDiv = document.getElementById(`vdi-${userId}`)
-        const videoDisabledDiv = document.getElementById(`vd-${userId}`)
+        // const cursorVideoFrameDiv = document.getElementById(`mtx-mode-frame-${userId}`);
+        // const vLocalDiv = document.getElementById(`mtx-video-elem-${userId}`);
+        // const videoDisabledImgDiv = document.getElementById(`vdi-${userId}`)
+        // const videoDisabledDiv = document.getElementById(`vd-${userId}`)
 
-        show ? cursorVideoFrameDiv.classList.add("start-move") : cursorVideoFrameDiv.classList.add("stop-move")
-        show ? cursorVideoFrameDiv.classList.remove("stop-move") : cursorVideoFrameDiv.classList.remove("start-move")
-        show ? cursorVideoFrameDiv.classList.add("mtx-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-moving-outer-frame")
+        // show ? cursorVideoFrameDiv.classList.add("start-move") : cursorVideoFrameDiv.classList.add("stop-move")
+        // show ? cursorVideoFrameDiv.classList.remove("stop-move") : cursorVideoFrameDiv.classList.remove("start-move")
+        // show ? cursorVideoFrameDiv.classList.add("mtx-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-moving-outer-frame")
 
-        if (isLocalUser) show ? cursorVideoFrameDiv.classList.add("mtx-local-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-local-moving-outer-frame")
-        if (!isLocalUser) show ? cursorVideoFrameDiv.classList.add("mtx-remote-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-remote-moving-outer-frame")
+        // if (isLocalUser) show ? cursorVideoFrameDiv.classList.add("mtx-local-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-local-moving-outer-frame")
+        // if (!isLocalUser) show ? cursorVideoFrameDiv.classList.add("mtx-remote-moving-outer-frame") : cursorVideoFrameDiv.classList.remove("mtx-remote-moving-outer-frame")
 
-        show ? vLocalDiv.classList.add("mtx-moving-video-frame") : vLocalDiv.classList.remove("mtx-moving-video-frame")
-        show ? vLocalDiv.classList.remove("mtx-video-elem") : vLocalDiv.classList.add("mtx-video-elem")
-        show ? videoDisabledDiv.classList.add("mtx-moving-video-disabled-div") : videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
-        show ? videoDisabledDiv.classList.remove("mtx-video-disabled-div") : videoDisabledDiv.classList.add("mtx-video-disabled-div")
-        show ?? style.show(videoContainer)
-        show ? videoContainer.classList.add("mtx-mode-video-container") : videoContainer.classList.remove("mtx-mode-video-container")
+        // show ? vLocalDiv.classList.add("mtx-moving-video-frame") : vLocalDiv.classList.remove("mtx-moving-video-frame")
+        // show ? vLocalDiv.classList.remove("mtx-video-elem") : vLocalDiv.classList.add("mtx-video-elem")
+        // show ? videoDisabledDiv.classList.add("mtx-moving-video-disabled-div") : videoDisabledDiv.classList.remove("mtx-moving-video-disabled-div")
+        // show ? videoDisabledDiv.classList.remove("mtx-video-disabled-div") : videoDisabledDiv.classList.add("mtx-video-disabled-div")
+        // show ?? style.show(videoContainer)
+        // show ? videoContainer.classList.add("mtx-mode-video-container") : videoContainer.classList.remove("mtx-mode-video-container")
     },
     cursorVideoFrameShow: (localCursor) => {
         if ((/true/).test(adminConnects) && meetingVariables.userRole === "visitor") {
@@ -25,8 +25,7 @@ const mouseController = {
         }
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
-        const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
-        const focusModeBtn = document.getElementById("focus-mode-btn")
+        remoteCursorDiv = document.getElementById(`cursor-pointer-${remoteId}`)
 
         style.hide(configurationCoverDiv)
         style.show(mtxModeBtn)
@@ -38,17 +37,15 @@ const mouseController = {
             SOCKET.emit.modeChange({ mode: true, meetingId: meetingVariables.id })
         } // admin make the cursor movement on both side
         mouse.startMove();
-
         if (remoteCursorDiv) style.show(remoteCursorDiv)
 
-        if (localId) mouse.cursorFrameElement(localId, true, true)
-        if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, true)
+        // if (localId) mouse.cursorFrameElement(localId, true, true)
+        // if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, true)
     },
     cursorVideoFrameHide: (localCursor) => {
         const localId = meetingVariables.participant.localId;
         const remoteId = meetingVariables.participant.remoteId;
-        const remoteCursorDiv = document.getElementById(`cp-${remoteId}`);
-        const focusModeBtn = document.getElementById("focus-mode-btn")
+        remoteCursorDiv = document.getElementById(`cursor-pointer-${remoteId}`)
 
         style.show(configurationCoverDiv)
         style.hide(mtxModeBtn)
@@ -59,11 +56,10 @@ const mouseController = {
             setToStore("MARKETRIX_MODE", mouse.marketrixMode)
             SOCKET.emit.modeChange({ mode: false, meetingId: meetingVariables.id })
         }
-
         style.hide(remoteCursorDiv)
 
-        if (localId) mouse.cursorFrameElement(localId, true, false)
-        if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, false)
+        // if (localId) mouse.cursorFrameElement(localId, true, false)
+        // if (remoteId && !localCursor) mouse.cursorFrameElement(remoteId, false, false)
     },
     createRemoteCursorPointer: (participantId) => {
         // remoteCursorPointerDiv = document.createElement("div");
@@ -75,7 +71,7 @@ const mouseController = {
         // remoteCursorPointer.classList.add("mtx-remote-cursor");
         // remoteCursorPointerDiv.classList.add("mtx-remote-cursor-png-div");
         // style.hide(remoteCursorPointerDiv)
-        // remoteCursorPointerDiv.setAttribute("id", `cp-${participantId}`); // remote id
+        // remoteCursorPointerDiv.setAttribute("id", `cursor-pointer-${participantId}`); // remote id
         // remoteCursorPointerDiv.style.top = "50vh"
         // remoteCursorPointerDiv.appendChild(remoteCursorPointer);
     },
@@ -96,7 +92,7 @@ const mouseController = {
         const remoteId = meetingVariables.participant.remoteId;
 
         if (localId && (/true/).test(mouse.marketrixMode)) {
-            const fLocalDiv = document.getElementById(`f-${localId}`);
+            const fLocalDiv = document.getElementById(`mtx-mode-frame-${localId}`);
             fLocalDiv.style.left = x + "px";
             fLocalDiv.style.top = y + "px";
         }

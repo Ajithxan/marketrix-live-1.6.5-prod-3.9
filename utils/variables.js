@@ -26,6 +26,8 @@ const meetingVariables = {
 let mtxConfigurationComponent
 let showCursorDiv
 let mtxModeBtn
+let focusModeBtn
+let remoteCursorDiv
 let mtxAdminGridScreen
 let parentDiv
 let contactFormDiv
@@ -76,8 +78,10 @@ let ipData
 let localId
 let remoteId
 let micIconElem
-let aiDiv
+let mtxModeai
+let focusModeai
 let fDiv
+let focusModeFrameDiv
 let webCamIconElem
 let remoteCursorPointerDiv
 let remoteCursorPointer

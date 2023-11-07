@@ -59,8 +59,8 @@ const SOCKET = {
                     mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
                     if (remoteId && /true/.test(mouse.marketrixMode)) {
                         // use marketrxiMode instead
-                        const fDiv = document.getElementById(`f-${remoteId}`);
-                        const cpDiv = document.getElementById(`cp-${remoteId}`);
+                        const fDiv = document.getElementById(`mtx-mode-frame-${remoteId}`);
+                        const cpDiv = document.getElementById(`cursor-pointer-${remoteId}`);
 
                         let timeCount = 0
                         cursorPositions.forEach(cursor => {

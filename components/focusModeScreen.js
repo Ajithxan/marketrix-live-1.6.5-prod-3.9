@@ -16,18 +16,16 @@ class FocusModeScreen extends HTMLElement {
     render() {
         console.log("marketrixMode", ROUTE.marketrixMode())
         this.innerHTML = `
-        <div id="f-${this.participantId}" class="mtx-col-12 mtx-outer-frame stop-move" style="top:50vh">
-            <video class="mtx-video-elem" id="mtx-video-elem-${this.participantId}" playsinline="true"></video>
+        <div id="focus-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame stop-move" style="top:50vh">
+            <video class="mtx-video-elem" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
     
             
-            <div class="mtx-hidden" id="vd-${this.participantId}">
-                <img class="mtx-video-disabled-img" id="vdi-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
-            </div>
+            <focus-mode-video-disable participant-id="${this.participantId}"></focus-mode-video-disable>
     
             <div class="user-names">
                 ${this.participantName}
     
-                <i id="ai-${this.participantId}" class="fa-solid fa-microphone mtx-ml-2"></i>
+                <i id="focus-mode-ai-${this.participantId}" class="fa-solid fa-microphone mtx-ml-2"></i>
             </div>
         </div>
     

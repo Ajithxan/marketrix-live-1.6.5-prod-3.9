@@ -31,6 +31,7 @@ const configurationController = {
     mtxLoadingMessageDiv = document.getElementById("mtx-loading-message");
     mtxModeBtn = document.getElementById("marketrix-mode-btn");
     style.hide(mtxModeBtn); // default hide
+    focusModeBtn = document.getElementById("focus-mode-btn")
     showCursorDiv = document.getElementById("show-cursor");
     style.hide(showCursorDiv); // default hide
     marketrixButton && style.hide(marketrixButton);
@@ -61,33 +62,45 @@ const configurationController = {
     videoContainer.append(videoFrameComponent)
   },
   audioElement: (pId) => {
-    let audioElement = document.createElement("audio");
-    audioElement.setAttribute("autoPlay", "false");
-    audioElement.setAttribute("playsInline", "true");
-    audioElement.setAttribute("controls", "false");
-    audioElement.setAttribute("id", `a-${pId}`);
-    style.hide(audioElement);
-    return audioElement;
+    // let audioElement = document.createElement("audio");
+    // audioElement.setAttribute("autoPlay", "false");
+    // audioElement.setAttribute("playsInline", "true");
+    // audioElement.setAttribute("controls", "false");
+    // audioElement.setAttribute("id", `a-${pId}`);
+    // style.hide(audioElement);
+    // return audioElement;
   },
-  setTrack: (stream, audioElement, participant, isLocal) => {
+  setTrack: (stream, participant, isLocal) => {
     if (stream.kind == "video") {
       meetingObj.isWebCamOn = true;
       const mediaStream = new MediaStream();
       mediaStream.addTrack(stream.track);
-      let videoElm = document.getElementById(
-        `mtx-video-elem-${participant.id}`
+      let mtxModeVideoElem = document.getElementById(
+        `mtx-mode-video-elem-${participant.id}`
       );
-      videoElm.srcObject = mediaStream;
-      videoElm
+      mtxModeVideoElem.srcObject = mediaStream;
+      mtxModeVideoElem
         .play()
         .catch((error) =>
           console.error("videoElem.current.play() failed", error)
+        );
+
+      let focusModeVideoElem = document.getElementById(
+        `focus-mode-video-elem-${participant.id}`
+      );
+
+      focusModeVideoElem.srcObject = mediaStream;
+      focusModeVideoElem
+        .play()
+        .catch((error) =>
+          console.error("focus-mode-video-elem.current.play() failed", error)
         );
     }
     if (stream.kind == "audio") {
       if (isLocal) {
         isMicOn = true;
       } else {
+        let audioElement = document.createElement("audio");
         const mediaStream = new MediaStream();
         mediaStream.addTrack(stream.track);
         audioElement.srcObject = mediaStream;
@@ -102,25 +115,33 @@ const configurationController = {
       meetingObj.meeting?.muteMic();
       micIconElem.classList.add("fa");
       micIconElem.classList.add("fa-microphone-slash");
-      aiDiv.classList.add("fa");
-      aiDiv.classList.add("fa-microphone-slash");
+      mtxModeai.classList.add("fa");
+      mtxModeai.classList.add("fa-microphone-slash");
+      focusModeai.classList.add("fa");
+      focusModeai.classList.add("fa-microphone-slash");
 
       micIconElem.classList.remove("fa-solid");
       micIconElem.classList.remove("fa-microphone");
-      aiDiv.classList.remove("fa-microphone");
-      aiDiv.classList.remove("fa-microphone");
+      mtxModeai.classList.remove("fa-microphone");
+      mtxModeai.classList.remove("fa-microphone");
+      focusModeai.classList.remove("fa-microphone");
+      focusModeai.classList.remove("fa-microphone");
     },
     enable: () => {
       meetingObj.meeting?.unmuteMic();
       micIconElem.classList.add("fa-solid");
       micIconElem.classList.add("fa-microphone");
-      aiDiv.classList.add("fa-solid");
-      aiDiv.classList.add("fa-microphone");
+      mtxModeai.classList.add("fa-solid");
+      mtxModeai.classList.add("fa-microphone");
+      focusModeai.classList.add("fa-solid");
+      focusModeai.classList.add("fa-microphone");
 
       micIconElem.classList.remove("fa");
       micIconElem.classList.remove("fa-microphone-slash");
-      aiDiv.classList.remove("fa");
-      aiDiv.classList.remove("fa-microphone-slash");
+      mtxModeai.classList.remove("fa");
+      mtxModeai.classList.remove("fa-microphone-slash");
+      focusModeai.classList.remove("fa");
+      focusModeai.classList.remove("fa-microphone-slash");
     },
   },
   webcam: {
@@ -131,13 +152,20 @@ const configurationController = {
       webCamIconElem.classList.add("fa-video-slash");
       webCamIconElem.classList.remove("fas");
       webCamIconElem.classList.remove("fa-video");
-      const videoDisabledImageOfAdmin = document.getElementById(
-        `vdi-${localId}`
+      const mtxModeVideoDisabledImageOfAdmin = document.getElementById(
+        `mtx-mode-video-disable-image-${localId}`
       );
-      if (meetingVariables.userRole === "admin")
-        videoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
-      style.hide(document.getElementById(`mtx-video-elem-${localId}`));
-      style.show(document.getElementById(`vd-${localId}`));
+      const focusModeVideoDisabledImageOfAdmin = document.getElementById(
+        `focus-mode-video-disable-image-${localId}`
+      );
+      if (meetingVariables.userRole === "admin") {
+        mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
+        focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
+      }
+      style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      style.show(document.getElementById(`mtx-mode-video-disable-${localId}`));
+      style.hide(document.getElementById(`focus-mode-video-elem-${localId}`));
+      style.show(document.getElementById(`focus-mode-video-disable-${localId}`));
     },
     enable: () => {
       meetingObj.meeting?.enableWebcam();
@@ -145,38 +173,55 @@ const configurationController = {
       webCamIconElem.classList.remove("fa-video-slash");
       webCamIconElem.classList.add("fas");
       webCamIconElem.classList.add("fa-video");
-      style.show(document.getElementById(`mtx-video-elem-${localId}`));
-      style.hide(document.getElementById(`vd-${localId}`));
+      style.show(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      style.hide(document.getElementById(`mtx-mode-video-disable-${localId}`));
+      style.show(document.getElementById(`focus-mode-video-elem-${localId}`));
+      style.hide(document.getElementById(`focus-mode-video-disable-${localId}`));
     },
   },
   audioStreamEnable: () => {
-    aiDiv.classList.remove("fa");
-    aiDiv.classList.remove("fa-microphone-slash");
-    aiDiv.classList.add("fa-solid");
-    aiDiv.classList.add("fa-microphone");
+    mtxModeai.classList.remove("fa");
+    mtxModeai.classList.remove("fa-microphone-slash");
+    mtxModeai.classList.add("fa-solid");
+    mtxModeai.classList.add("fa-microphone");
+    focusModeai.classList.remove("fa");
+    focusModeai.classList.remove("fa-microphone-slash");
+    focusModeai.classList.add("fa-solid");
+    focusModeai.classList.add("fa-microphone");
   },
   audioStreamDisable: () => {
-    aiDiv.classList.add("fa");
-    aiDiv.classList.add("fa-microphone-slash");
-    aiDiv.classList.remove("fa-solid");
-    aiDiv.classList.remove("fa-microphone");
+    mtxModeai.classList.add("fa");
+    mtxModeai.classList.add("fa-microphone-slash");
+    mtxModeai.classList.remove("fa-solid");
+    mtxModeai.classList.remove("fa-microphone");
+    focusModeai.classList.add("fa");
+    focusModeai.classList.add("fa-microphone-slash");
+    focusModeai.classList.remove("fa-solid");
+    focusModeai.classList.remove("fa-microphone");
   },
   videoStreamEnable: () => {
-    style.show(document.getElementById(`mtx-video-elem-${remoteId}`));
-
-    style.hide(document.getElementById(`vd-${remoteId}`));
+    console.log("remoteId =>", remoteId)
+    style.show(document.getElementById(`mtx-mode-video-elem-${remoteId}`));
+    style.hide(document.getElementById(`mtx-mode-video-disable-${remoteId}`));
+    style.show(document.getElementById(`focus-mode-video-elem-${remoteId}`));
+    style.hide(document.getElementById(`focus-mode-video-disable-${remoteId}`));
   },
   videoStreamDisable: () => {
     if (meetingVariables.userRole === "visitor") {
-      const videoDisabledImageOfAdmin = document.getElementById(
-        `vdi-${remoteId}`
+      const mtxModeVideoDisabledImageOfAdmin = document.getElementById(
+        `mtx-mode-video-disable-image-${remoteId}`
       );
-      videoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
+      const focusModeVideoDisabledImageOfAdmin = document.getElementById(
+        `focus-mode-video-disable-image-${remoteId}`
+      );
+      mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
+      focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
     }
 
-    style.hide(document.getElementById(`mtx-mtx-video-elem-${remoteId}`));
-
-    style.show(document.getElementById(`vd-${remoteId}`));
+    style.hide(document.getElementById(`mtx-mode-video-elem-${remoteId}`));
+    style.show(document.getElementById(`mtx-mode-video-disable-${remoteId}`));
+    style.hide(document.getElementById(`focus-mode-video-elem-${remoteId}`));
+    style.show(document.getElementById(`focus-mode-video-disable-${remoteId}`));
   },
   getWindowSize: () => {
     const { innerWidth, innerHeight } = window;
