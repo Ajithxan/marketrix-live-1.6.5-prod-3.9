@@ -1,14 +1,14 @@
 class OverlayLoading extends HTMLElement {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-        this.render()
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    render() {
-        this.innerHTML = `
+  render() {
+    this.innerHTML = `
         <div id="mtx-overlay-loading" class="mtx-hidden">
       <div class="mtx-loading-img">
         <div>
@@ -22,8 +22,8 @@ class OverlayLoading extends HTMLElement {
         <i class="fas fa-spinner fa-pulse"></i>
         <span id="mtx-loading-message"></span>
       </div>
-    </div>`
-    }
+    </div>`;
+  }
 }
 
-customElements.define("overlay-loading", OverlayLoading)
+customElements.define("overlay-loading", OverlayLoading);
