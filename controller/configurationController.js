@@ -204,10 +204,15 @@ const configurationController = {
   },
   videoStreamEnable: () => {
     console.log("remoteId =>", remoteId)
-    style.show(document.getElementById(`mtx-mode-video-elem-${remoteId}`));
-    style.hide(document.getElementById(`mtx-mode-video-disable-${remoteId}`));
-    style.show(document.getElementById(`focus-mode-video-elem-${remoteId}`));
-    style.hide(document.getElementById(`focus-mode-video-disable-${remoteId}`));
+    const mtxModeVideoElem = document.getElementById(`mtx-mode-video-elem-${remoteId}`)
+    const mtxModeVideoDisable = document.getElementById(`mtx-mode-video-disable-${remoteId}`)
+    const focusModeVideoElem = document.getElementById(`focus-mode-video-elem-${remoteId}`)
+    const focusModeVideoDisable = document.getElementById(`focus-mode-video-disable-${remoteId}`)
+
+    if (mtxModeVideoElem) style.show(mtxModeVideoElem);
+    if (mtxModeVideoDisable) style.hide(mtxModeVideoDisable);
+    if (focusModeVideoElem) style.show(focusModeVideoElem);
+    if (focusModeVideoDisable) style.hide(focusModeVideoDisable);
   },
   videoStreamDisable: () => {
     if (meetingVariables.userRole === "visitor") {
@@ -221,10 +226,15 @@ const configurationController = {
       focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
     }
 
-    style.hide(document.getElementById(`mtx-mode-video-elem-${remoteId}`));
-    style.show(document.getElementById(`mtx-mode-video-disable-${remoteId}`));
-    style.hide(document.getElementById(`focus-mode-video-elem-${remoteId}`));
-    style.show(document.getElementById(`focus-mode-video-disable-${remoteId}`));
+    const mtxModeVideoElem = document.getElementById(`mtx-mode-video-elem-${remoteId}`)
+    const mtxModeVideoDisable = document.getElementById(`mtx-mode-video-disable-${remoteId}`)
+    const focusModeVideoElem = document.getElementById(`focus-mode-video-elem-${remoteId}`)
+    const focusModeVideoDisable = document.getElementById(`focus-mode-video-disable-${remoteId}`)
+
+    if (mtxModeVideoElem) style.hide(mtxModeVideoElem);
+    if (mtxModeVideoDisable) style.show(mtxModeVideoDisable);
+    if (focusModeVideoElem) style.hide(focusModeVideoElem);
+    if (focusModeVideoDisable) style.show(focusModeVideoDisable);
   },
   getWindowSize: () => {
     const { innerWidth, innerHeight } = window;
