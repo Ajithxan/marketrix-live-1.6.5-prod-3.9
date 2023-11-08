@@ -19,7 +19,7 @@ class MtxModeScreen extends HTMLElement {
         console.log("marketrixMode", ROUTE.marketrixMode())
         this.innerHTML = `
         <div id="mtx-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
-            <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true"></video>
+            <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true" muted="true"></video>
     
             <mtx-mode-video-disable participant-id="${this.participantId}"></mtx-mode-video-disable>
     
@@ -32,7 +32,7 @@ class MtxModeScreen extends HTMLElement {
     
         <audio id="a-${this.participantId}" class="mtx-hidden" autoplay="false" playsInline="false" controls="false"></audio>
     
-        <div id="cursor-pointer-${this.participantId}" class="mtx-remote-cursor-png-div mtx-hidden" style="top:50vh">
+        <div id="cursor-pointer-${this.participantId}" class="mtx-remote-cursor-png-div mtx-hidden" style="top:41vh">
             <img src="{{CDN_LINK}}assets/images/pointer.png" class="mtx-remote-cursor"/>
         </div>
     `

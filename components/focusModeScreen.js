@@ -17,7 +17,7 @@ class FocusModeScreen extends HTMLElement {
         console.log("marketrixMode", ROUTE.marketrixMode())
         this.innerHTML = `
         <div id="focus-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame stop-move" style="top:50vh">
-            <video class="mtx-video-elem" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
+            <video class="mtx-video-elem" id="focus-mode-video-elem-${this.participantId}" playsinline="true" muted="true"></video>
     
             
             <focus-mode-video-disable participant-id="${this.participantId}"></focus-mode-video-disable>

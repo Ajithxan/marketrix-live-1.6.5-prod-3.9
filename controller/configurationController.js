@@ -75,6 +75,8 @@ const configurationController = {
       meetingObj.isWebCamOn = true;
       const mediaStream = new MediaStream();
       mediaStream.addTrack(stream.track);
+
+      // mtx mode video element
       let mtxModeVideoElem = document.getElementById(
         `mtx-mode-video-elem-${participant.id}`
       );
@@ -85,10 +87,11 @@ const configurationController = {
           console.error("videoElem.current.play() failed", error)
         );
 
+      // focus mode video element
       let focusModeVideoElem = document.getElementById(
         `focus-mode-video-elem-${participant.id}`
       );
-
+      console.log("focus-mode-video-elem", focusModeVideoElem)
       focusModeVideoElem.srcObject = mediaStream;
       focusModeVideoElem
         .play()

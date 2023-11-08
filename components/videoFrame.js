@@ -11,23 +11,24 @@ class VideoFrame extends HTMLElement {
         this.participantId = this.getAttribute("participant-id")
         this.participantName = this.getAttribute("participant-name")
         this.isLocalUser = this.getAttribute("is-local-user")
-        this.listen()
         this.render()
+        this.listen()
         ROUTE.setCDNLink()
     }
 
     listen() {
         watch(() => {
-            console.log("marketrix mode =>", getFromStore('MARKETRIX_MODE'))
+            console.log("marketrix mode =>", getFromStore('MARKETRIX_MODE'), this.participantId)
+            const mtxModeScreenComponent = document.getElementById(`mtx-mode-screen-component-${this.participantId}`)
+            const focusModeScreenComponent = document.getElementById(`focus-mode-screen-component-${this.participantId}`)
+
             if ((/true/).test(getFromStore('MARKETRIX_MODE'))) {
-                style.show(document.getElementById(`mtx-mode-screen-component-${this.participantId}`))
-                style.hide(document.getElementById(`focus-mode-screen-component-${this.participantId}`))
-                console.log("marketrix mode =>", getFromStore('MARKETRIX_MODE'), this.participantId)
+                style.show(mtxModeScreenComponent)
+                style.hide(focusModeScreenComponent)
             }
             else {
-                style.hide(document.getElementById(`mtx-mode-screen-component-${this.participantId}`))
-                style.show(document.getElementById(`focus-mode-screen-component-${this.participantId}`))
-                console.log("marketrix mode =>", getFromStore('MARKETRIX_MODE'), this.participantId)
+                style.hide(mtxModeScreenComponent)
+                style.show(focusModeScreenComponent)
             }
         }, "getFromStore('MARKETRIX_MODE')")
     }
