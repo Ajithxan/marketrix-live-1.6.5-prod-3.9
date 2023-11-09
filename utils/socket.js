@@ -39,6 +39,7 @@ const SOCKET = {
             });
         },
         connectedUser: () => {
+            console.log("connected user")
             mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
                 // cursoe movements receive here...
@@ -79,12 +80,12 @@ const SOCKET = {
                                 yPosition = cursor.y * heightRatio
 
                                 // video frame div
-                                mtxModeVideoFrame.style.left = xPosition + "px"
-                                mtxModeVideoFrame.style.top = yPosition + "px"
+                                if (mtxModeVideoFrame) mtxModeVideoFrame.style.left = xPosition + "px"
+                                if (mtxModeVideoFrame) mtxModeVideoFrame.style.top = yPosition + "px"
 
                                 // cursor pointer div
-                                remoteCursorPointer.style.left = xPosition + "px"
-                                remoteCursorPointer.style.top = yPosition + "px"
+                                if (remoteCursorPointer) remoteCursorPointer.style.left = xPosition + "px"
+                                if (remoteCursorPointer) remoteCursorPointer.style.top = yPosition + "px"
                             }, 20 * timeCount)
                         });
                     }

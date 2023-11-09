@@ -38,5 +38,6 @@ const ROUTE = {
   componentData: (componentName) => componentController.getData(componentName),
   marketrixMode: () => mouseController.marketrixMode(),
   hideElement: (ele) => configurationController.hideElement(ele),
-  showElement: (ele) => configurationController.showElement(ele)
+  showElement: (ele) => configurationController.showElement(ele),
+  salesPersonNotifyVisitor: () => notificationController.salesPersonNotifyVisitor(),
 };

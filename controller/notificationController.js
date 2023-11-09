@@ -31,5 +31,8 @@ const notificationController = {
                 if (((index + 1) === notifications.length) && isAgentAvailable) showNotification()
             }, 1500 * count)
         })
+    },
+    salesPersonNotifyVisitor: () => {
+        notification.salesPersonNotifyVisitor()
     }
 }

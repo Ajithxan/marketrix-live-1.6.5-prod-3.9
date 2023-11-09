@@ -80,24 +80,27 @@ const configurationController = {
       let mtxModeVideoElem = document.getElementById(
         `mtx-mode-video-elem-${participant.id}`
       );
-      mtxModeVideoElem.srcObject = mediaStream;
-      mtxModeVideoElem
-        .play()
-        .catch((error) =>
-          console.error("videoElem.current.play() failed", error)
-        );
+      if (mtxModeVideoElem) {
+        mtxModeVideoElem.srcObject = mediaStream;
+        mtxModeVideoElem
+          .play()
+          .catch((error) =>
+            console.error("videoElem.current.play() failed", error)
+          );
+      }
 
       // focus mode video element
       let focusModeVideoElem = document.getElementById(
         `focus-mode-video-elem-${participant.id}`
       );
-      console.log("focus-mode-video-elem", focusModeVideoElem)
-      focusModeVideoElem.srcObject = mediaStream;
-      focusModeVideoElem
-        .play()
-        .catch((error) =>
-          console.error("focus-mode-video-elem.current.play() failed", error)
-        );
+      if (focusModeVideoElem) {
+        focusModeVideoElem.srcObject = mediaStream;
+        focusModeVideoElem
+          .play()
+          .catch((error) =>
+            console.error("focus-mode-video-elem.current.play() failed", error)
+          );
+      }
     }
     if (stream.kind == "audio") {
       if (isLocal) {
@@ -183,14 +186,14 @@ const configurationController = {
     },
   },
   audioStreamEnable: () => {
-    mtxModeai.classList.remove("fa");
-    mtxModeai.classList.remove("fa-microphone-slash");
-    mtxModeai.classList.add("fa-solid");
-    mtxModeai.classList.add("fa-microphone");
-    focusModeai.classList.remove("fa");
-    focusModeai.classList.remove("fa-microphone-slash");
-    focusModeai.classList.add("fa-solid");
-    focusModeai.classList.add("fa-microphone");
+    if (mtxModeai) mtxModeai.classList.remove("fa");
+    if (mtxModeai) mtxModeai.classList.remove("fa-microphone-slash");
+    if (mtxModeai) mtxModeai.classList.add("fa-solid");
+    if (mtxModeai) mtxModeai.classList.add("fa-microphone");
+    if (focusModeai) focusModeai.classList.remove("fa");
+    if (focusModeai) focusModeai.classList.remove("fa-microphone-slash");
+    if (focusModeai) focusModeai.classList.add("fa-solid");
+    if (focusModeai) focusModeai.classList.add("fa-microphone");
   },
   audioStreamDisable: () => {
     mtxModeai.classList.add("fa");

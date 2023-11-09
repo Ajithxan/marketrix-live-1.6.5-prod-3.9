@@ -18,7 +18,6 @@ const meetingObj = {
 
     initializeMeeting: () => {
         if (meetingVariables.token) {
-            console.log("joining to the meeting", meetingVariables.participant.remoteId)
             window.VideoSDK.config(meetingVariables.token);
 
             meetingObj.meeting = window.VideoSDK.initMeeting({
@@ -67,14 +66,17 @@ const meetingObj = {
             // Remote participants Event
             // participant joined
             meetingObj.meeting.on("participant-joined", (participant) => {
-                if ((/false/).test(firstTimeAdminRequest)) mouse.loading.hide();
+                // if ((/false/).test(firstTimeAdminRequest)) mouse.loading.hide();
+                mouse.loading.hide();
                 firstTimeAdminRequest = false
+                hideRemoteCursor = false
                 // let videoElement = meetingObj.createVideoElement(
                 //     participant.id,
                 //     participant.displayName
                 // );
 
                 meetingVariables.participant.remoteId = participant.id;
+                console.log("participant joined id", participant.id)
                 setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
                 // let audioElement = meetingObj.createAudioElement(participant.id);
                 remoteId = meetingVariables.participant.remoteId;
@@ -432,7 +434,7 @@ const joinMeeting = (videoEnabled) => {
     } else {
         setToStore("VIDEO_ENABLED", false)
     }
-    adminMeetingObj.leaveMeeting()
+    // adminMeetingObj.leaveMeeting()
     adminConnects = false
     style.hide(document.getElementById("mtx-admin-call-div"))
     style.show(document.getElementById("mtx-footer-controls"))

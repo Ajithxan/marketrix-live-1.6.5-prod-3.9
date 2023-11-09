@@ -129,7 +129,9 @@ const visitorJoin = () => {
     if (/true/.test(adminConnects)) {
         closeModal(); // it may oppened. so it should be closed
         adminVidoeContainer = document.getElementById("mtx-admin-video-container");
-        adminMeetingObj.connect();
+        // adminMeetingObj.connect();
+        setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables))
+        ROUTE.salesPersonNotifyVisitor()
     } // admin connecting
     else meetingObj.connect();
 };
