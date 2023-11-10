@@ -21,7 +21,9 @@ class MtxModeScreen extends HTMLElement {
         <div id="mtx-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
             <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true" muted="true"></video>
     
-            <mtx-mode-video-disable participant-id="${this.participantId}"></mtx-mode-video-disable>
+            <div class="mtx-hidden" id="mtx-mode-video-disable-${this.participantId}">
+                <img class="mtx-moving-video-disabled-div" id="mtx-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
+            </div>
     
             <div class="user-names">
                 ${this.participantName}
