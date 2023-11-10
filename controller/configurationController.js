@@ -153,7 +153,7 @@ const configurationController = {
   webcam: {
     disable: () => {
       meetingObj.meeting?.disableWebcam();
-
+      console.log("video disable", localId)
       webCamIconElem.classList.add("fa-solid");
       webCamIconElem.classList.add("fa-video-slash");
       webCamIconElem.classList.remove("fas");
@@ -165,8 +165,9 @@ const configurationController = {
         `focus-mode-video-disable-image-${localId}`
       );
       if (meetingVariables.userRole === "admin") {
-        mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
-        focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
+        console.log(mtxModeVideoDisabledImageOfAdmin)
+        if (mtxModeVideoDisabledImageOfAdmin) mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
+        if (focusModeVideoDisabledImageOfAdmin) focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
       }
       style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
       style.show(document.getElementById(`mtx-mode-video-disable-${localId}`));
@@ -174,6 +175,7 @@ const configurationController = {
       style.show(document.getElementById(`focus-mode-video-disable-${localId}`));
     },
     enable: () => {
+      console.log("video enable", localId)
       meetingObj.meeting?.enableWebcam();
       webCamIconElem.classList.remove("fa-solid");
       webCamIconElem.classList.remove("fa-video-slash");
