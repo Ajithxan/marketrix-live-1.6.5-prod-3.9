@@ -19,7 +19,7 @@ class MtxModeScreen extends HTMLElement {
   render() {
     console.log("marketrixMode", ROUTE.marketrixMode());
     this.innerHTML = `
-        <div id="mtx-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
+        <div id="mtx-mode-frame-${this.participantId}" class=" mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
             <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true"></video>
     
             <mtx-mode-video-disable participant-id="${this.participantId}"></mtx-mode-video-disable>
