@@ -19,6 +19,7 @@ class FocusModeScreen extends HTMLElement {
         <div id="focus-mode-frame-${this.participantId}" style="position:relative; overflow:hidden">
             <video class="mtx-snpt-video-box" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
     
+
             <focus-mode-video-disable participant-id="${this.participantId}"></focus-mode-video-disable>
     
             <div class="user-names">
