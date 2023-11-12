@@ -1,7 +1,6 @@
 class FocusModeScreen extends HTMLElement {
   constructor() {
     super();
-
     this.participantId;
     this.participantName;
   }
@@ -16,10 +15,10 @@ class FocusModeScreen extends HTMLElement {
   render() {
     console.log("marketrixMode", ROUTE.marketrixMode());
     this.innerHTML = `
-        <div id="focus-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame stop-move" style="top:50vh">
-            <video class="mtx-video-elem" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
+   
+        <div id="focus-mode-frame-${this.participantId}" style="position:relative; overflow:hidden">
+            <video class="mtx-snpt-video-box" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
     
-            
             <focus-mode-video-disable participant-id="${this.participantId}"></focus-mode-video-disable>
     
             <div class="user-names">
@@ -28,7 +27,8 @@ class FocusModeScreen extends HTMLElement {
             </div>
         </div>
     
-        <audio id="a-${this.participantId}" class="mtx-hidden" autoplay="false" playsInline="false" controls="false"></audio
+        <audio id="a-${this.participantId}" class="mtx-hidden" autoplay="false" playsInline="false" controls="false"></audio>
+       
     `;
   }
 }

@@ -193,17 +193,15 @@
     color: #98a2b3;
 }
 .mtxx-modal-content {
-    /* width: 320px; */
     border: none;
     padding: 0.5rem 1rem;
     position: relative;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-direction: column;
+    justify-content:center ;
     flex-direction: column;
-    width: 100%;
+    width: auto;
     pointer-events: auto;
-    background-color: #fff !important;
+    background-color: #ffffff20 !important;
     background-clip: padding-box;
     border-radius: 0.3rem;
     outline: 0;
@@ -268,10 +266,7 @@
 }
 .mtx-connect-footer {
     width: 100%;
-    border: 1px solid var(--gray-100, #f2f4f7);
-    background: #f2f4f7;
-    padding: 8px 12px;
-    border-radius: 100px;
+   
 }
 .mtx-admin-call-footer {
     width: 100%;
@@ -287,6 +282,7 @@
 .mtx-footer-actions {
     display: flex;
     gap: 0.5rem;
+    justify-content: center;
 }
 
 .mtx-btn-background {
@@ -297,14 +293,15 @@
     width: 50px;
     align-items: center;
     justify-content: center;
-    border-radius: 100%;
-    background: #ffffff;
+    border-radius: .5rem;
+    background-color: #1d2939;
+    color:white
 }
 
 .mtx-btn-background:hover {
-    background: #f2f4f7;
+    background: #f2f4f720;
     border: 1px solid #d0d5dd;
-    transition: all 0.5s ease-out;
+    transition: all 0.3s ease-out;
     cursor: pointer;
 }
 .mtx-btn-connect {
@@ -317,13 +314,23 @@
     color: white;
 }
 .mtx-btn-end-call {
-    width: 60%;
-    background: #ffffff;
-    border-radius: 100px;
+    width: 70%;
+    color: #ffffff;
+    border-radius:.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: red;
+    background-color: red;
+    cursor: pointer;
+}
+.mtx-btn-share-screen {
+    width: 40%;
+    color: #ffffff;
+    border-radius:.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1d2939;
     cursor: pointer;
 }
 .mtx-join-with-video-btn {
@@ -372,12 +379,14 @@
 .start-move {
     position: absolute !important;
 }
+
 .mtx-moving-outer-frame {
     border-radius: 130px;
     width: 200px !important;
     height: 200px !important;
     overflow: hidden;
 }
+
 .mtx-remote-moving-outer-frame {
     border: 3px solid green;
 }
@@ -461,17 +470,20 @@
 
 #mtx-configuration-cover {
     position: fixed;
-    top: 0;
-    left: 0;
     background: #222d46f2;
-    z-index: 5;
+    z-index: 999;
     width: 100%;
-    height: 100%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
     backdrop-filter: blur(10px);
 }
 
 #mtx-overlay-loading {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     background: #fffffff2;
@@ -495,6 +507,7 @@
 }
 .mtx-video-elem {
     width: 100%;
+    border-radius: 1rem;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg); /* Safari and Chrome */
     -moz-transform: rotateY(180deg); /* Firefox */
@@ -533,14 +546,26 @@
     font-weight: 600;
     font-size: 14px;
     text-transform: capitalize;
+    position: absolute;
+    bottom: 1rem;
+    left: 1.5rem;
+    
 }
 #mtx-video-container {
     /* margin-bottom: 20vh; */
     /* background-color: #8a2be2; */
-    height: 80vh;
+    height: 100vh;
     display: flex;
+    gap:2rem;
+    width: 100%;
     justify-content: center;
     align-items: center;
+    display: flex;
+
+    video{
+        height: 100%;
+            }
+    
 }
 .mtx-mode-video-container {
     height: 0 !important;
@@ -799,3 +824,16 @@
     margin-left: 0.5rem !important;
 }
 /*-----------------------end of grid styles-----------------------------------*/
+
+
+
+
+@media (max-width: 800px) {
+    #mtx-video-container {
+        
+        flex-direction: column;
+        height: 100vh;
+        
+    }
+    
+}

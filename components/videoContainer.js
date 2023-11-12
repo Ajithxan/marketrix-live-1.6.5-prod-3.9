@@ -1,15 +1,20 @@
 class VideoContainer extends HTMLElement {
-    constructor() {
-        super()
-    }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-        this.render()
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    render() {
-        this.innerHTML = `<div id="mtx-video-container"></div>`
-    }
+  render() {
+    this.innerHTML = `
+        
+
+        <div id="mtx-video-container"></div>
+       
+        `;
+  }
 }
 
-customElements.define("video-container", VideoContainer)
+customElements.define("video-container", VideoContainer);

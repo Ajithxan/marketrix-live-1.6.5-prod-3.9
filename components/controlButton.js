@@ -24,6 +24,8 @@ class ControlButton extends HTMLElement {
         <span>
             <i class="fa fa-headphones" aria-hidden="true"></i>Connect</span>
     </div>
+
+   
     <div type="button" id="mtx-btn-endcall" class="mtx-btn-end-call mtx-hidden" onclick="meetingObj.leaveMeeting()">
         <span>
             <i class="fa-solid fa-phone-slash"></i>

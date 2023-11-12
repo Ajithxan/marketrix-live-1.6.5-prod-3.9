@@ -2,51 +2,28 @@
 @forward "../base/color";
 //controller Button
 .mtx-snpt-focusmode-screen {
-  background-color: var(--dark-primary);
-  width: 100vw;
   height: 100vh;
   justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   // padding-top: 20px;
 }
 
 .mtx-snpt-video-box {
   background-color: #ffffff20;
-  padding: 1.5rem;
-  margin-top: 1rem;
+  padding: 0.5rem;
   gap: 1.5rem;
   position: relative;
   display: flex;
   width: 90vw;
+  height: 65vh;
+  object-fit: cover;
+  border-radius: 1rem;
   justify-content: center;
   align-items: center;
-  //   height: 90vh;
-
-  .video-section {
-    width: 50%;
-    height: 75vh;
-    background-color: var(--dark-primary);
-    position: relative;
-    border-radius: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-
-    .profile-img {
-      width: 8rem;
-      border-radius: 100%;
-      height: 8rem;
-    }
-
-    img {
-      width: 80%;
-      height: 60%;
-      object-fit: cover;
-      border-radius: 0.3rem;
-    }
-  }
+  display: flex;
 }
 
 .mtx-snpt-control-box {
@@ -152,8 +129,12 @@ input:checked + .slider:before {
   background-color: rgb(0, 0, 0);
 }
 
-@media (max-width: 481px) {
+@media (max-width: 800px) {
   .mtx-snpt-control-box {
     height: 5vh !important;
+  }
+
+  .mtx-snpt-video-box {
+    height: 35vh;
   }
 }

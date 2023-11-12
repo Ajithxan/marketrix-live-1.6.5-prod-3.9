@@ -1,23 +1,24 @@
 class MtxModeScreen extends HTMLElement {
-    constructor() {
-        super()
+  constructor() {
+    super();
 
-        this.participantId;
-        this.participantName;
-        this.movingOuterFrame = "mtx-remote-moving-outer-frame";
-    }
+    this.participantId;
+    this.participantName;
+    this.movingOuterFrame = "mtx-remote-moving-outer-frame";
+  }
 
-    connectedCallback() {
-        this.participantId = this.getAttribute("participant-id")
-        this.participantName = this.getAttribute("participant-name")
-        if ((/true/).test(this.getAttribute("is-local-user"))) this.movingOuterFrame = "mtx-local-moving-outer-frame"
-        this.render()
-        ROUTE.setCDNLink()
-    }
+  connectedCallback() {
+    this.participantId = this.getAttribute("participant-id");
+    this.participantName = this.getAttribute("participant-name");
+    if (/true/.test(this.getAttribute("is-local-user")))
+      this.movingOuterFrame = "mtx-local-moving-outer-frame";
+    this.render();
+    ROUTE.setCDNLink();
+  }
 
-    render() {
-        console.log("marketrixMode", ROUTE.marketrixMode())
-        this.innerHTML = `
+  render() {
+    console.log("marketrixMode", ROUTE.marketrixMode());
+    this.innerHTML = `
         <div id="mtx-mode-frame-${this.participantId}" class="mtx-col-12 mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
             <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true"></video>
     
@@ -35,8 +36,8 @@ class MtxModeScreen extends HTMLElement {
         <div id="cursor-pointer-${this.participantId}" class="mtx-remote-cursor-png-div mtx-hidden" style="top:50vh">
             <img src="{{CDN_LINK}}assets/images/pointer.png" class="mtx-remote-cursor"/>
         </div>
-    `
-    }
+    `;
+  }
 }
 
-customElements.define("mtx-mode-screen", MtxModeScreen)
+customElements.define("mtx-mode-screen", MtxModeScreen);
