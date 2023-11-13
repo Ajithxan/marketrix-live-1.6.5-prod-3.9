@@ -11,8 +11,8 @@ class FocusModeVideoDisable extends HTMLElement {
 
   render() {
     this.innerHTML = `
-        <div class="mtx-hidden"  id="focus-mode-video-disable-${this.participantId}">
-          <img class="mtx-snpt-video-disable" id="focus-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
+        <div class="mtx-hidden mtx-snpt-video-disable"  id="focus-mode-video-disable-${this.participantId}">
+          <img class="" id="focus-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
         </div>
    `;
   }
