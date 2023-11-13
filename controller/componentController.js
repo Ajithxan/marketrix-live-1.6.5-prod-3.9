@@ -1,16 +1,27 @@
 const componentController = {
-    getData: (componentName) => {
-        return componentController.checkStorage(componentName)
+    getData: (type, key) => {
+        if (type === "setting") return componentController.settingsData(key)
+        else return componentController.componentData(key)
     },
 
-    checkStorage: (componentName) => {
+    componentData: (component) => {
+        let data = componentController.checkStorage()
+        data = data["widget_customize"]
+        const keys = Object.keys(data)
+        if (keys.includes(component)) return data[component]
+    },
+
+    settingsData: (setting) => {
+        const data = componentController.checkStorage()
+        const keys = Object.keys(data)
+        if (keys.includes(setting)) return data[setting]
+    },
+
+    checkStorage: () => {
         let data = getFromStore("COMPONENT_DATA")
         if (data) {
             data = JSON.parse(data)
-            data = data.data
-
-            const keys = Object.keys(data)        
-            if (keys.includes(componentName)) return data[componentName]
+            return data = data.data
         } else return false
     }
 }

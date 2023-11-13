@@ -1,9 +1,10 @@
 console.log("socket.js is established #12");
 const closeModal = () => {
-    style.show(marketrixButton)
-    style.hide(marketrixModalContainer)
-    style.hide(mtxContactFormNotificationCard)
-    style.show(mtxFormContent)
+    if(marketrixButton) style.show(marketrixButton)
+    if(marketrixModalContainer) style.hide(marketrixModalContainer)
+    if(mtxContactFormNotificationCard) style.hide(mtxContactFormNotificationCard)
+    if(marketrixWidgetCard) style.hide(marketrixWidgetCard)
+    if(mtxFormContent) style.show(mtxFormContent)
 };
 
 const showModal = () => {

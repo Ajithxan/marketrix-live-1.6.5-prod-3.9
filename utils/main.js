@@ -148,10 +148,8 @@ const getIpAddress = async () => {
 };
 
 const initiateSnippet = async () => {
-    if (ROUTE.componentData("widget_visible")) {
-        if (!ROUTE.componentData("widget_card_status")) await ROUTE.widgetButton()
-        else await ROUTE.widgetCard()
-
+    if (ROUTE.componentData("setting","widget_visible")) {
+        await ROUTE.widgetButton();
         await ROUTE.contactForm();
         setCDNLink(); // set CDN link
         generateCursorId(); // generate cursor id

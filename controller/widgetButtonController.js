@@ -21,6 +21,7 @@ const widgetButtonController = {
             .then((html) => {
                 parentDiv.innerHTML = html; // rendering
                 marketrixButton = document.getElementById("marketrix-button");
+                marketrixWidgetCard = document.getElementById("widget-card");
             });
 
         // await contactButtonController.renderJson()

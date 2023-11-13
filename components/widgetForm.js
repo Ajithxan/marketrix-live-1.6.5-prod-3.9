@@ -14,7 +14,7 @@ class WidgetForm extends HTMLElement {
   }
 
   fetchData() {
-    const data = ROUTE.componentData("form");
+    const data = ROUTE.componentData("widget_customize","form");
     if (data) {
       console.log(data);
     }

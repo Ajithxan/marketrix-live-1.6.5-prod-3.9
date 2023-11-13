@@ -9,22 +9,22 @@ class WidgetButton extends HTMLElement {
   }
 
   connectedCallback() {
+    this.logo_url = this.getAttribute("logo-url")
     this.fetchData();
     this.render();
   }
 
   fetchData() {
-    const data = ROUTE.componentData("widget_button");
+    const data = ROUTE.componentData("widget_customize","widget_button");
     if (data) {
       this.text = data["text"];
       this.bg_color = data["bg_color"];
-      this.logo_url = data["logo_url"];
       this.text_color = data["text_color"];
     }
   }
 
   render() {
-    this.innerHTML = `<div class="mtx-mainButton" id="marketrix-button" style="background-color:${this.bg_color}">
+    this.innerHTML = `<div class="mtx-mainButton" style="background-color:${this.bg_color}">
                 <div class="mtx-button" onclick="showModal()">
                     <div class="mtx-avatar">
                         <div>

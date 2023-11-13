@@ -35,6 +35,7 @@ let video; //video sdk
 let marketrixModalContainer;
 let overlay;
 let marketrixButton;
+let marketrixWidgetCard;
 let mtxContactFormNotificationCard
 let cursorLoading
 let mtxOverlayLoading
