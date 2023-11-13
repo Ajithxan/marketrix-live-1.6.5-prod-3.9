@@ -116,6 +116,23 @@ const configurationController = {
       }
     }
   },
+  screenShare: () => {
+    meetingObj.meeting?.enableScreenShare()
+  },
+  enableScreenShare: (pId, stream) => {
+    console.log(pId, stream)
+    if (pId === meetingVariables.participant.localId) return;
+
+    let videoElement = document.getElementById(`mtx-video-share-elem-${pId}`);
+
+    const mediaStream = new MediaStream();
+    mediaStream.addTrack(stream.track);
+    videoElement.srcObject = mediaStream;
+    videoElement
+      .play()
+      .catch((error) => console.error("videoshareelem.play() failed", error));
+  },
+  stopShare: () => { },
   mic: {
     disable: () => {
       meetingObj.meeting?.muteMic();

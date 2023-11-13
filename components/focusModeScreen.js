@@ -23,6 +23,8 @@ class FocusModeScreen extends HTMLElement {
             <div class="mtx-hidden" id="focus-mode-video-disable-${this.participantId}">
                 <img class="mtx-video-disabled-img" id="focus-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
             </div>
+
+            <screen-share participant-id="${this.participantId}"></screen-share>
     
             <div class="user-names">
                 ${this.participantName}

@@ -13,7 +13,7 @@ class MainWidget extends HTMLElement {
     }
 
     fetchData() {
-      // this.widget_type = ROUTE.componentData("setting","widget_type")
+      this.widget_type = ROUTE.componentData("setting","widget_type")
       this.logo_url = ROUTE.componentData("setting","logo_url");
       this.video_url = ROUTE.componentData("setting","active_video_url");
     }

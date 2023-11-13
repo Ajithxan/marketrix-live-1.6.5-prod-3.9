@@ -83,11 +83,13 @@ const meetingObj = {
 
                 // stream-enabled
                 participant.on("stream-enabled", (stream) => {
+                    console.log("participant stream enable", stream.kind)
                     const kind = stream.kind;
                     mtxModeai = document.getElementById(`mtx-mode-ai-${remoteId}`);
                     focusModeai = document.getElementById(`focus-mode-ai-${remoteId}`);
                     if (kind === "audio") ROUTE.audioStreamEnable()
-                    else ROUTE.videoStreamEnable()
+                    else if (kind === "video") ROUTE.videoStreamEnable()
+                    else if (kind === "share") ROUTE.enableScreenShare(remoteId, stream)
                     meetingObj.setTrack(stream, participant, false);
                 });
 
@@ -231,6 +233,14 @@ const meetingObj = {
         if (meetingVariables.userRole === "visitor") setTimeout(() => {
             window.location.reload()
         }, 1000);
+    },
+
+    enableScreenShare: () => {
+        ROUTE.screenShare()
+    },
+
+    disableScreenShare: () => {
+        ROUTE.stopShare()
     },
 
     toggle: {

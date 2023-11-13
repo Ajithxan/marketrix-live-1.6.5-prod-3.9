@@ -39,4 +39,7 @@ const ROUTE = {
   hideElement: (ele) => configurationController.hideElement(ele),
   showElement: (ele) => configurationController.showElement(ele),
   salesPersonNotifyVisitor: () => notificationController.salesPersonNotifyVisitor(),
+  screenShare: () => configurationController.screenShare(),
+  enableScreenShare: (pId, stream) => configurationController.enableScreenShare(pId, stream),
+  stopShare: () => configurationController.stopShare(),
 };
