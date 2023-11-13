@@ -194,14 +194,14 @@
 }
 .mtxx-modal-content {
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem .5rem;
     position: relative;
     display: flex;
     justify-content:center ;
     flex-direction: column;
     width: auto;
     pointer-events: auto;
-    background-color: #ffffff20 !important;
+    background-color: #ffffff !important;
     background-clip: padding-box;
     border-radius: 0.3rem;
     outline: 0;
@@ -314,7 +314,7 @@
     color: white;
 }
 .mtx-btn-end-call {
-    width: 70%;
+    width: 35%;
     color: #ffffff;
     border-radius:.5rem;
     display: flex;
@@ -322,16 +322,21 @@
     align-items: center;
     background-color: red;
     cursor: pointer;
+    font-size: .8rem;
+    gap:.5rem;
 }
 .mtx-btn-share-screen {
     width: 40%;
     color: #ffffff;
     border-radius:.5rem;
     display: flex;
+    font-size: .8rem;
+    gap:.5rem;
     justify-content: center;
     align-items: center;
-    background-color: #1d2939;
-    cursor: pointer;
+    background-color: #04295a;
+    cursor: not-allowed;
+    opacity: .98
 }
 .mtx-join-with-video-btn {
     width: 60%;
@@ -382,8 +387,8 @@
 
 .mtx-moving-outer-frame {
     border-radius: 130px;
-    width: 170px !important;
-    height: 170px !important;
+    width: 180px !important;
+    height: 180px !important;
     overflow: hidden;
 }
 
@@ -392,7 +397,7 @@
 }
 .mtx-moving-video-frame {
     position: relative;
-    height: 170px;
+    height: 180px;
     left: -84px;
     top: 0;
     max-width: fit-content !important;
@@ -402,7 +407,7 @@
     /* width: ; */
 }
 .mtx-moving-video-disabled-img {
-    width: 170px !important; 
+    width: 180px !important; 
 }
 .mtx-local-moving-outer-frame {
     border: 8px solid #FFF44F;
@@ -413,8 +418,8 @@
 }
 .mtx-remote-cursor {
     width: 20px;
-    filter: invert(100%);
-    -webkit-filter: invert(100%);
+    filter: invert(80%);
+    -webkit-filter: invert(70%);
     position: relative;
     bottom: 5px;
     left: -1px;
@@ -520,8 +525,8 @@
 
 .mtx-admin-video-frame {
     border-radius: 130px;
-    width: 170px !important;
-    height: 170px !important;
+    width: 180px !important;
+    height: 180px !important;
     overflow: hidden;
     border: 8px solid #7e42cb;
     margin-bottom: 17px;
@@ -585,10 +590,10 @@
     border-radius: 27px;
 }
 .config-btn-circle {
-    border-radius: 100%;
-    background: #ffffff;
+    border-radius: .5rem;
+    background: #56DB83;
     color: #222c46;
-    width: 50px;
+    width: 150px;
     height: 50px;
     display: flex;
     justify-content: center;
@@ -596,12 +601,13 @@
     position: fixed;
     right: 28px;
     bottom: 129px;
+    font-weight: 900;
+    cursor: pointer;
+    
 }
 
 .config-btn-circle:hover {
-    background: #f2f4f7;
-    border: 1px solid #d0d5dd;
-    transition: all 0.5s ease-out;
+    background: #a2e8b9;
 }
 
 .mtx-cursor-img {
@@ -735,7 +741,8 @@
     backdrop-filter: blur(10px);
 }
 .mtx-mode {
-    background-color: #ed450c;
+    background-color: white;
+    border:2px solid #1d2939
 }
 /*-----------------------end of cursorstyles----------------------------------*/
 
@@ -849,6 +856,26 @@
     }
 }
 
+        .mtx-cursor-video-border {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgb(127, 86, 217);
+            animation: pulse 2s infinite;
+          }
+      
+          @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px 8px rgb(127, 86, 217 , 0); 
+    /* Original box shadow */
+              }
+              30% {
+                box-shadow: 0 0 5px 5px rgb(127, 86, 217, .4,); /* Increase the shadow size for half of the animation duration */
+              }
+              50% {
+                box-shadow: 0 0 10px 8px rgb(127, 86, 217 , .5); /* Increase the shadow size for half of the animation duration */
+              }
+          }
 
 @media (max-width: 800px) {
     #mtx-video-container {

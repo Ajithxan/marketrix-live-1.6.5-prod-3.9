@@ -1,6 +1,7 @@
 const meetVersion = "1.6.5-prod-2.7";
 //const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //
 const CDNlink = "http://localhost/marketrix-live-1.6.5-prod-2.7/"; // `http://localhost/marketrix-live-1.6.5-prod-2.4/`
+
 console.log(CDNlink);
 const startingTime = new Date().getTime();
 const fontAwesomeCDNLink = document.createElement("link");
@@ -28,6 +29,7 @@ const scriptArr = [
   `${CDNlink}controller/controller.js`,
   `${CDNlink}route/route.js`,
   `${CDNlink}components/component.js`,
+  `${CDNlink}utils/notification.js`,
   `${CDNlink}utils/meeting.js`,
   `${CDNlink}utils/mouse.js`,
   `${CDNlink}utils/watch.js`,

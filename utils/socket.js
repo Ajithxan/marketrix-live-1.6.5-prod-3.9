@@ -6,6 +6,8 @@ const SOCKET = {
                 changedUrl = data.url;
                 setToStore("CURRENT_URL", changedUrl);
                 setToStore("LOADING_MESSAGE", "Redirecting...")
+                // meetingObj.leave()
+                // return
                 window.location.href = changedUrl;
             });
         },
@@ -37,6 +39,7 @@ const SOCKET = {
             });
         },
         connectedUser: () => {
+            console.log("connected user")
             mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
             socket.on("connectedUsers", (data) => {
                 // cursoe movements receive here...
@@ -59,8 +62,8 @@ const SOCKET = {
                     mouse.marketrixMode = getFromStore("MARKETRIX_MODE");
                     if (remoteId && /true/.test(mouse.marketrixMode)) {
                         // use marketrxiMode instead
-                        const fDiv = document.getElementById(`mtx-mode-frame-${remoteId}`);
-                        const cpDiv = document.getElementById(`cursor-pointer-${remoteId}`);
+                        const mtxModeVideoFrame = document.getElementById(`mtx-mode-frame-${remoteId}`);
+                        const remoteCursorPointer = document.getElementById(`cursor-pointer-${remoteId}`);
 
                         let timeCount = 0
                         cursorPositions.forEach(cursor => {
@@ -77,12 +80,12 @@ const SOCKET = {
                                 yPosition = cursor.y * heightRatio
 
                                 // video frame div
-                                fDiv.style.left = xPosition + "px"
-                                fDiv.style.top = yPosition + "px"
+                                if (mtxModeVideoFrame) mtxModeVideoFrame.style.left = xPosition + "px"
+                                if (mtxModeVideoFrame) mtxModeVideoFrame.style.top = yPosition + "px"
 
                                 // cursor pointer div
-                                cpDiv.style.left = xPosition + "px"
-                                cpDiv.style.top = yPosition + "px"
+                                if (remoteCursorPointer) remoteCursorPointer.style.left = xPosition + "px"
+                                if (remoteCursorPointer) remoteCursorPointer.style.top = yPosition + "px"
                             }, 20 * timeCount)
                         });
                     }

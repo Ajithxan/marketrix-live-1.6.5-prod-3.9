@@ -23,7 +23,7 @@ class WidgetCard extends HTMLElement {
   render() {
     this.innerHTML = `
     <div class="mtx-snpt-video-circle-comp" onclick="showModal()"> 
-    <p>Press Right arrow key  to start the journey 👉🏼 </p>
+    <p>Click here to speak to one of our live agents now 👇🏼  </p>
         <div class="mtx-video-circle" style="border: 0.5rem solid ${this.theme_color};">
            <video width="320" height="240" >
             <source src="{{CDN_LINK}}assets/videos/${this.video_url}.mp4" type="video/mp4">

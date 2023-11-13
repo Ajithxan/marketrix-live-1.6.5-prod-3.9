@@ -24,14 +24,21 @@ class ControlButton extends HTMLElement {
         <span>
             <i class="fa fa-headphones" aria-hidden="true"></i>Connect</span>
     </div>
-
-   
-    <div type="button" id="mtx-btn-endcall" class="mtx-btn-end-call mtx-hidden" onclick="meetingObj.leaveMeeting()">
+    <div type="button"  class="mtx-btn-share-screen" >
         <span>
-            <i class="fa-solid fa-phone-slash"></i>
-            End call
+            <i class="fa-solid fa-computer"></i>
+           Share Screen
         </span>
     </div>
+
+    <div type="button" id="mtx-btn-endcall" class="mtx-hidden mtx-btn-end-call " onclick="meetingObj.leaveMeeting()">
+      <span>
+          <i class="fa-solid fa-phone-slash"></i>
+          End call
+      </span>
+    </div>
+   
+    
 </div>`;
   }
 }

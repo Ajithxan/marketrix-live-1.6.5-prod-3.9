@@ -335,14 +335,14 @@
   bottom: 1rem;
   width: min-content;
   position: fixed;
-  padding: 2rem;
-  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+  padding: 1.5rem;
+  box-shadow: 0 15px 25px rgba(129, 124, 124, 0.6);
   backdrop-filter: blur(14px);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.6);
   height: auto;
   border-radius: 1rem;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   display: flex;
   z-index: 500;
   flex-direction: column;
@@ -351,8 +351,9 @@
 .mtx-snpt-video-circle-comp p {
   font-size: 1.125rem;
   line-height: 1.75rem;
-  width: 12rem;
+  width: 14rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .mtx-video-circle {

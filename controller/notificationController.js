@@ -40,7 +40,10 @@ const notificationController = {
 
         if (index + 1 === notifications.length && isAgentAvailable)
           showNotification();
-      }, 4500 * count);
+      }, 1500 * count);
     });
+  },
+  salesPersonNotifyVisitor: () => {
+    notification.salesPersonNotifyVisitor();
   },
 };

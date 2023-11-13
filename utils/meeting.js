@@ -66,14 +66,17 @@ const meetingObj = {
             // Remote participants Event
             // participant joined
             meetingObj.meeting.on("participant-joined", (participant) => {
-                if ((/false/).test(firstTimeAdminRequest)) mouse.loading.hide();
+                // if ((/false/).test(firstTimeAdminRequest)) mouse.loading.hide();
+                mouse.loading.hide();
                 firstTimeAdminRequest = false
+                hideRemoteCursor = false
                 // let videoElement = meetingObj.createVideoElement(
                 //     participant.id,
                 //     participant.displayName
                 // );
 
                 meetingVariables.participant.remoteId = participant.id;
+                console.log("participant joined id", participant.id)
                 setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
                 // let audioElement = meetingObj.createAudioElement(participant.id);
                 remoteId = meetingVariables.participant.remoteId;
@@ -111,6 +114,15 @@ const meetingObj = {
                     videoFrameComponent.setAttribute("participant-name", participant.displayName)
                     videoFrameComponent.setAttribute("is-local-user", false)
                     videoContainer.append(videoFrameComponent)
+
+                    // if (!(/null/).test(getFromStore("PREV_REMOTE_PARTICIPANT_ID")) && getFromStore("PREV_REMOTE_PARTICIPANT_ID") !== participant.id) {
+                    //     console.log("prev remote id", getFromStore("PREV_REMOTE_PARTICIPANT_ID"))
+                    //     const prevFocusModeScreenComponent = document.getElementById(`focus-mode-screen-component-${getFromStore("PREV_REMOTE_PARTICIPANT_ID")}`)
+                    //     const prevMtxModeScreenComponent = document.getElementById(`mtx-mode-screen-component-${getFromStore("PREV_REMOTE_PARTICIPANT_ID")}`)
+                    //     prevFocusModeScreenComponent.remove()
+                    //     prevMtxModeScreenComponent.remove()
+                    // }
+                    // setToStore("PREV_REMOTE_PARTICIPANT_ID", participant.id)
                 }
 
                 if (/true/.test(mouse.marketrixMode) || /null/.test(mouse.marketrixMode))
@@ -201,6 +213,10 @@ const meetingObj = {
         meetingObj.initializeMeeting();
     },
 
+    leave: () => {
+        meetingObj.meeting?.leave()
+    },
+
     leaveMeeting: () => {
         SOCKET.emit.endMeeting();
         if (meetingVariables.userRole === "admin") {
@@ -210,6 +226,7 @@ const meetingObj = {
         meetingEnded = true;
         meetingVariables.id = false
         setToStore("MEETING_ENDED", meetingEnded);
+        removeFromStore("PREV_REMOTE_PARTICIPANT_ID")
         meetingObj.meeting?.end();
         if (meetingVariables.userRole === "visitor") setTimeout(() => {
             window.location.reload()
@@ -391,6 +408,7 @@ const adminMeetingObj = {
         videoElement.classList.add("mtx-moving-video-frame");
         videoElement.setAttribute("id", `mtx-mode-video-elem-${pId}`);
         videoElement.setAttribute("playsinline", true);
+        videoElement.setAttribute("muted", true);
         adminVideoFrame.appendChild(videoElement);
         return adminVideoFrame;
     },
@@ -416,7 +434,7 @@ const joinMeeting = (videoEnabled) => {
     } else {
         setToStore("VIDEO_ENABLED", false)
     }
-    adminMeetingObj.leaveMeeting()
+    // adminMeetingObj.leaveMeeting()
     adminConnects = false
     style.hide(document.getElementById("mtx-admin-call-div"))
     style.show(document.getElementById("mtx-footer-controls"))

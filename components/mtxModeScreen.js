@@ -4,7 +4,8 @@ class MtxModeScreen extends HTMLElement {
 
     this.participantId;
     this.participantName;
-    this.movingOuterFrame = "mtx-remote-moving-outer-frame";
+    this.movingOuterFrame =
+      "mtx-remote-moving-outer-frame mtx-cursor-video-border";
   }
 
   connectedCallback() {
@@ -20,13 +21,14 @@ class MtxModeScreen extends HTMLElement {
     console.log("marketrixMode", ROUTE.marketrixMode());
     this.innerHTML = `
         <div id="mtx-mode-frame-${this.participantId}" class=" mtx-outer-frame start-move mtx-moving-outer-frame ${this.movingOuterFrame}">
-            <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true"></video>
+            <video class="mtx-moving-video-frame" id="mtx-mode-video-elem-${this.participantId}" playsInline="true" muted="true"></video>
     
-            <mtx-mode-video-disable participant-id="${this.participantId}"></mtx-mode-video-disable>
+            <div class="mtx-hidden" id="mtx-mode-video-disable-${this.participantId}">
+            <img class="mtx-moving-video-disabled-div" id="mtx-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
+        </div>
     
-            <div class="user-names">
+            <div>
                 ${this.participantName}
-    
                 <i id="mtx-mode-ai-${this.participantId}" class="fa-solid fa-microphone mtx-ml-2"></i>
             </div>
         </div>

@@ -1,6 +1,7 @@
 class FocusModeScreen extends HTMLElement {
   constructor() {
     super();
+
     this.participantId;
     this.participantName;
   }
@@ -17,10 +18,12 @@ class FocusModeScreen extends HTMLElement {
     this.innerHTML = `
    
         <div id="focus-mode-frame-${this.participantId}" style="position:relative; overflow:hidden">
-            <video class="mtx-snpt-video-box" id="focus-mode-video-elem-${this.participantId}" playsinline="true"></video>
+            <video class="mtx-snpt-video-box" id="focus-mode-video-elem-${this.participantId}" playsinline="true" muted="true"></video>
     
 
-            <focus-mode-video-disable participant-id="${this.participantId}"></focus-mode-video-disable>
+            <div class="mtx-hidden" id="focus-mode-video-disable-${this.participantId}">
+            <img class="mtx-video-disabled-img" id="focus-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
+            </div>
     
             <div class="user-names">
                 ${this.participantName}
