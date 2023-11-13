@@ -1,7 +1,6 @@
 console.log("route.js is loaded");
 const ROUTE = {
   widgetButton: async () => await widgetButtonController.view(),
-  widgetCard: async () => await widgetCardController.view(),
   contactForm: async () => await contactFormController.view(),
   configuration: async () => await configurationController.view(),
   createLocalParticipant: (meeitngObj, videoContainer) => configurationController.createLocalParticipant(meeitngObj, videoContainer),
