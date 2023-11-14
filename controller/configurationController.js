@@ -117,7 +117,7 @@ const configurationController = {
     }
   },
   screenShare: () => {
-    meetingObj.meeting?.enableScreenShare()
+    // meetingObj.meeting?.enableScreenShare()
   },
   enableScreenShare: (pId, stream) => {
     console.log(pId, stream)

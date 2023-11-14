@@ -1,14 +1,15 @@
 console.log("socket.js is established #12");
 const closeModal = () => {
-    if(marketrixButton) style.show(marketrixButton)
-    if(marketrixModalContainer) style.hide(marketrixModalContainer)
-    if(mtxContactFormNotificationCard) style.hide(mtxContactFormNotificationCard)
-    if(marketrixWidgetCard) style.hide(marketrixWidgetCard)
-    if(mtxFormContent) style.show(mtxFormContent)
+    marketrixButton && style.show(marketrixButton)
+    marketrixModalContainer && style.hide(marketrixModalContainer)
+    mtxContactFormNotificationCard && style.hide(mtxContactFormNotificationCard)
+    marketrixWidgetCard & style.hide(marketrixWidgetCard)
+    mtxFormContent && style.show(mtxFormContent)
 };
 
 const showModal = () => {
     marketrixButton && style.hide(marketrixButton)
+    marketrixWidgetCard && style.hide(marketrixWidgetCard)
     marketrixModalContainer && style.show(marketrixModalContainer)
 
     const elements = document.querySelectorAll(`#mtx-form .mtx-form-control`)
