@@ -19,11 +19,13 @@ class FocusModeScreen extends HTMLElement {
    
         <div id="focus-mode-frame-${this.participantId}" style="position:relative; overflow:hidden">
             <video class="mtx-snpt-video-box" id="focus-mode-video-elem-${this.participantId}" playsinline="true" muted="true"></video>
-    
-
+  
             <div class="mtx-hidden" id="focus-mode-video-disable-${this.participantId}">
-            <img class="mtx-video-disabled-img" id="focus-mode-video-disable-image-${this.participantId}" src="{{CDN_LINK}}assets/images/profile.png"/>
-            </div>
+            <div class="mtx-snpt-video-box" id="focus-mode-video-disable-image-${this.participantId}">
+
+               <img class="mtx-video-disabled-img"  src="{{CDN_LINK}}assets/images/profile.png"/>
+           </div>
+               </div>
     
             <div class="user-names">
                 ${this.participantName}

@@ -299,7 +299,7 @@
 }
 
 .mtx-btn-background:hover {
-    background: #f2f4f720;
+    background: #434343;
     border: 1px solid #d0d5dd;
     transition: all 0.3s ease-out;
     cursor: pointer;
@@ -593,15 +593,17 @@
     border-radius: .5rem;
     background: #56DB83;
     color: #222c46;
-    width: 150px;
+    width: auto;
     height: 50px;
+    padding: 0 1rem;
     display: flex;
+    font-size: .8rem;
     justify-content: center;
     align-items: center;
     position: fixed;
-    right: 28px;
-    bottom: 129px;
-    font-weight: 900;
+    left: 25rem;
+    bottom: 2.5rem;
+    font-weight: bold;
     cursor: pointer;
     
 }

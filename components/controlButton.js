@@ -37,7 +37,6 @@ class ControlButton extends HTMLElement {
           End call
       </span>
     </div>
-   
     
 </div>`;
   }

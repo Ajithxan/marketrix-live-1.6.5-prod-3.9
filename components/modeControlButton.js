@@ -15,7 +15,7 @@ class ModeControlButton extends HTMLElement {
             </div>
 
             <div id="marketrix-mode-btn" class="config-btn-circle mtx-hidden mtx-mode" onclick="mouse.hide()">
-             Marketrix Mode
+                Marketrix Mode
             </div>
         </div>
     </div>`;
