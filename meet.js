@@ -1,4 +1,4 @@
-const meetVersion = "1.6.5-prod-3.2";
+const meetVersion = "1.6.5-prod-3.3";
 const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersion}/` //`http://localhost/creativehub/marketrix-live-1.6.5-prod-2.4/` //"http://localhost/marketrix-live-1.6.5-prod-2.7/";
 //const CDNlink = "http://localhost/marketrix-live/";
 console.log(CDNlink);
