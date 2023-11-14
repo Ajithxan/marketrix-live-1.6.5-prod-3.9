@@ -381,8 +381,9 @@
 }
 .mtx-video-circle video {
   z-index: 40;
-  width: 400px;
-  height: 400px;
+  width: 270px;
+  height: 270px;
+  max-width: max-content;
 }
 
 .mtx-snpt-focusmode-screen {
