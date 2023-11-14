@@ -24,7 +24,7 @@ const loadComponent = () => {
 };
 
 // fetch component design
-fetch(`https://api-v2.marketrix.io/admin/tenant/snippet_json/mLive-DHsAT`)
+fetch(`${componentDesignApi}/${appId}`)
   .then((response) => {
     return response.json();
   })
