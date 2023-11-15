@@ -24,7 +24,7 @@ const loadComponent = () => {
 };
 
 // fetch component design
-fetch(`${componentDesignApi}/${appId}`)
+fetch(`${serverBaseUrl}admin/tenant/snippet_json/${appId}`)
   .then((response) => {
     return response.json();
   })
