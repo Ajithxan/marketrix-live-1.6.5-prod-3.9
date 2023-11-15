@@ -132,7 +132,7 @@ const meetingObj = {
                 else {
                     mouse.hide();
                     style.show(videoContainer)
-                    videoContainer.classList.add("mtx-mode-video-container")
+                    // videoContainer.classList.add("mtx-mode-video-container")
                 }
             });
 
