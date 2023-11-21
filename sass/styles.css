@@ -375,6 +375,7 @@
   width: 14rem;
   font-weight: 700;
   text-align: center;
+  color: black !important;
 }
 
 .mtx-video-circle {
@@ -409,6 +410,14 @@
   width: 200px;
   max-width: fit-content;
   cursor: pointer !important;
+}
+
+.mtx-snpt-footer-owner-div {
+  padding: 1rem 0 0 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
 .mtx-snpt-focusmode-screen {

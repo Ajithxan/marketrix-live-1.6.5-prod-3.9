@@ -32,9 +32,7 @@ class WidgetCard extends HTMLElement {
     </div>
     <p>Click here to speak to one of our live agents now 👇🏼  </p>
         <div id="mtx-recorded-video" onclick="ROUTE.showModal('widgetCard')" class="mtx-video-circle mtx-hidden" style="border: 0.5rem solid ${this.theme_color};">
-           <video width="320" height="240" autoplay muted loop>
-            <source src="${this.video_url}" type="video/webm">
-           </video>
+        <img src="${this.video_url}" width="320" height="240" alt="Your GIF Description">
         </div>
         <div id="mtx-recorded-default-video" class="mtx-admin-video-frame mtx-hidden" style="background-image:url('${CDNlink}/assets/images/animation.gif')"></div>
         `;
