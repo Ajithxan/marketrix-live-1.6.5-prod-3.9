@@ -72,7 +72,7 @@ const initiateSocketConnection = () => {
 const adminJoin = () => {
   meetingEnded = false;
   setToStore("MEETING_ENDED", meetingEnded);
-  showModal();
+  showModal('agentButton');
   // hide notfication and cursor header of form
   style.hide(mtxCursorHeader);
   style.hide(mtxContactFormNotificationCard);
@@ -105,7 +105,7 @@ const visitorJoin = () => {
     /false/.test(getFromStore("MEETING_ENDED")) ||
     !getFromStore("MEETING_ENDED")
   ) {
-    showModal();
+    showModal('agentButton');
   }
 
   SOCKET.on.changeUrl();
@@ -148,6 +148,8 @@ const getIpAddress = async () => {
 };
 
 const initiateSnippet = async () => {
+  console.log("widget_visible", ROUTE.componentData("setting", "widget_visible"))
+  if (typeof ROUTE.componentData("setting", "widget_visible") === "undefined") fetchComponentData()
   if (ROUTE.componentData("setting", "widget_visible")) {
     await ROUTE.widgetButton();
     await ROUTE.contactForm();
@@ -169,6 +171,11 @@ const initiateSnippet = async () => {
 setTimeout(async () => {
   await initiateSnippet();
 }, 1000);
+
+const fetchComponentData = async () => {
+  await ROUTE.fetchComponentData()
+  await initiateSnippet()
+}
 
 document.addEventListener("keydown", function (event) {
   // Check if the "Escape" key is pressed (esc key has keycode 27)
@@ -226,7 +233,7 @@ const sendInquiryToDb = (data) => {
   };
   fetch(`${serverBaseUrl}meet-live/inquiries/create`, requestOptions)
     .then((response) => response.json())
-    .then((data) => {});
+    .then((data) => { });
 };
 
 const openCam = () => {

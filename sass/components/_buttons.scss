@@ -110,3 +110,22 @@
     height: 15px;
   }
 }
+
+.mtx-snpt-close-btn-div {
+  background-color: #ffffff;
+  border-radius: 100%;
+  align-self: flex-end !important;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mtx-snpt-close-btn {
+  border-radius: 100%;
+  padding: 0rem 0.8rem;
+  font-size: 1.5rem;
+}
+.mtx-snpt-close-btn-div :hover {
+  background-color: #30333520;
+}

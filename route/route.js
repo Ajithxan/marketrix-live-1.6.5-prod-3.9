@@ -35,6 +35,7 @@ const ROUTE = {
   scrollPosition: (pageX, pageY) => scrollController.position(pageX, pageY),
   formNotification: (isAgentAvailable) => notificationController.form(isAgentAvailable),
   componentData: (type, componentName) => componentController.getData(type, componentName),
+  fetchComponentData: async () => await componentController.fetchData(),
   marketrixMode: () => mouseController.marketrixMode(),
   hideElement: (ele) => configurationController.hideElement(ele),
   showElement: (ele) => configurationController.showElement(ele),
@@ -42,4 +43,7 @@ const ROUTE = {
   screenShare: () => configurationController.screenShare(),
   enableScreenShare: (pId, stream) => configurationController.enableScreenShare(pId, stream),
   stopShare: () => configurationController.stopShare(),
+  showModal: (ele) => widgetController.showModal(ele),
+  closeModal: () => widgetController.closeModal(),
+  closeWidgetCard: () => widgetController.closeWidgetCard(),
 };

@@ -23,5 +23,17 @@ const componentController = {
             data = JSON.parse(data)
             return data = data.data
         } else return false
+    },
+
+    fetchData: async () => {
+       await fetch(`${serverBaseUrl}admin/tenant/snippet_json/${appId}`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                if (/true/.test(data.status))
+                    setToStore("COMPONENT_DATA", JSON.stringify(data.data));
+                
+            });
     }
 }

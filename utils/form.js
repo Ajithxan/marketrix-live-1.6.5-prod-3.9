@@ -73,5 +73,7 @@ const submit = async () => {
         meetingVariables.id = false
 
         SOCKET.emit.visitorRequestMeet(visitor)
+        style.show(mtxEndCallBtn)
+        style.hide(mtxConnectBtn)
     }
 };

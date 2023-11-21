@@ -18,7 +18,6 @@ class VideoFrame extends HTMLElement {
 
     listen() {
         watch(() => {
-            console.log("marketrix mode =>", getFromStore('MARKETRIX_MODE'), this.participantId)
             const mtxModeScreenComponent = document.getElementById(`mtx-mode-screen-component-${this.participantId}`)
             const focusModeScreenComponent = document.getElementById(`focus-mode-screen-component-${this.participantId}`)
 

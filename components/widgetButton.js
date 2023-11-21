@@ -15,9 +15,9 @@ class WidgetButton extends HTMLElement {
   }
 
   fetchData() {
+    this.text = ROUTE.componentData("setting","widget_text");
     const data = ROUTE.componentData("widget_customize","widget_button");
     if (data) {
-      this.text = data["text"];
       this.bg_color = data["bg_color"];
       this.text_color = data["text_color"];
     }

@@ -270,6 +270,26 @@
   height: 15px;
 }
 
+.mtx-snpt-close-btn-div {
+  background-color: #ffffff;
+  border-radius: 100%;
+  align-self: flex-end !important;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mtx-snpt-close-btn {
+  border-radius: 100%;
+  padding: 0rem 0.8rem;
+  font-size: 1.5rem;
+}
+
+.mtx-snpt-close-btn-div :hover {
+  background-color: rgba(48, 51, 53, 0.1254901961);
+}
+
 .mtx-snpt-controller, .mtx-snpt-controller-video, .mtx-snpt-controller-mic {
   border-radius: 100%;
   padding: 0.8rem;
@@ -347,6 +367,7 @@
   z-index: 500;
   flex-direction: column;
   margin-left: 1rem;
+  cursor: pointer;
 }
 .mtx-snpt-video-circle-comp p {
   font-size: 1.125rem;
@@ -368,6 +389,7 @@
   overflow: hidden;
   z-index: 50;
   position: relative;
+  cursor: pointer !important;
 }
 .mtx-video-circle p {
   font-size: 1rem;
@@ -380,10 +402,13 @@
   color: aliceblue;
 }
 .mtx-video-circle video {
+  overflow: hidden;
+  object-fit: cover;
   z-index: 40;
-  width: 270px;
-  height: 270px;
-  max-width: max-content;
+  height: 200px;
+  width: 200px;
+  max-width: fit-content;
+  cursor: pointer !important;
 }
 
 .mtx-snpt-focusmode-screen {

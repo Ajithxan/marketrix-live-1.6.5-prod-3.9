@@ -14,7 +14,7 @@ class WidgetForm extends HTMLElement {
   }
 
   fetchData() {
-    const data = ROUTE.componentData("widget_customize","form");
+    const data = ROUTE.componentData("widget_customize", "form");
     if (data) {
       console.log(data);
     }
@@ -25,7 +25,7 @@ class WidgetForm extends HTMLElement {
     <div>
         <div class="mtx-form-group">
             <div class="title-one">We are here to support you!</div>
-            <p class="title-two">Inorder to get started, we'd like to collect some information.
+            <p class="title-two">In order to get started, we'd like to collect some information.
             </p>
         </div>
     </div>
@@ -36,7 +36,7 @@ class WidgetForm extends HTMLElement {
         <input name="email" type="text" class="mtx-form-control " placeholder="Work email"/>
     </div>
     <div class="mtx-form-group">
-        <textarea rows="2" type="text" class="mtx-form-control shadow-lg" name="message" placeholder="Tell us how we can help you?"></textarea>
+        <textarea rows="4" type="text" style="height:100px"   class="mtx-form-control shadow-lg" name="message" placeholder="I want your support for billing related issue."></textarea>
     </div>
 </form>
 `;

@@ -1,13 +1,16 @@
 console.log("socket.js is established #12");
 const closeModal = () => {
-    marketrixButton && style.show(marketrixButton)
+    if (!fromWidgetCard) marketrixButton && style.show(marketrixButton)
     marketrixModalContainer && style.hide(marketrixModalContainer)
     mtxContactFormNotificationCard && style.hide(mtxContactFormNotificationCard)
-    marketrixWidgetCard & style.hide(marketrixWidgetCard)
+    marketrixWidgetCard && style.show(marketrixWidgetCard)
     mtxFormContent && style.show(mtxFormContent)
 };
 
-const showModal = () => {
+const showModal = (ele) => {
+    fromWidgetCard = false
+    if (ele === "widgetCard") fromWidgetCard = true
+
     marketrixButton && style.hide(marketrixButton)
     marketrixWidgetCard && style.hide(marketrixWidgetCard)
     marketrixModalContainer && style.show(marketrixModalContainer)
@@ -28,3 +31,8 @@ const showModal = () => {
         style.hide(mtxFormCloseBtn)
     }
 };
+
+const closeWidgetCard = () => {
+    marketrixWidgetCard && style.hide(marketrixWidgetCard)
+    closeWidgetCardStatus = true
+}

@@ -7,6 +7,7 @@ const controllers = [
   "scrollController",
   "notificationController",
   "componentController",
+  "widgetController"
 ];
 
 let controllersFirstIndex = 0;

@@ -2,7 +2,7 @@ console.log("meeting.js is established #7")
 const meetingObj = {
     meeting: null,
     isMicOn: true,
-    isWebCamOn: false,
+    isWebCamOn: true,
     stream: "",
     connect() {
         if (
@@ -225,12 +225,14 @@ const meetingObj = {
             meetingObj.endMeetingApiCall();
         }
         // sessionStorage.clear()
+        style.hide(marketrixModalContainer)
         meetingEnded = true;
         meetingVariables.id = false
         setToStore("MEETING_ENDED", meetingEnded);
         removeFromStore("PREV_REMOTE_PARTICIPANT_ID")
         meetingObj.meeting?.end();
         if (meetingVariables.userRole === "visitor") setTimeout(() => {
+            removeFromStore("MARKETRIX_MODE")
             window.location.reload()
         }, 1000);
     },
@@ -260,7 +262,7 @@ const meetingObj = {
             fDiv = document.getElementById(`mtx-mode-frame-${localId}`);
             focusModeFrameDiv = document.getElementById(`focus-mode-frame-${localId}`);
             webCamIconElem = document.getElementById("webcam-icon");
-
+            console.log("webcam", meetingObj.isWebCamOn)
             if (meetingObj.isWebCamOn) ROUTE.wecamOff()
             else ROUTE.webcamOn()
             meetingObj.isWebCamOn = !meetingObj.isWebCamOn;
@@ -291,153 +293,6 @@ const meetingObj = {
     },
 };
 
-const adminMeetingObj = {
-    meeting: null,
-    isMicOn: true,
-    isWebCamOn: false,
-    connect() {
-        setTimeout(() => {
-            adminMeetingObj.joinMeeting();
-        }, 1000);
-    },
-
-    initializeMeeting: () => {
-        if (meetingVariables.token) {
-            window.VideoSDK.config(meetingVariables.token);
-
-            adminMeetingObj.meeting = window.VideoSDK.initMeeting({
-                meetingId: meetingVariables.id, // required
-                name: meetingVariables.name, // required
-                micEnabled: true, // optional, default: true
-                webcamEnabled: true, // optional, default: true
-            });
-
-            adminMeetingObj.meeting.join();
-
-            // Creating local participant
-            // adminMeetingObj.createLocalParticipant();
-
-            // Setting local participant stream
-            adminMeetingObj.meeting.localParticipant.on("stream-enabled", (stream) => {
-                adminMeetingObj.setTrack(
-                    stream,
-                    meetingObj.meeting.localParticipant,
-                    true
-                );
-            });
-
-            // meeting joined event
-            adminMeetingObj.meeting.on("meeting-joined", () => {
-                style.show(mtxAdminGridScreen)
-            });
-
-            // meeting left event
-            adminMeetingObj.meeting.on("meeting-left", () => {
-                adminVidoeContainer.innerHTML = "";
-            });
-
-            adminMeetingObj.meeting.on("participant-left", (participant) => {
-                // mouse.loading.show()
-            })
-
-            // remote participant joined
-            adminMeetingObj.meeting.on("participant-joined", (participant) => {
-                // mouse.loading.hide()
-                let videoElement = adminMeetingObj.createVideoElement(
-                    participant.id,
-                    participant.displayName
-                );
-
-                meetingVariables.participant.remoteId = participant.id;
-                setToStore('MEETING_VARIABLES', JSON.stringify(meetingVariables)) // store meeting variables
-                // let audioElement = adminMeetingObj.createAudioElement(participant.id);
-                const remoteId = meetingVariables.participant.remoteId;
-
-                // stream-enabled
-                participant.on("stream-enabled", (stream) => {
-                    adminMeetingObj.setTrack(stream, participant, false);
-                });
-
-                participant.on("stream-disabled", (stream) => {
-                    adminMeetingObj.setTrack(stream, participant, false);
-                });
-
-                participant.setQuality('high'); // video quality
-
-                // creaste cursor pointer
-                let cursorPointerDiv = document.createElement("div");
-                cursorPointerDiv.classList.add("mtx-admin-frame-pointer")
-                let cursorPointer = document.createElement("img");
-                cursorPointer.setAttribute(
-                    "src",
-                    cursorPointerImage
-                );
-                cursorPointerDiv.append(cursorPointer)
-                const agentMsg = `<div class='agent-msg'>${adminName} is trying to connect with you.</div>`
-                const customMsg = `${agentMsg} <div class='custom-msg'>Hi there!, ${adminMessage}</div>`
-                document.getElementById("admin-message").innerHTML = customMsg
-                adminVidoeContainer.append(cursorPointerDiv);
-                adminVidoeContainer.append(videoElement);
-                showModal()
-                const audio = new Audio(`${CDNlink}assets/sounds/call-ring.wav`);
-                audio.play();
-                style.hide(mtxFooterControl)
-                style.show(mtxAdminCallDiv)
-            });
-
-            // participants left
-            adminMeetingObj.meeting.on("participant-left", (participant) => {
-                let vElement = document.getElementById(`mtx-mode-frame-${participant.id}`);
-                focusModeFrameDiv = document.getElementById(`focus-mode-frame-${localId}`);
-                vElement.remove(vElement);
-
-                let aElement = document.getElementById(`a-${participant.id}`);
-                aElement.remove(aElement);
-            });
-        }
-    },
-
-    createLocalParticipant: () => {
-        ROUTE.createLocalParticipant(adminMeetingObj, adminVidoeContainer)
-    },
-
-    setTrack: (stream, participant, isLocal) => {
-        ROUTE.setTrack(stream, participant, isLocal)
-    },
-
-    createVideoElement: (pId, name) => {
-        let adminVideoFrame = document.createElement("div");
-        adminVideoFrame.setAttribute("id", `mtx-mode-frame-${pId}`);
-        adminVideoFrame.classList.add("mtx-admin-video-frame")
-
-        // set background image
-        adminVideoFrame.style.backgroundImage = adminNotificationBackgroundAnimation
-
-        //create video
-        let videoElement = document.createElement("video");
-        videoElement.classList.add("mtx-moving-video-frame");
-        videoElement.setAttribute("id", `mtx-mode-video-elem-${pId}`);
-        videoElement.setAttribute("playsinline", true);
-        videoElement.setAttribute("muted", true);
-        adminVideoFrame.appendChild(videoElement);
-        return adminVideoFrame;
-    },
-
-    createAudioElement: (pId) => {
-        return ROUTE.audioElement(pId)
-    },
-
-    joinMeeting: () => {
-        adminMeetingObj.initializeMeeting();
-    },
-
-    leaveMeeting: () => {
-        adminMeetingObj.meeting.leave()
-        meetingVariables.id = false
-        adminVidoeContainer.remove()
-    },
-};
-
 const joinMeeting = (videoEnabled) => {
     if ((/true/).test(videoEnabled)) {
         setToStore("VIDEO_ENABLED", true)
@@ -446,7 +301,7 @@ const joinMeeting = (videoEnabled) => {
     }
     // adminMeetingObj.leaveMeeting()
     adminConnects = false
-    style.hide(document.getElementById("mtx-admin-call-div"))
+    style.hide(document.getElementById("mtx-live-connect-call-div"))
     style.show(document.getElementById("mtx-footer-controls"))
     checkMeetingVariables()
 }

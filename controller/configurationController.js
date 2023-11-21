@@ -138,39 +138,38 @@ const configurationController = {
       meetingObj.meeting?.muteMic();
       micIconElem.classList.add("fa");
       micIconElem.classList.add("fa-microphone-slash");
-      mtxModeai.classList.add("fa");
-      mtxModeai.classList.add("fa-microphone-slash");
-      focusModeai.classList.add("fa");
-      focusModeai.classList.add("fa-microphone-slash");
+      if (mtxModeai) mtxModeai.classList.add("fa");
+      if (mtxModeai) mtxModeai.classList.add("fa-microphone-slash");
+      if (focusModeai) focusModeai.classList.add("fa");
+      if (focusModeai) focusModeai.classList.add("fa-microphone-slash");
 
       micIconElem.classList.remove("fa-solid");
       micIconElem.classList.remove("fa-microphone");
-      mtxModeai.classList.remove("fa-microphone");
-      mtxModeai.classList.remove("fa-microphone");
-      focusModeai.classList.remove("fa-microphone");
-      focusModeai.classList.remove("fa-microphone");
+      if (mtxModeai) mtxModeai.classList.remove("fa-microphone");
+      if (mtxModeai) mtxModeai.classList.remove("fa-microphone");
+      if (focusModeai) focusModeai.classList.remove("fa-microphone");
+      if (focusModeai) focusModeai.classList.remove("fa-microphone");
     },
     enable: () => {
       meetingObj.meeting?.unmuteMic();
       micIconElem.classList.add("fa-solid");
       micIconElem.classList.add("fa-microphone");
-      mtxModeai.classList.add("fa-solid");
-      mtxModeai.classList.add("fa-microphone");
-      focusModeai.classList.add("fa-solid");
-      focusModeai.classList.add("fa-microphone");
+      if (mtxModeai) mtxModeai.classList.add("fa-solid");
+      if (mtxModeai) mtxModeai.classList.add("fa-microphone");
+      if (focusModeai) focusModeai.classList.add("fa-solid");
+      if (focusModeai) focusModeai.classList.add("fa-microphone");
 
       micIconElem.classList.remove("fa");
       micIconElem.classList.remove("fa-microphone-slash");
-      mtxModeai.classList.remove("fa");
-      mtxModeai.classList.remove("fa-microphone-slash");
-      focusModeai.classList.remove("fa");
-      focusModeai.classList.remove("fa-microphone-slash");
+      if (mtxModeai) mtxModeai.classList.remove("fa");
+      if (mtxModeai) mtxModeai.classList.remove("fa-microphone-slash");
+      if (focusModeai) focusModeai.classList.remove("fa");
+      if (focusModeai) focusModeai.classList.remove("fa-microphone-slash");
     },
   },
   webcam: {
     disable: () => {
       meetingObj.meeting?.disableWebcam();
-      console.log("video disable", localId)
       webCamIconElem.classList.add("fa-solid");
       webCamIconElem.classList.add("fa-video-slash");
       webCamIconElem.classList.remove("fas");
@@ -186,22 +185,22 @@ const configurationController = {
         if (mtxModeVideoDisabledImageOfAdmin) mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
         if (focusModeVideoDisabledImageOfAdmin) focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
       }
-      style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
-      style.show(document.getElementById(`mtx-mode-video-disable-${localId}`));
-      style.hide(document.getElementById(`focus-mode-video-elem-${localId}`));
-      style.show(document.getElementById(`focus-mode-video-disable-${localId}`));
+      if(document.getElementById(`mtx-mode-video-elem-${localId}`)) style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      if(document.getElementById(`mtx-mode-video-disable-${localId}`)) style.show(document.getElementById(`mtx-mode-video-disable-${localId}`));
+      if(document.getElementById(`focus-mode-video-elem-${localId}`)) style.hide(document.getElementById(`focus-mode-video-elem-${localId}`));
+      if(document.getElementById(`focus-mode-video-disable-${localId}`)) style.show(document.getElementById(`focus-mode-video-disable-${localId}`));
     },
     enable: () => {
-      console.log("video enable", localId)
+
       meetingObj.meeting?.enableWebcam();
       webCamIconElem.classList.remove("fa-solid");
       webCamIconElem.classList.remove("fa-video-slash");
       webCamIconElem.classList.add("fas");
       webCamIconElem.classList.add("fa-video");
-      style.show(document.getElementById(`mtx-mode-video-elem-${localId}`));
-      style.hide(document.getElementById(`mtx-mode-video-disable-${localId}`));
-      style.show(document.getElementById(`focus-mode-video-elem-${localId}`));
-      style.hide(document.getElementById(`focus-mode-video-disable-${localId}`));
+      if (document.getElementById(`mtx-mode-video-elem-${localId}`)) style.show(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      if (document.getElementById(`mtx-mode-video-disable-${localId}`)) style.hide(document.getElementById(`mtx-mode-video-disable-${localId}`));
+      if (document.getElementById(`focus-mode-video-elem-${localId}`)) style.show(document.getElementById(`focus-mode-video-elem-${localId}`));
+      if (document.getElementById(`focus-mode-video-disable-${localId}`)) style.hide(document.getElementById(`focus-mode-video-disable-${localId}`));
     },
   },
   audioStreamEnable: () => {

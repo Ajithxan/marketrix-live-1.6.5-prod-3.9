@@ -1,4 +1,7 @@
-/*-----------------------start of contact-button styles----------------------------------*/
+
+/* body {
+    cursor: url('{{CDNlink}}/assets/images/pointer.png') , not !important;    
+} */
 .mtx-mainButton {
     position: fixed;
     padding: 10px 16px 10px 8px;
@@ -176,10 +179,12 @@
     line-height: 24px;
     border-radius: 100px;
     border: 0.5px solid var(--gray-200, #e4e7ec);
-    border-radius: 100px;
+    border-radius: 8px;
     box-shadow: 0 8px 8px -4px rgba(16, 24, 40, 0.03);
     background: #fff;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: none;
+
 }
 
 .mtx-form-control::placeholder {
@@ -194,7 +199,7 @@
 }
 .mtxx-modal-content {
     border: none;
-    padding: 0.5rem .5rem;
+    padding: 1.2rem;
     position: relative;
     display: flex;
     justify-content:center ;
@@ -203,15 +208,20 @@
     pointer-events: auto;
     background-color: #ffffff !important;
     background-clip: padding-box;
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     outline: 0;
-    -webkit-box-shadow: 0 5px 9px -6px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 5px 9px -6px rgba(0, 0, 0, 0.75);
-    box-shadow: 0 5px 9px -6px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 5px 5px 9px -2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0 5px 9px -2px rgba(0, 0, 0, 0.75);
+    box-shadow: 0 5px 9px -2px rgba(0, 0, 0, 0.75);
 }
 
 .mtx-form-group {
     margin-bottom: 1rem;
+
+textarea{
+    height: 100px;
+}
+   
 }
 
 #marketrix-cover {
@@ -258,6 +268,11 @@
     backdrop-filter: blur(3px);
     z-index: 1; */
 }
+
+
+
+    
+  
 .mtx-main-footer {
     display: flex;
     width: 100%;
@@ -307,7 +322,7 @@
 .mtx-btn-connect {
     width: 60%;
     background: center center / cover rgb(127, 86, 217);
-    border-radius: 100px;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -409,9 +424,33 @@
 .mtx-moving-video-disabled-img {
     width: 180px !important; 
 }
-.mtx-local-moving-outer-frame {
+/* .mtx-local-moving-outer-frame {
     border: 8px solid #FFF44F;
-}
+} */
+
+
+
+.mtx-local-moving-outer-frame {
+    width: 100px;
+    height: 100px;
+    border: 8px solid #7CFFA6;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #7CFFA6;
+    animation: pulseLocal 2s infinite;
+  }
+
+  @keyframes pulseLocal {
+    0%, 100% {
+        box-shadow: 0 0 8px 8px #7CFFA600; 
+/* Original box shadow */
+      }
+      30% {
+        box-shadow: 0 0 5px 5px #7CFFA660; /* Increase the shadow size for half of the animation duration */
+      }
+      50% {
+        box-shadow: 0 0 10px 8px #7CFFA690; /* Increase the shadow size for half of the animation duration */
+      }
+  }
 .mtx-remote-cursor-png-div {
     position: absolute;
     /* background: green; */
@@ -578,7 +617,7 @@
     
 }
 .mtx-mode-video-container {
-    height: 0 !important;
+    height: 100vh !important;
 }
 .btn-submit {
     outline: none;

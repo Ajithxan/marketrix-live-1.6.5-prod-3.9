@@ -36,30 +36,9 @@
                             <div id="mtx-form-content" class="mtx-form-body">                            
                                 <widget-form></widget-form>
                             </div>
-                            <div id="mtx-admin-call-div" class="mtx-hidden">
-                                <div id="mtx-admin-grid-screen" class="mtx-hidden">
-                                    <div id="mtx-admin-video-container"></div>
-                                </div>
-                                <div class="mtx-admin-call-text"> <span id="admin-message">Loading...</span></div>
-                                <div class="mtx-main-footer">
-                                    <div class="mtx-admin-call-footer">
-                                        <div class="mtx-footer-actions">
-                                            <div type="button" class="mtx-join-with-video-btn" onclick="joinMeeting(true)">
-                                                <span >
-                                                    <i class="fas fa-video"></i>
-                                                    Join with video
-                                                </span>
-                                            </div>
-                                            <div type="button" class="mtx-join-with-audio-btn" onclick="joinMeeting(false)">
-                                                <span>
-                                                    <i class="fa fa-headphones" aria-hidden="true"></i>
-                                                    Join with audio
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+                                <live-connect-widget></live-connect-widget>
+                            
                             <div id="mtx-footer-controls" class="mtx-main-footer">
                                 <div class="mtx-connect-footer">
                                     <control-button></control-button>

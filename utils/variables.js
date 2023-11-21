@@ -41,7 +41,7 @@ let cursorLoading
 let mtxOverlayLoading
 let mtxLoadingMessageDiv
 let mtxFromContent
-let mtxAdminCallDiv
+let mtxLiveConnectCallDiv
 let mtxFooterControl
 let mtxFormCloseBtn
 let mtxConnectBtn
@@ -86,6 +86,8 @@ let focusModeFrameDiv
 let webCamIconElem
 let remoteCursorPointerDiv
 let remoteCursorPointer
+let closeWidgetCardStatus = false
+let fromWidgetCard = false
 
 // background images
 let adminNotificationBackgroundAnimation = `url("${CDNlink}/assets/images/animation.gif")`

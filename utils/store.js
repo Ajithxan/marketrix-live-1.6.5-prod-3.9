@@ -7,7 +7,9 @@ const setToStore = (key, value) => {
 }
 
 const getFromStore = (key) => {
-    return sessionStorage.getItem(key)
+    if (typeof sessionStorage !== "undefined")
+        return sessionStorage.getItem(key)
+    else return false
 }
 
 const removeFromStore = (key) => {

@@ -93,7 +93,7 @@
                               {
                                 "element": "p",
                                 "class": ["title-two"],
-                                "text": "Inorder to get started, we'd like to collect some information."
+                                "text": "In order to get started, we'd like to collect some information."
                               }
                             ]
                           }
@@ -126,7 +126,7 @@
                         "class": ["mtx-form-group"],
                         "child": {
                           "element": "textarea",
-                          "rows": "2",
+                          "rows": "4",
                           "name": "message",
                           "type": "text",
                           "class": ["mtx-form-control", "shadow-lg"],

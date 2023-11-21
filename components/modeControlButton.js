@@ -11,11 +11,11 @@ class ModeControlButton extends HTMLElement {
     this.innerHTML = `<div class="mtx-config-controls">
         <div id="show-cursor" class="mtx-hidden">
             <div id="focus-mode-btn" class="config-btn-circle" onclick="mouse.show()">
-                Focus Mode
+               Switch to Marketrix Mode
             </div>
 
             <div id="marketrix-mode-btn" class="config-btn-circle mtx-hidden mtx-mode" onclick="mouse.hide()">
-                Marketrix Mode
+              Switch to Focus Mode
             </div>
         </div>
     </div>`;

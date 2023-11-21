@@ -17,16 +17,16 @@ const contactFormController = {
         mtxContactFormNotificationCard = document.getElementById("mtx-contact-form-notification-card")
         style.hide(mtxContactFormNotificationCard) // default hide
         mtxFormContent = document.getElementById("mtx-form-content")
-        mtxAdminCallDiv = document.getElementById("mtx-admin-call-div")
-        style.hide(mtxAdminCallDiv) // default hide
+        mtxLiveConnectCallDiv = document.getElementById("mtx-live-connect-call-div")
+        if(mtxLiveConnectCallDiv) style.hide(mtxLiveConnectCallDiv) // default hide
         mtxFooterControl = document.getElementById("mtx-footer-controls")
         mtxFormCloseBtn = document.getElementById("mtx-form-close-btn")
         mtxConnectBtn = document.getElementById("mtx-btn-connect")
         mtxEndCallBtn = document.getElementById("mtx-btn-endcall")
-        style.hide(mtxEndCallBtn) // default hide
+        if(mtxEndCallBtn) style.hide(mtxEndCallBtn) // default hide
         mtxCursorHeader = document.getElementById("mtx-cursor-header")
         mtxAdminGridScreen = document.getElementById("mtx-admin-grid-screen")
-        style.hide(mtxAdminGridScreen) // default hide
+        if(mtxAdminGridScreen) style.hide(mtxAdminGridScreen) // default hide
         overlay = document.querySelector(".mtx-overlay");
         currentUrl = window.location.href // set current Url
         
