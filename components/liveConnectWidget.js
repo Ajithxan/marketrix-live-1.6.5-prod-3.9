@@ -1,39 +1,37 @@
 class LiveConnectWidget extends HTMLElement {
-    constructor() {
-        super();
-        this.video_url = null;
-        this.theme_color = "purple";
-    }
+  constructor() {
+    super();
+    this.video_url = null;
+    this.theme_color = "purple";
+  }
 
-    connectedCallback() {
-        this.fetchData();
-        this.render();
-        if (this.video_url) {
-            style.hide(document.getElementById("mtx-default-recorded-animation"))
-            style.show(document.getElementById("mtx-recorded-animation"))
-        } else {
-            style.show(document.getElementById("mtx-default-recorded-animation"))
-            style.hide(document.getElementById("mtx-recorded-animation"))
-        }
+  connectedCallback() {
+    this.fetchData();
+    this.render();
+    if (this.video_url) {
+      style.hide(document.getElementById("mtx-default-recorded-animation"));
+      style.show(document.getElementById("mtx-recorded-animation"));
+    } else {
+      style.show(document.getElementById("mtx-default-recorded-animation"));
+      style.hide(document.getElementById("mtx-recorded-animation"));
     }
+  }
 
-    fetchData() {
-        if (ROUTE.componentData("setting", "active_video_url"))
-            this.video_url = ROUTE.componentData("setting", "active_video_url");
-    }
+  fetchData() {
+    if (ROUTE.componentData("setting", "active_video_url"))
+      this.video_url = ROUTE.componentData("setting", "active_video_url");
+  }
 
-    render() {
-        this.innerHTML = `
+  render() {
+    this.innerHTML = `
     <div id="mtx-live-connect-call-div" class="mtx-hidden">
         <div id="mtx-admin-grid-screen" class="mtx-hidden">
             <div id="mtx-admin-video-container">
                 <div class="mtx-admin-frame-pointer">
                     <img src="${CDNlink}assets/images/pointer.png"/>
                 </div>
-                <div id="mtx-recorded-animation" class="mtx-video-circle mtx-admin-video-frame mtx-hidden" style="border: 0.5rem solid ${this.theme_color};">
-                    <video autoplay muted loop style="width:291px">
-                        <source src="${this.video_url}" type="video/mp4">
-                    </video>
+                <div id="mtx-recorded-animation" onclick="ROUTE.showModal('widgetCard')" class="mtx-video-circle mtx-admin-video-frame mtx-hidden" style="border: 0.5rem solid ${this.theme_color};">
+                    <img src="${this.video_url}">
                 </div>
                 <div id="mtx-default-recorded-animation" class="mtx-admin-video-frame mtx-hidden" style="background-image:url('${CDNlink}/assets/images/animation.gif')"></div>
             </div>
@@ -57,8 +55,8 @@ class LiveConnectWidget extends HTMLElement {
                 </div>
             </div>
         </div>
-    </div>`
-    }
+    </div>`;
+  }
 }
 
 customElements.define("live-connect-widget", LiveConnectWidget);

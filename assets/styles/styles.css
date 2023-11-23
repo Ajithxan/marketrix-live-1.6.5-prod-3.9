@@ -29,6 +29,7 @@
     justify-content: center;
     margin-bottom: 10px;
 }
+
 .mtx-loading-img img {
     width: 29px;
     margin-right: 4px;
@@ -356,7 +357,7 @@ textarea{
 .mtx-join-with-video-btn {
     width: 60%;
     background: center center / cover rgb(127, 86, 217) !important;
-    border-radius: 100px;
+    border-radius: .5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -367,7 +368,7 @@ textarea{
 .mtx-join-with-audio-btn {
     width: 60%;
     background: #bfbec040;
-    border-radius: 100px;
+    border-radius: .5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -606,7 +607,7 @@ textarea{
     height: 100vh;
     display: flex;
     gap:2rem;
-    width: 100%;
+    width: 95vw !important;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -704,7 +705,7 @@ textarea{
     padding: 1rem;
 }
 .mtx-container-fluid {
-    width: 100%;
+    width: 95vw;
     padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;

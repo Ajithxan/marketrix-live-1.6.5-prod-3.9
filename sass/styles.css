@@ -402,7 +402,8 @@
   bottom: 20px;
   color: aliceblue;
 }
-.mtx-video-circle video {
+.mtx-video-circle video,
+.mtx-video-circle img {
   overflow: hidden;
   object-fit: cover;
   z-index: 40;

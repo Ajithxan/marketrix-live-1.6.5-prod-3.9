@@ -51,7 +51,9 @@
     bottom: 20px;
     color: aliceblue;
   }
-  video {
+
+  video,
+  img {
     overflow: hidden;
     object-fit: cover;
     z-index: 40;
