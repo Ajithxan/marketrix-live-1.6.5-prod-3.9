@@ -436,7 +436,7 @@
   gap: 1.5rem;
   position: relative;
   display: flex;
-  width: 90vw;
+  width: 45vw;
   height: 65vh;
   object-fit: cover;
   border-radius: 1rem;
@@ -549,6 +549,7 @@ input:checked + .slider:before {
   }
   .mtx-snpt-video-box {
     height: 35vh;
+    width: 90vw;
   }
 }
 .mtx-snpt-focus-video-box {

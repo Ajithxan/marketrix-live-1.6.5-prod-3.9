@@ -607,7 +607,7 @@ textarea{
     height: 100vh;
     display: flex;
     gap:2rem;
-    width: 95vw !important;
+    /* width: 100vw !important; */
     justify-content: center;
     align-items: center;
     display: flex;
@@ -919,12 +919,10 @@ textarea{
               }
           }
 
-@media (max-width: 800px) {
-    #mtx-video-container {
-        
+    @media (max-width: 800px) {
+        #mtx-video-container {
         flex-direction: column;
         height: 100vh;
-        
     }
 
 
