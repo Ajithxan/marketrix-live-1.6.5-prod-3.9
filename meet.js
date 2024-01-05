@@ -3,6 +3,8 @@ const CDNlink = `https://cdn.jsdelivr.net/gh/Ajithxan/marketrix-live-${meetVersi
 console.log(CDNlink);
 const startingTime = new Date().getTime();
 const fontAwesomeCDNLink = document.createElement("link");
+const sassLink = document.createElement("link");
+const cssLink = document.createElement("link");
 
 // stylesheet links
 fontAwesomeCDNLink.setAttribute("rel", "stylesheet");
@@ -10,9 +12,15 @@ fontAwesomeCDNLink.setAttribute(
   "href",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 );
+sassLink.setAttribute("rel", "stylesheet");
+sassLink.setAttribute("href", `${CDNlink}sass/styles.css`);
+cssLink.setAttribute("rel", "stylesheet");
+cssLink.setAttribute("href", `${CDNlink}assets/styles/styles.css`);
 
 // header link
 document.head.prepend(fontAwesomeCDNLink);
+document.head.append(cssLink);
+document.head.append(sassLink);
 
 // scripts are ordered according to the loading process.
 const scriptArr = [
