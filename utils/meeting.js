@@ -40,6 +40,14 @@ const meetingObj = {
                     meetingObj.meeting.localParticipant,
                     true
                 );
+
+                const kind = stream.kind
+                if (kind === "share") ROUTE.enableScreenShare(meetingVariables.participant.localId, stream)
+            });
+
+            meetingObj.meeting.localParticipant.on("stream-disabled", (stream) => {
+                const kind = stream.kind
+                if (kind === "share") ROUTE.disableScreenShare(meetingVariables.participant.localId, stream)
             });
 
             // meeting joined event
@@ -70,16 +78,15 @@ const meetingObj = {
                 mouse.loading.hide();
                 firstTimeAdminRequest = false
                 hideRemoteCursor = false
-                // let videoElement = meetingObj.createVideoElement(
-                //     participant.id,
-                //     participant.displayName
-                // );
 
                 meetingVariables.participant.remoteId = participant.id;
                 console.log("participant joined id", participant.id)
                 setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables)); // store meeting variables
                 // let audioElement = meetingObj.createAudioElement(participant.id);
                 remoteId = meetingVariables.participant.remoteId;
+                style.show(mtxControlButton)
+
+                if (meetingVariables.userRole === "admin") ROUTE.record() // recording started
 
                 // stream-enabled
                 participant.on("stream-enabled", (stream) => {
@@ -87,9 +94,9 @@ const meetingObj = {
                     const kind = stream.kind;
                     mtxModeai = document.getElementById(`mtx-mode-ai-${remoteId}`);
                     focusModeai = document.getElementById(`focus-mode-ai-${remoteId}`);
-                    if (kind === "audio") ROUTE.audioStreamEnable()
-                    else if (kind === "video") ROUTE.videoStreamEnable()
-                    else if (kind === "share") ROUTE.enableScreenShare(remoteId, stream)
+                    if (kind === "audio") ROUTE.audioStreamEnable() // audio
+                    else if (kind === "video") ROUTE.videoStreamEnable() // video
+                    else if (kind === "share") ROUTE.enableScreenShare(remoteId, stream) // screen share
                     meetingObj.setTrack(stream, participant, false);
                 });
 
@@ -97,34 +104,23 @@ const meetingObj = {
                     const kind = stream.kind;
                     mtxModeai = document.getElementById(`mtx-mode-ai-${remoteId}`);
                     focusModeai = document.getElementById(`focus-mode-ai-${remoteId}`);
-                    if (kind === "audio") ROUTE.audioStreamDisable()
-                    else ROUTE.videoStreamDisable()
+                    if (kind === "audio") ROUTE.audioStreamDisable() // audio
+                    else if (kind === "video") ROUTE.videoStreamDisable() // video
+                    else if (kind === "share") ROUTE.disableScreenShare(remoteId, stream) // screen share
+
                     meetingObj.setTrack(stream, participant, false);
                 });
 
                 participant.setQuality('high'); // video quality
 
                 // creaste cursor pointer for remote user
-                // ROUTE.createRemoteCursorPointer(participant.id)
 
                 if ((/false/).test(hideRemoteCursor)) {
-                    // videoContainer.append(remoteCursorPointerDiv);
-                    // videoContainer.append(videoElement);
-                    // videoContainer.append(audioElement);                    
                     let videoFrameComponent = document.createElement("video-frame")
                     videoFrameComponent.setAttribute("participant-id", participant.id)
                     videoFrameComponent.setAttribute("participant-name", participant.displayName)
                     videoFrameComponent.setAttribute("is-local-user", false)
                     videoContainer.append(videoFrameComponent)
-
-                    // if (!(/null/).test(getFromStore("PREV_REMOTE_PARTICIPANT_ID")) && getFromStore("PREV_REMOTE_PARTICIPANT_ID") !== participant.id) {
-                    //     console.log("prev remote id", getFromStore("PREV_REMOTE_PARTICIPANT_ID"))
-                    //     const prevFocusModeScreenComponent = document.getElementById(`focus-mode-screen-component-${getFromStore("PREV_REMOTE_PARTICIPANT_ID")}`)
-                    //     const prevMtxModeScreenComponent = document.getElementById(`mtx-mode-screen-component-${getFromStore("PREV_REMOTE_PARTICIPANT_ID")}`)
-                    //     prevFocusModeScreenComponent.remove()
-                    //     prevMtxModeScreenComponent.remove()
-                    // }
-                    // setToStore("PREV_REMOTE_PARTICIPANT_ID", participant.id)
                 }
 
                 if (/true/.test(mouse.marketrixMode) || /null/.test(mouse.marketrixMode))
@@ -134,6 +130,12 @@ const meetingObj = {
                     style.show(videoContainer)
                     videoContainer.classList.add("mtx-mode-video-container")
                 }
+
+                setTimeout(() => {
+                    document.getElementById("mtx-contact-form-div").style.display = "block"
+                    document.getElementById("mtx-parent-div").style.display = "block"
+                    // style.show(videoConfigDiv)
+                }, 1000)
             });
 
             // participants left
@@ -147,64 +149,32 @@ const meetingObj = {
         }
     },
 
+    createShareVideoElement: (pId, stream) => {
+        if (pId == meetingVariables.participant.localId) return;
+        console.log("stream.kind", stream.kind)
+        console.log("create share vidoe element")
+        let videoElement = document.createElement("video");
+        videoElement.setAttribute("autoPlay", false);
+        videoElement.setAttribute("controls", "false");
+        videoElement.setAttribute("id", `v-share-${pId}`);
+
+        const mediaStream = new MediaStream();
+        mediaStream.addTrack(stream.track);
+        console.log("stream.track", stream.track)
+        videoElement.srcObject = mediaStream;
+        videoElement
+            .play()
+            .catch((error) => console.error("audioElem.play() failed", error));
+        console.log("video element", videoElement)
+        return videoElement;
+    },
+
     createLocalParticipant: () => {
         ROUTE.createLocalParticipant(meetingObj, videoContainer)
     },
 
     setTrack: (stream, participant, isLocal) => {
         ROUTE.setTrack(stream, participant, isLocal)
-    },
-
-    createVideoElement: (pId, name) => {
-        // // video element for focus mode
-        // let videoFrame = document.createElement("div");
-        // videoFrame.setAttribute("id", `mtx-mode-frame-${pId}`);
-        // videoFrame.classList.add("mtx-col-6");
-        // videoFrame.classList.add("mtx-outer-frame");
-
-        // // set default position
-        // videoFrame.style.top = "50vh"
-
-        // //create video
-        // let videoElement = document.createElement("video");
-        // videoElement.classList.add("mtx-video-elem");
-        // videoElement.setAttribute("id", `mtx-mode-video-elem-${pId}`);
-        // videoElement.setAttribute("playsinline", true);
-
-        // // video disabled
-        // let videoDisabledDiv = document.createElement("div");
-        // style.hide(videoDisabledDiv)
-        // videoDisabledDiv.setAttribute("id", `vd-${pId}`);
-
-        // // video element for marketrix-mode
-
-        // // video disabled image
-        // videoDisabledImgElement = document.createElement("img");
-        // videoDisabledImgElement.classList.add("mtx-video-disabled-img");
-        // videoDisabledImgElement.setAttribute("id", `vdi-${pId}`);
-        // videoDisabledImgElement.setAttribute(
-        //     "src",
-        //     videoDisabledImage
-        // );
-
-        // videoDisabledDiv.appendChild(videoDisabledImgElement);
-
-        // videoFrame.appendChild(videoElement);
-        // videoFrame.appendChild(videoDisabledDiv);
-
-        // let displayName = document.createElement("div");
-        // displayName.classList.add("user-names");
-        // displayName.innerHTML = `${name}`;
-
-        // let audioElementDiv = document.createElement("i");
-        // audioElementDiv.setAttribute("id", `ai-${pId}`);
-        // audioElementDiv.classList.add("fa-solid");
-        // audioElementDiv.classList.add("fa-microphone");
-        // audioElementDiv.classList.add("mtx-ml-2");
-        // displayName.appendChild(audioElementDiv);
-
-        // videoFrame.appendChild(displayName);
-        // return videoFrame;
     },
 
     createAudioElement: (pId) => {
@@ -222,6 +192,7 @@ const meetingObj = {
     leaveMeeting: () => {
         SOCKET.emit.endMeeting();
         if (meetingVariables.userRole === "admin") {
+            ROUTE.stopRecord()
             meetingObj.endMeetingApiCall();
         }
         // sessionStorage.clear()
@@ -233,6 +204,7 @@ const meetingObj = {
         meetingObj.meeting?.end();
         if (meetingVariables.userRole === "visitor") setTimeout(() => {
             removeFromStore("MARKETRIX_MODE")
+            removeFromStore("LIVE_CONNECT_ACCEPT")
             window.location.reload()
         }, 1000);
     },
@@ -299,9 +271,11 @@ const joinMeeting = (videoEnabled) => {
     } else {
         setToStore("VIDEO_ENABLED", false)
     }
-    // adminMeetingObj.leaveMeeting()
+    document.getElementById("mtx-contact-form-div").style.display = "none"
+    document.getElementById("mtx-parent-div").style.display = "none"
     adminConnects = false
     style.hide(document.getElementById("mtx-live-connect-call-div"))
     style.show(document.getElementById("mtx-footer-controls"))
+    setToStore("LIVE_CONNECT_ACCEPT", true)
     checkMeetingVariables()
 }

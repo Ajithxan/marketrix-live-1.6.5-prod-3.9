@@ -47,6 +47,7 @@ const SOCKET = {
                     console.log("coming inside")
                     meetingEnded = false
                     adminConnects = true
+                    setToStore("LIVE_CONNECT_ACCEPT", false)
                     setToStore("MEETING_ENDED", meetingEnded)
                     visitorJoin()
                 }
@@ -100,6 +101,8 @@ const SOCKET = {
                 adminMessage = data.message
                 adminName = data.userName
                 adminConnects = true
+                setToStore("LIVE_CONNECT_ACCEPT", false)
+                console.log("admin response to visitor")
                 // if (meetingVariables.id) return; // already joined the meeting
                 meetingVariables.id = data.meetingId;
                 meetingVariables.token = data.token;

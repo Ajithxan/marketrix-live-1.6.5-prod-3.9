@@ -36,6 +36,7 @@
   --primary-700: rgba(105, 65, 198, 1);
   --primary-600: rgba(127, 86, 217, 1);
   --dark-primary: rgba(64, 64, 64, 1);
+  --primary-error: rgba(207, 51, 51, 1);
   --neutral-1000: rgba(17, 24, 39, 1);
   --neutral-800: rgba(55, 65, 81, 1);
   --neutral-600: rgba(55, 65, 81, 1);
@@ -172,7 +173,7 @@
   padding: 2rem;
 }
 
-.mtx-snpt-flex-box, .mtx-snpt-flex-box-justify-between {
+.mtx-snpt-flex-box, .mtx-snpt-flex-box-center, .mtx-snpt-flex-box-justify-between {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -181,8 +182,12 @@
 .mtx-snpt-flex-box-justify-between {
   justify-content: space-between;
 }
+.mtx-snpt-flex-box-center {
+  flex-direction: column;
+  gap: 0;
+}
 
-.mtx-snpt-button, .mtx-snpt-button-secondary-disabled, .mtx-snpt-button-secondary:disabled, .mtx-snpt-button-secondary[disabled], .mtx-snpt-button-secondary, .mtx-snpt-button-primary-focus, .mtx-snpt-button-primary:focus, .mtx-snpt-button-primary[focus], .mtx-snpt-button-primary-disabled, .mtx-snpt-button-primary:disabled, .mtx-snpt-button-primary[disabled], .mtx-snpt-button-primary, .mtx-snpt-button-agent {
+.mtx-snpt-button, .mtx-snpt-button-call-decline, .mtx-snpt-button-secondary-disabled, .mtx-snpt-button-secondary:disabled, .mtx-snpt-button-secondary[disabled], .mtx-snpt-button-secondary, .mtx-snpt-button-primary-focus, .mtx-snpt-button-primary:focus, .mtx-snpt-button-primary[focus], .mtx-snpt-button-primary-disabled, .mtx-snpt-button-primary:disabled, .mtx-snpt-button-primary[disabled], .mtx-snpt-button-primary, .mtx-snpt-button-agent {
   display: flex;
   padding: 0.8rem 1.125rem;
   justify-content: center;
@@ -246,6 +251,25 @@
   cursor: not-allowed;
   pointer-events: all !important;
 }
+.mtx-snpt-button-call-decline {
+  background-color: transparent;
+  color: var(--primary-error);
+  cursor: pointer;
+  padding: 12px, 16px, 12px, 16px;
+  border-radius: 8px;
+  gap: 0.8rem;
+  border: 1px solid rgb(208, 213, 221);
+  animation-duration: 300ms;
+}
+.mtx-snpt-button-call-decline:hover {
+  font-weight: 700;
+}
+.mtx-snpt-button-call-decline:active {
+  -webkit-box-shadow: 0px 5px 5px rgba(109, 109, 109, 0.1254901961);
+  -moz-box-shadow: 0px 5px 5px rgba(109, 109, 109, 0.1254901961);
+  box-shadow: 0px 5px 5px rgba(109, 109, 109, 0.1254901961);
+  outline: none;
+}
 
 .mtx-snpt-video-mic-button {
   background-color: #303335;
@@ -279,15 +303,14 @@
   align-items: center;
   display: flex;
 }
+.mtx-snpt-close-btn-div:hover {
+  background-color: rgba(48, 51, 53, 0.1254901961);
+}
 
 .mtx-snpt-close-btn {
   border-radius: 100%;
   padding: 0rem 0.8rem;
   font-size: 1.5rem;
-}
-
-.mtx-snpt-close-btn-div :hover {
-  background-color: rgba(48, 51, 53, 0.1254901961);
 }
 
 .mtx-snpt-controller, .mtx-snpt-controller-video, .mtx-snpt-controller-mic {
@@ -368,6 +391,9 @@
   flex-direction: column;
   margin-left: 1rem;
   cursor: pointer;
+  /* Initial position or any other styling
+   */
+  animation: fadeIn 0.5s ease-out;
 }
 .mtx-snpt-video-circle-comp p {
   font-size: 1.125rem;
@@ -378,6 +404,16 @@
   color: black !important;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .mtx-video-circle {
   width: 10rem;
   height: 10rem;
@@ -402,7 +438,8 @@
   bottom: 20px;
   color: aliceblue;
 }
-.mtx-video-circle video {
+.mtx-video-circle video,
+.mtx-video-circle img {
   overflow: hidden;
   object-fit: cover;
   z-index: 40;
@@ -418,6 +455,14 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  gap: 0.5rem;
+}
+.mtx-snpt-footer-owner-div span {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: left;
 }
 
 .mtx-snpt-focusmode-screen {
@@ -435,8 +480,9 @@
   gap: 1.5rem;
   position: relative;
   display: flex;
-  width: 90vw;
-  height: 65vh;
+  transform: scaleX(-1);
+  width: 25vw;
+  height: 40vh;
   object-fit: cover;
   border-radius: 1rem;
   justify-content: center;
@@ -548,8 +594,20 @@ input:checked + .slider:before {
   }
   .mtx-snpt-video-box {
     height: 35vh;
+    width: 90vw;
   }
 }
+.screen-share-box {
+  border-radius: 1rem;
+  position: relative;
+  width: 60vw;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .mtx-snpt-focus-video-box {
   width: 100%;
   height: 100%;
@@ -668,6 +726,10 @@ body {
   padding: 0rem;
   margin: 0;
   font-family: "Inter-Bold";
+}
+
+focus-mode-screen video {
+  height: 0px;
 }
 
 /*# sourceMappingURL=styles.css.map */

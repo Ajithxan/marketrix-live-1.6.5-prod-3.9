@@ -1,7 +1,7 @@
 console.log("route.js is loaded");
 const ROUTE = {
   widgetButton: async () => await widgetButtonController.view(),
-  contactForm: async () => await contactFormController.view(),
+  contactForm: async (callBack) => await contactFormController.view(callBack),
   configuration: async () => await configurationController.view(),
   createLocalParticipant: (meeitngObj, videoContainer) => configurationController.createLocalParticipant(meeitngObj, videoContainer),
   micOn: () => configurationController.mic.enable(),
@@ -42,6 +42,9 @@ const ROUTE = {
   salesPersonNotifyVisitor: () => notificationController.salesPersonNotifyVisitor(),
   screenShare: () => configurationController.screenShare(),
   enableScreenShare: (pId, stream) => configurationController.enableScreenShare(pId, stream),
+  disableScreenShare: (pId, stream) => configurationController.disableScreenShare(pId, stream),
+  record: () => configurationController.record(),
+  stopRecord: () => configurationController.stopRecord(),
   stopShare: () => configurationController.stopShare(),
   showModal: (ele) => widgetController.showModal(ele),
   closeModal: () => widgetController.closeModal(),

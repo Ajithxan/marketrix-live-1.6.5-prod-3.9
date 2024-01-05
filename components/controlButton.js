@@ -14,15 +14,26 @@ class ControlButton extends HTMLElement {
 
   listen() {
     watch(() => {
-      const mtxScreenShareButton = document.getElementById(`mtx-screen-share-button`)
-      style.show(mtxScreenShareButton)
-      if (((/true/).test(getFromStore('MARKETRIX_MODE')) || (/null/).test(getFromStore('MARKETRIX_MODE'))) && (/true/).test(getFromStore('MEETING_ENDED')) || (/null/).test(getFromStore('MEETING_ENDED'))) style.hide(mtxScreenShareButton)
-    }, "getFromStore('MARKETRIX_MODE')")
+      const mtxScreenShareButton = document.getElementById(
+        `mtx-screen-share-button`
+      );
+      style.show(mtxScreenShareButton);
+      if (
+        ((/true/.test(getFromStore("MARKETRIX_MODE")) ||
+          /null/.test(getFromStore("MARKETRIX_MODE"))) &&
+          /true/.test(getFromStore("MEETING_ENDED"))) ||
+        /null/.test(getFromStore("MEETING_ENDED"))
+      )
+        style.hide(mtxScreenShareButton);
+    }, "getFromStore('MARKETRIX_MODE')");
 
     watch(() => {
-      const mtxScreenShareButton = document.getElementById(`mtx-screen-share-button`)
-      if ((/false/).test(getFromStore('MEETING_ENDED'))) style.show(mtxScreenShareButton)
-    }, "getFromStore('MEETING_ENDED')")
+      const mtxScreenShareButton = document.getElementById(
+        `mtx-screen-share-button`
+      );
+      if (/false/.test(getFromStore("MEETING_ENDED")))
+        style.show(mtxScreenShareButton);
+    }, "getFromStore('MEETING_ENDED')");
   }
 
   render() {
@@ -37,17 +48,16 @@ class ControlButton extends HTMLElement {
         <span>
             <i class="fa fa-headphones" aria-hidden="true"></i>Connect</span>
     </div>
-    <div id="mtx-screen-share-button" type="button" class="mtx-btn-share-screen" onclick="ROUTE.screenShare()" >
+    <div id="mtx-screen-share-button" type="button" class="mtx-btn-share-screen mtx-hidden" onclick="ROUTE.screenShare()" >
         <span>
             <i class="fa-solid fa-computer"></i>
-           Share Screen
+           Screen Share 
         </span>
     </div>
-
     <div type="button" id="mtx-btn-endcall" class="mtx-hidden mtx-btn-end-call " onclick="meetingObj.leaveMeeting()">
       <span>
           <i class="fa-solid fa-phone-slash"></i>
-          End call
+          End Call
       </span>
     </div>
     

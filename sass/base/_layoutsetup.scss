@@ -39,4 +39,10 @@ $custom-paddings: (
     @extend .mtx-snpt-flex-box;
     justify-content: space-between;
   }
+
+  &-center {
+    @extend .mtx-snpt-flex-box;
+    flex-direction: column;
+    gap: 0;
+  }
 }

@@ -1,15 +1,17 @@
 <html>
 
     <head>
-        <link rel="stylesheet" href="{{CDN_LINK}}assets/styles/styles.css"/>
+        <!-- <link rel="stylesheet" href="{{CDN_LINK}}assets/styles/styles.css"/> -->
         <!-- <link rel="stylesheet"  <link id="link" rel="stylesheet" href="{{CDN_LINK}}sass/styles.css"/> -->
-
-        <title>contact-button</title>
+            <style>
+.mtx-hidden {
+    display: none;
+}
+    </style>
     </head>
 
-    <body>
-        <div class="mtx-form-position mtx-hidden" id="marketrix-modal-container">
-            <section class="mtx-modal">
+        <body>
+            <div class="mtx-form-position mtx-hidden" id="marketrix-modal-container"> <section class="mtx-modal">
                 <div class="marketrix-flex">
                     <div class="mtxx-modal-content">
 
@@ -33,12 +35,12 @@
                                     <span id="mtx-contact-notification"></span>
                                 </div>
                             </div>
-                            <div id="mtx-form-content" class="mtx-form-body">                            
+                            <div id="mtx-form-content" class="mtx-form-body">
                                 <widget-form></widget-form>
                             </div>
-                            
-                                <live-connect-widget></live-connect-widget>
-                            
+
+                            <live-connect-widget id="mtx-live-connect-call-div" class="mtx-hidden"></live-connect-widget>
+
                             <div id="mtx-footer-controls" class="mtx-main-footer">
                                 <div class="mtx-connect-footer">
                                     <control-button></control-button>
@@ -51,8 +53,14 @@
                             </div>
 
                             <div class="mtx-snpt-footer-owner-div">
-                                <img src="{{CDN_LINK}}assets/images/poweredby.png"/>
+                                <div>
+                                    <span>Powered by</span>
+                                </div>
+                                <a href="https://www.marketrix.ai/" target="_blank">
+                                    <img src="{{CDN_LINK}}assets/images/poweredby.svg"/>
+                                </a>
                             </div>
+
                         </div>
 
                     </div>

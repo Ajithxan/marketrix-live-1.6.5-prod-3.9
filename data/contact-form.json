@@ -88,12 +88,12 @@
                               {
                                 "element": "div",
                                 "class": ["title-one"],
-                                "text": "We are here to support you!"
+                                "text": "Connect with a Live Agen"
                               },
                               {
                                 "element": "p",
                                 "class": ["title-two"],
-                                "text": "In order to get started, we'd like to collect some information."
+                                "text": "Fill in your details for guided assistance and a shared browsing experience right here, right now"
                               }
                             ]
                           }
@@ -177,7 +177,7 @@
                                 "onclick": "joinMeeting(true)",
                                 "child": {
                                   "element": "span",
-                                  "text": "Join with video ",
+                                  "text": "Join with video",
                                   "child": {
                                     "element": "i",
                                     "class": ["fas", "fa-video"]

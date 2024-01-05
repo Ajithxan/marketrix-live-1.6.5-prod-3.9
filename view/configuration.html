@@ -1,28 +1,24 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="{{CDN_LINK}}assets/styles/styles.css" />
-    <link rel="stylesheet" href="{{CDN_LINK}}sass/styles.css" />
-    <!-- <link
-              rel="stylesheet"
-              <link
-              id="link"
-              rel="stylesheet"
-              href="{{CDN_LINK}}sass/styles.css"
-            /> -->
-
-    <title>configurtion page</title>
-  </head>
-  <body>
-    <div id="mtx-configuration-cover" class="mtx-hidden"></div>
-    <overlay-loading></overlay-loading>
-    <div id="mtx-configuration" class="mtx-configuration-position">
-      <div id="mtx-grid-screen" class="mtx-container-fluid mtx-hidden">
-        <video-container></video-container>
-        <mode-control-button></mode-control-button>
-      </div>
-      <!-- cursor loading -->
-      <cursor-loading></cursor-loading>
-      <!-- end curson loading -->
-    </div>
-  </body>
+    <head>
+        <!-- <link rel="stylesheet" href="{{CDN_LINK}}assets/styles/styles.css"/>
+        <link rel="stylesheet" href="{{CDN_LINK}}sass/styles.css"/> -->
+        <style>
+            .mtx-hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mtx-configuration-cover" class="mtx-hidden"></div>
+        <overlay-loading></overlay-loading>
+        <div id="mtx-configuration" class="mtx-configuration-position">
+            <div id="mtx-grid-screen" class="mtx-container-fluid mtx-hidden">
+                <video-container></video-container>
+                <mode-control-button id="mtx-control-button" class="mtx-hidden"></mode-control-button>
+            </div>
+            <!-- cursor loading -->
+            <cursor-loading></cursor-loading>
+            <!-- end curson loading -->
+        </div>
+    </body>
 </html>

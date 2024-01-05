@@ -17,8 +17,9 @@
   gap: 1.5rem;
   position: relative;
   display: flex;
-  width: 90vw;
-  height: 65vh;
+  transform: scaleX(-1);
+  width: 25vw;
+  height: 40vh;
   object-fit: cover;
   border-radius: 1rem;
   justify-content: center;
@@ -136,5 +137,6 @@ input:checked + .slider:before {
 
   .mtx-snpt-video-box {
     height: 35vh;
+    width: 90vw;
   }
 }

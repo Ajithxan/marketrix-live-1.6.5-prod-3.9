@@ -72,7 +72,7 @@ const initiateSocketConnection = () => {
 const adminJoin = () => {
   meetingEnded = false;
   setToStore("MEETING_ENDED", meetingEnded);
-  showModal('agentButton');
+  showModal("agentButton");
   // hide notfication and cursor header of form
   style.hide(mtxCursorHeader);
   style.hide(mtxContactFormNotificationCard);
@@ -105,7 +105,7 @@ const visitorJoin = () => {
     /false/.test(getFromStore("MEETING_ENDED")) ||
     !getFromStore("MEETING_ENDED")
   ) {
-    showModal('agentButton');
+    showModal("agentButton");
   }
 
   SOCKET.on.changeUrl();
@@ -126,10 +126,13 @@ const visitorJoin = () => {
   SOCKET.emit.visitorJoinLive(visitor);
   SOCKET.on.connectedUser();
 
-  if (/true/.test(adminConnects)) {
+  if ((/true/).test(adminConnects) || (/false/).test(getFromStore("LIVE_CONNECT_ACCEPT"))) {
+    console.log("its coming here..")
     closeModal(); // it may oppened. so it should be closed
     adminVidoeContainer = document.getElementById("mtx-admin-video-container");
-    // adminMeetingObj.connect();
+    const audio = new Audio(`${CDNlink}assets/sounds/audio.mp3`);
+    audio.play();
+
     setToStore("MEETING_VARIABLES", JSON.stringify(meetingVariables));
     ROUTE.salesPersonNotifyVisitor();
   } // admin connecting
@@ -148,22 +151,28 @@ const getIpAddress = async () => {
 };
 
 const initiateSnippet = async () => {
-  console.log("widget_visible", ROUTE.componentData("setting", "widget_visible"))
-  if (typeof ROUTE.componentData("setting", "widget_visible") === "undefined") fetchComponentData()
+  console.log(
+    "widget_visible",
+    ROUTE.componentData("setting", "widget_visible")
+  );
+  if (typeof ROUTE.componentData("setting", "widget_visible") === "undefined")
+    fetchComponentData();
   if (ROUTE.componentData("setting", "widget_visible")) {
     await ROUTE.widgetButton();
-    await ROUTE.contactForm();
-    setCDNLink(); // set CDN link
-    generateCursorId(); // generate cursor id
-    await getUtmInfo();
-    await getIpAddress();
-    initiateWatchMethod(); // iniate watch methods
-    checkUrlChanges(); // this method would be called when redirecting or reloading
-    setToStore("CURRENT_URL", currentUrl); // set current url in the store
-    setUserRole(); // set user role
-    initiateSocketConnection(); // initialize socket connection
-    checkMeetingVariables(); // this method would be called when redirection or reloading
-    getQuery(); // admin get request
+    await ROUTE.contactForm(async () => {
+      setCDNLink(); // set CDN link
+      generateCursorId(); // generate cursor id
+      await getUtmInfo();
+      await getIpAddress();
+      initiateWatchMethod(); // iniate watch methods
+      checkUrlChanges(); // this method would be called when redirecting or reloading
+      setToStore("CURRENT_URL", currentUrl); // set current url in the store
+      setUserRole(); // set user role
+      // await ROUTE.configuration();
+      initiateSocketConnection(); // initialize socket connection
+      checkMeetingVariables(); // this method would be called when redirection or reloading
+      getQuery(); // admin get request
+    });
   }
 };
 
@@ -173,9 +182,9 @@ setTimeout(async () => {
 }, 1000);
 
 const fetchComponentData = async () => {
-  await ROUTE.fetchComponentData()
-  await initiateSnippet()
-}
+  await ROUTE.fetchComponentData();
+  await initiateSnippet();
+};
 
 document.addEventListener("keydown", function (event) {
   // Check if the "Escape" key is pressed (esc key has keycode 27)

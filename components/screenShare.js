@@ -1,23 +1,21 @@
 class ScreenShare extends HTMLElement {
-    constructor() {
-      super();
+  constructor() {
+    super();
+    this.participantId;
+  }
 
-      this.participantId;
-    }
-  
-    connectedCallback() {
-        this.participantId = this.getAttribute("participant-id")
-      this.render();
-    }
-  
-    render() {
-      this.innerHTML = `
+  connectedCallback() {
+    this.participantId = this.getAttribute("participant-id");
+    this.render();
+  }
+
+  render() {
+    this.innerHTML = `
       <div id="mtx-video-share-screen-${this.participantId}">
-      <video autoPlay="false" control="false" id="mtx-video-share-elem-${this.participantId}"></video>
+        <video class="mtx-hidden" autoPlay="false" control="false" id="mtx-video-share-elem-${this.participantId}" style="height:auto; border-radius:10px; border:5px solid #ffffff20"></video>
       </div>
       `;
-    }
   }
-  
-  customElements.define("screen-share", ScreenShare);
-  
+}
+
+customElements.define("screen-share", ScreenShare);

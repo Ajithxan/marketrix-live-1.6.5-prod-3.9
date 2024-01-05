@@ -1,27 +1,31 @@
 const configurationController = {
   view: async () => {
-    const videoConfigDiv = document.createElement("div");
+    videoConfigDiv = document.createElement("div");
     videoConfigDiv.setAttribute("id", "video-sdk-config");
     document.body.prepend(videoConfigDiv);
     style.hide(mtxConnectBtn);
     style.show(mtxEndCallBtn);
+    // style.hide(videoConfigDiv)
 
     await fetch(`${CDNlink}view/configuration.html`)
       .then((response) => {
         return response.text();
       })
       .then((html) => {
-        videoConfigDiv.innerHTML = html; // rendering
+        videoConfigDiv.innerHTML = html.replaceAll("{{CDN_LINK}}", CDNlink); // rendering
         mtxConfigurationComponent = document.getElementById(
           "mtx-configuration-component"
         );
       });
 
-    configurationController.renderJson();
+    setTimeout(() => {
+      configurationController.render();
+    }, 350);
   },
-  renderJson: () => {
+  render: () => {
     videoContainer = document.getElementById("mtx-video-container");
     configurationCoverDiv = document.getElementById("mtx-configuration-cover");
+    mtxControlButton = document.getElementById("mtx-control-button");
     style.hide(configurationCoverDiv); // default hide
     gridScreenDiv = document.getElementById("mtx-grid-screen");
     style.hide(gridScreenDiv); // default hide
@@ -31,7 +35,7 @@ const configurationController = {
     mtxLoadingMessageDiv = document.getElementById("mtx-loading-message");
     mtxModeBtn = document.getElementById("marketrix-mode-btn");
     style.hide(mtxModeBtn); // default hide
-    focusModeBtn = document.getElementById("focus-mode-btn")
+    focusModeBtn = document.getElementById("focus-mode-btn");
     showCursorDiv = document.getElementById("show-cursor");
     style.hide(showCursorDiv); // default hide
     marketrixButton && style.hide(marketrixButton);
@@ -55,11 +59,17 @@ const configurationController = {
     // videoContainer.append(localParticipant);
     // videoContainer.append(localAudioElement);
 
-    let videoFrameComponent = document.createElement("video-frame")
-    videoFrameComponent.setAttribute("participant-id", meetingObj.meeting.localParticipant.id)
-    videoFrameComponent.setAttribute("participant-name", meetingObj.meeting.localParticipant.displayName)
-    videoFrameComponent.setAttribute("is-local-user", true)
-    videoContainer.append(videoFrameComponent)
+    let videoFrameComponent = document.createElement("video-frame");
+    videoFrameComponent.setAttribute(
+      "participant-id",
+      meetingObj.meeting.localParticipant.id
+    );
+    videoFrameComponent.setAttribute(
+      "participant-name",
+      meetingObj.meeting.localParticipant.displayName
+    );
+    videoFrameComponent.setAttribute("is-local-user", true);
+    videoContainer.append(videoFrameComponent);
   },
   audioElement: (pId) => {
     // let audioElement = document.createElement("audio");
@@ -75,7 +85,7 @@ const configurationController = {
       meetingObj.isWebCamOn = true;
       const mediaStream = new MediaStream();
       mediaStream.addTrack(stream.track);
-
+      console.log("Stream.strack video", stream.track);
       // mtx mode video element
       let mtxModeVideoElem = document.getElementById(
         `mtx-mode-video-elem-${participant.id}`
@@ -87,6 +97,7 @@ const configurationController = {
           .catch((error) =>
             console.error("videoElem.current.play() failed", error)
           );
+        console.log(mtxModeVideoElem);
       }
 
       // focus mode video element
@@ -109,6 +120,7 @@ const configurationController = {
         let audioElement = document.createElement("audio");
         const mediaStream = new MediaStream();
         mediaStream.addTrack(stream.track);
+        console.log("audio stream.track", stream.track);
         audioElement.srcObject = mediaStream;
         audioElement
           .play()
@@ -117,22 +129,49 @@ const configurationController = {
     }
   },
   screenShare: () => {
-    // meetingObj.meeting?.enableScreenShare()
+    meetingObj.meeting?.enableScreenShare();
   },
   enableScreenShare: (pId, stream) => {
-    console.log(pId, stream)
-    if (pId === meetingVariables.participant.localId) return;
-
+    // if (pId === meetingVariables.participant.localId) return;
+    // console.log("stream.kind", stream.kind);
+    // console.log("participant id", pId);
+    mtxScreenShareEnbale = true;
     let videoElement = document.getElementById(`mtx-video-share-elem-${pId}`);
-
+    style.show(videoElement);
     const mediaStream = new MediaStream();
+    // console.log("media stream", mediaStream);
     mediaStream.addTrack(stream.track);
+    console.log(console.log("stream.track", stream.track));
     videoElement.srcObject = mediaStream;
     videoElement
       .play()
       .catch((error) => console.error("videoshareelem.play() failed", error));
   },
-  stopShare: () => { },
+  disableScreenShare: (pId, stream) => {
+    // console.log(pId, stream);
+    // if (pId === meetingVariables.participant.localId) return;
+    mtxScreenShareEnbale = false;
+    let videoElement = document.getElementById(`mtx-video-share-elem-${pId}`);
+    style.hide(videoElement);
+    videoElement.innerHTML = "";
+  },
+  record: () => {
+    meetingObj.meeting?.startRecording({
+      // layout: {
+      //   type: "GRID",
+      //   priority: "SPEAKER",
+      //   gridSize: 4,
+      // },
+      theme: "DARK",
+      mode: "video",
+      quality: "high",
+      orientation: "landscape",
+    });
+  },
+  stopRecord: () => {
+    meetingObj.meeting?.stopRecording();
+  },
+  stopShare: () => {},
   mic: {
     disable: () => {
       meetingObj.meeting?.muteMic();
@@ -181,26 +220,49 @@ const configurationController = {
         `focus-mode-video-disable-image-${localId}`
       );
       if (meetingVariables.userRole === "admin") {
-        console.log(mtxModeVideoDisabledImageOfAdmin)
-        if (mtxModeVideoDisabledImageOfAdmin) mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
-        if (focusModeVideoDisabledImageOfAdmin) focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile image here
+        console.log(mtxModeVideoDisabledImageOfAdmin);
+        if (mtxModeVideoDisabledImageOfAdmin)
+          mtxModeVideoDisabledImageOfAdmin.setAttribute(
+            "src",
+            adminVideoDisabledImage
+          ); // set admin profile image here
+        if (focusModeVideoDisabledImageOfAdmin)
+          focusModeVideoDisabledImageOfAdmin.setAttribute(
+            "src",
+            adminVideoDisabledImage
+          ); // set admin profile image here
       }
-      if(document.getElementById(`mtx-mode-video-elem-${localId}`)) style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
-      if(document.getElementById(`mtx-mode-video-disable-${localId}`)) style.show(document.getElementById(`mtx-mode-video-disable-${localId}`));
-      if(document.getElementById(`focus-mode-video-elem-${localId}`)) style.hide(document.getElementById(`focus-mode-video-elem-${localId}`));
-      if(document.getElementById(`focus-mode-video-disable-${localId}`)) style.show(document.getElementById(`focus-mode-video-disable-${localId}`));
+      if (document.getElementById(`mtx-mode-video-elem-${localId}`))
+        style.hide(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      if (document.getElementById(`mtx-mode-video-disable-${localId}`))
+        style.show(
+          document.getElementById(`mtx-mode-video-disable-${localId}`)
+        );
+      if (document.getElementById(`focus-mode-video-elem-${localId}`))
+        style.hide(document.getElementById(`focus-mode-video-elem-${localId}`));
+      if (document.getElementById(`focus-mode-video-disable-${localId}`))
+        style.show(
+          document.getElementById(`focus-mode-video-disable-${localId}`)
+        );
     },
     enable: () => {
-
       meetingObj.meeting?.enableWebcam();
       webCamIconElem.classList.remove("fa-solid");
       webCamIconElem.classList.remove("fa-video-slash");
       webCamIconElem.classList.add("fas");
       webCamIconElem.classList.add("fa-video");
-      if (document.getElementById(`mtx-mode-video-elem-${localId}`)) style.show(document.getElementById(`mtx-mode-video-elem-${localId}`));
-      if (document.getElementById(`mtx-mode-video-disable-${localId}`)) style.hide(document.getElementById(`mtx-mode-video-disable-${localId}`));
-      if (document.getElementById(`focus-mode-video-elem-${localId}`)) style.show(document.getElementById(`focus-mode-video-elem-${localId}`));
-      if (document.getElementById(`focus-mode-video-disable-${localId}`)) style.hide(document.getElementById(`focus-mode-video-disable-${localId}`));
+      if (document.getElementById(`mtx-mode-video-elem-${localId}`))
+        style.show(document.getElementById(`mtx-mode-video-elem-${localId}`));
+      if (document.getElementById(`mtx-mode-video-disable-${localId}`))
+        style.hide(
+          document.getElementById(`mtx-mode-video-disable-${localId}`)
+        );
+      if (document.getElementById(`focus-mode-video-elem-${localId}`))
+        style.show(document.getElementById(`focus-mode-video-elem-${localId}`));
+      if (document.getElementById(`focus-mode-video-disable-${localId}`))
+        style.hide(
+          document.getElementById(`focus-mode-video-disable-${localId}`)
+        );
     },
   },
   audioStreamEnable: () => {
@@ -224,11 +286,19 @@ const configurationController = {
     focusModeai.classList.remove("fa-microphone");
   },
   videoStreamEnable: () => {
-    console.log("remoteId =>", remoteId)
-    const mtxModeVideoElem = document.getElementById(`mtx-mode-video-elem-${remoteId}`)
-    const mtxModeVideoDisable = document.getElementById(`mtx-mode-video-disable-${remoteId}`)
-    const focusModeVideoElem = document.getElementById(`focus-mode-video-elem-${remoteId}`)
-    const focusModeVideoDisable = document.getElementById(`focus-mode-video-disable-${remoteId}`)
+    console.log("remoteId =>", remoteId);
+    const mtxModeVideoElem = document.getElementById(
+      `mtx-mode-video-elem-${remoteId}`
+    );
+    const mtxModeVideoDisable = document.getElementById(
+      `mtx-mode-video-disable-${remoteId}`
+    );
+    const focusModeVideoElem = document.getElementById(
+      `focus-mode-video-elem-${remoteId}`
+    );
+    const focusModeVideoDisable = document.getElementById(
+      `focus-mode-video-disable-${remoteId}`
+    );
 
     if (mtxModeVideoElem) style.show(mtxModeVideoElem);
     if (mtxModeVideoDisable) style.hide(mtxModeVideoDisable);
@@ -243,14 +313,28 @@ const configurationController = {
       const focusModeVideoDisabledImageOfAdmin = document.getElementById(
         `focus-mode-video-disable-image-${remoteId}`
       );
-      mtxModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
-      focusModeVideoDisabledImageOfAdmin.setAttribute("src", adminVideoDisabledImage); // set admin profile here
+      mtxModeVideoDisabledImageOfAdmin.setAttribute(
+        "src",
+        adminVideoDisabledImage
+      ); // set admin profile here
+      focusModeVideoDisabledImageOfAdmin.setAttribute(
+        "src",
+        adminVideoDisabledImage
+      ); // set admin profile here
     }
 
-    const mtxModeVideoElem = document.getElementById(`mtx-mode-video-elem-${remoteId}`)
-    const mtxModeVideoDisable = document.getElementById(`mtx-mode-video-disable-${remoteId}`)
-    const focusModeVideoElem = document.getElementById(`focus-mode-video-elem-${remoteId}`)
-    const focusModeVideoDisable = document.getElementById(`focus-mode-video-disable-${remoteId}`)
+    const mtxModeVideoElem = document.getElementById(
+      `mtx-mode-video-elem-${remoteId}`
+    );
+    const mtxModeVideoDisable = document.getElementById(
+      `mtx-mode-video-disable-${remoteId}`
+    );
+    const focusModeVideoElem = document.getElementById(
+      `focus-mode-video-elem-${remoteId}`
+    );
+    const focusModeVideoDisable = document.getElementById(
+      `focus-mode-video-disable-${remoteId}`
+    );
 
     if (mtxModeVideoElem) style.hide(mtxModeVideoElem);
     if (mtxModeVideoDisable) style.show(mtxModeVideoDisable);
@@ -379,9 +463,9 @@ const configurationController = {
     }
   },
   hideElement: (ele) => {
-    style.hide(ele)
+    style.hide(ele);
   },
   showElement: (ele) => {
-    style.show(ele)
-  }
+    style.show(ele);
+  },
 };

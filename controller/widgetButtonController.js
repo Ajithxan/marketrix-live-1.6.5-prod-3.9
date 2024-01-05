@@ -19,24 +19,9 @@ const widgetButtonController = {
                 return response.text();
             })
             .then((html) => {
-                parentDiv.innerHTML = html; // rendering
+                parentDiv.innerHTML = html.replaceAll("{{CDN_LINK}}", CDNlink); // rendering
                 marketrixButton = document.getElementById("marketrix-button");
                 marketrixWidgetCard = document.getElementById("widget-card");
             });
-
-        // await contactButtonController.renderJson()
     },
-
-    renderJson: async () => {
-        fetch(`${CDNlink}data/contact-button.json`).then(response => {
-            return response.json()
-        }).then((data) => {
-            const htmlElementResponse = data[0]
-            render.initiate(marketrixButton, htmlElementResponse)
-        })
-    },
-
-    setPosition: () => {
-        
-    }
 }
